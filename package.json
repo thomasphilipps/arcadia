@@ -1,0 +1,22 @@
+{
+  "name": "arcadia-zoo",
+  "version": "1.0.0",
+  "description": "Arcadia Zoo webapp, ECF for TP DWWM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasphilipps/arcadia.git"
+  },
+  "author": "Thomas Philipps",
+  "license": "CC-BY-NC-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/thomasphilipps/arcadia/issues"
+  },
+  "homepage": "https://github.com/thomasphilipps/arcadia#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
