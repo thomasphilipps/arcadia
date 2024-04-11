@@ -1,0 +1,19 @@
+{
+  "name": "arcadia-server",
+  "version": "1.0.0",
+  "description": "API for Zoo Arcadia app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasphilipps/arcadia.git"
+  },
+  "author": "Thomas Philipps",
+  "license": "CC-BY-NC-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/thomasphilipps/arcadia/issues"
+  },
+  "homepage": "https://github.com/thomasphilipps/arcadia#readme"
+}
