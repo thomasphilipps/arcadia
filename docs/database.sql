@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS Users (
   userEmail VARCHAR(255) NOT NULL,
   userName VARCHAR(32) NOT NULL,
   userPassword VARCHAR(60) NOT NULL,
-  userRole ENUM ('ROLE_ADMIN', 'ROLE_EMPLOYEE') NOT NULL DEFAULT 'ROLE_EMPLOYEE',
+  userRole ENUM('ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_VETERINARY') NOT NULL DEFAULT 'ROLE_EMPLOYEE',
   UNIQUE (userEmail)
 );
 
@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS Species (
 CREATE TABLE IF NOT EXISTS Animals (
   animalId VARCHAR(36) PRIMARY KEY,
   animalName VARCHAR(32) NOT NULL,
+  animalBirth TIMESTAMP NOT NULL,
   biomeKey INT,
   specieKey INT,
   FOREIGN KEY (biomeKey) REFERENCES Biomes(biomeId),
@@ -99,6 +100,19 @@ CREATE TABLE IF NOT EXISTS Images (
 );
 
 DELIMITER //
+
+CREATE TRIGGER PreventMultipleAdmins
+BEFORE INSERT ON Users
+FOR EACH ROW
+BEGIN
+  IF NEW.userRole = 'ROLE_ADMIN' THEN
+    DECLARE admin_count INT;
+    SELECT COUNT(*) INTO admin_count FROM Users WHERE userRole = 'ROLE_ADMIN';
+    IF admin_count >= 1 THEN 
+      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot add more than one admin.';
+    END IF;
+  END IF;
+END;
 
 CREATE TRIGGER AfterAnimalDelete
 AFTER DELETE ON Animals
