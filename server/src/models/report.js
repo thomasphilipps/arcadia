@@ -1,15 +1,3 @@
-/**
- * CREATE TABLE IF NOT EXISTS Reports (
-    reportId INT AUTO_INCREMENT PRIMARY KEY,
-    reportState TEXT NOT NULL,
-    reportDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    reportDetails TEXT,
-    reportFoodType VARCHAR(32),
-    reportFoodAmount VARCHAR(32),
-    animalKey VARCHAR(36),
-    FOREIGN KEY (animalKey) REFERENCES Animals(animalId)
-);
- */
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Reports', {
     reportId: {
