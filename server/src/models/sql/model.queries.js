@@ -1,6 +1,6 @@
 const { userReadAllQuery, userReadByIdQuery } = require('./user.queries');
 const { messageReadAllQuery, messageReadByIdQuery } = require('./message.queries');
-const [reviewReadAllQuery, reviewReadByIdQuery] = require('./review.queries');
+const { reviewReadAllQuery, reviewReadByIdQuery } = require('./review.queries');
 
 const getReadAllQuery = (modelName) => {
   switch (modelName) {

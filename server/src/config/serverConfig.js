@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
   res.send('Hello Arcadia ! 😈');
 });
 
+// API routes
+require('../routes/service.routes')(app);
+require('../routes/schedule.routes')(app);
+
 // Middleware to handle 404 errors
 app.use((req, res) => {
   const message = 'Ressource introuvable ! Essayez une autre URL.';
