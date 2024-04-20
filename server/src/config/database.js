@@ -2,7 +2,6 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const AnimalModel = require('../models/animal');
 const BiomeModel = require('../models/biome');
-const DietModel = require('../models/diet');
 const FeedingModel = require('../models/feeding');
 const ImageModel = require('../models/image');
 const MessageModel = require('../models/message');
@@ -30,7 +29,6 @@ const sequelize = new Sequelize(
 // Models definition
 const Animal = AnimalModel(sequelize, DataTypes);
 const Biome = BiomeModel(sequelize, DataTypes);
-const Diet = DietModel(sequelize, DataTypes);
 const Feeding = FeedingModel(sequelize, DataTypes);
 const Image = ImageModel(sequelize, DataTypes);
 const Message = MessageModel(sequelize, DataTypes);
@@ -45,7 +43,6 @@ module.exports = {
   sequelize,
   Animal,
   Biome,
-  Diet,
   Feeding,
   Image,
   Message,
