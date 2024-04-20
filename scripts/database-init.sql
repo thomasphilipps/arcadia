@@ -80,6 +80,15 @@ CREATE TABLE IF NOT EXISTS Reports (
     FOREIGN KEY (animalKey) REFERENCES Animals(animalId)
 );
 
+CREATE TABLE IF NOT EXISTS Diets (
+  dietId INT AUTO_INCREMENT PRIMARY KEY,
+  dietType VARCHAR(32) NOT NULL,
+  dietAmount VARCHAR(32) NOT NULL,
+  dietDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  animalKey VARCHAR(36),
+  FOREIGN KEY (animalKey) REFERENCES Animals(animalId)
+);
+
 CREATE TABLE IF NOT EXISTS Feedings (
     feedingId INT AUTO_INCREMENT PRIMARY KEY,
     feedingType VARCHAR(32) NOT NULL,
@@ -136,3 +145,15 @@ BEGIN
 END//
 
 DELIMITER ;
+
+INSERT INTO
+  Schedules (dayName)
+VALUES
+  ('Lundi'),
+  ('Mardi'),
+  ('Mercredi'),
+  ('Jeudi'),
+  ('Vendredi'),
+  ('Samedi'),
+  ('Dimanche');
+
