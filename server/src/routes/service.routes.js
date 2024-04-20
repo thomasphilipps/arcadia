@@ -1,4 +1,4 @@
-const { authenticate } = require('../middleware/auth');
+const { authenticate } = require('../middlewares/auth');
 const { sequelize } = require('../config/database');
 const crud = require('./crud')(sequelize, 'Service', 'Services');
 

@@ -24,6 +24,12 @@ app.get('/', (req, res) => {
 // API routes
 require('../routes/service.routes')(app);
 require('../routes/schedule.routes')(app);
+require('../routes/biome.routes')(app);
+require('../routes/specie.routes')(app);
+require('../routes/message.routes')(app);
+require('../routes/review.routes')(app);
+require('../routes/login.routes')(app);
+require('../routes/user.routes')(app);
 
 // Middleware to handle 404 errors
 app.use((req, res) => {
