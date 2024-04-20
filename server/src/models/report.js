@@ -38,5 +38,13 @@ module.exports = (sequelize, DataTypes) => {
         key: 'animalId',
       },
     },
+    veterinaryKey: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'userId',
+      },
+    },
   });
 };

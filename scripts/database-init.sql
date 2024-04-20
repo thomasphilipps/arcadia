@@ -77,7 +77,9 @@ CREATE TABLE IF NOT EXISTS Reports (
     reportFoodType VARCHAR(32),
     reportFoodAmount VARCHAR(32),
     animalKey VARCHAR(36),
-    FOREIGN KEY (animalKey) REFERENCES Animals(animalId)
+    veterinaryKey VARCHAR(36), -- Veterinary who wrote the report
+    FOREIGN KEY (animalKey) REFERENCES Animals(animalId),
+    FOREIGN KEY (veterinaryKey) REFERENCES Users(userId)
 );
 
 CREATE TABLE IF NOT EXISTS Feedings (
@@ -85,8 +87,8 @@ CREATE TABLE IF NOT EXISTS Feedings (
     feedingType VARCHAR(32) NOT NULL,
     feedingAmount VARCHAR(32) NOT NULL,
     feedingDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    animalKey VARCHAR(36),
-    FOREIGN KEY (animalKey) REFERENCES Animals(animalId)
+    reportKey INT,
+    FOREIGN KEY (reportKey) REFERENCES Reports(reportId)
 );
 
 CREATE TABLE IF NOT EXISTS Images (

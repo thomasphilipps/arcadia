@@ -26,12 +26,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    animalKey: {
-      type: DataTypes.UUID,
+    reportKey: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Animals',
-        key: 'animalId',
+        model: 'Reports',
+        key: 'reportId',
       },
     },
   });
