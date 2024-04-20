@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS Images (
     imagePath VARCHAR(255) NOT NULL,
     imageDescription TEXT,
     referenceId VARCHAR(36) NOT NULL,
-    referenceType ENUM('Animal', 'Biome', 'Service') NOT NULL
+    referenceType ENUM('Animal', 'Biome', 'Service', 'Specie') NOT NULL
 );
 
 DELIMITER //
@@ -135,4 +135,23 @@ BEGIN
   DELETE FROM Images WHERE referenceId = OLD.serviceId AND referenceType = 'Service';
 END//
 
+CREATE TRIGGER AfterServiceDelete
+AFTER DELETE ON Services
+FOR EACH ROW
+BEGIN
+  DELETE FROM Images WHERE referenceId = OLD.serviceId AND referenceType = 'Specie';
+END//
+
 DELIMITER ;
+
+INSERT INTO
+  Schedules (dayName)
+VALUES
+  ('Lundi'),
+  ('Mardi'),
+  ('Mercredi'),
+  ('Jeudi'),
+  ('Vendredi'),
+  ('Samedi'),
+  ('Dimanche');
+
