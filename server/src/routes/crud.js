@@ -1,17 +1,11 @@
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
-
+const { isValidId } = require('../utils/validation.utils');
 const {
   getReadAllQuery,
   getReadByIdQuery,
   getValidFields,
 } = require('../models/sql/model.queries');
-
-function isValidId(id) {
-  const isNumericId = /^\d+$/.test(id);
-  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
-  return isNumericId || isUuid;
-}
 
 // Password hashing
 async function hashPassword(password) {
