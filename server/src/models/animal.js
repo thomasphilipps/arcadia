@@ -13,12 +13,31 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "Le nom de l'animal est une propriété requise" },
       },
     },
+    animalDescr: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "La description de l'animal ne peut pas être une chaîne vide" },
+        notNull: { msg: "La description de l'animal est une propriété requise" },
+      },
+    },
     animalBirth: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
         isDate: { msg: "La date de naissance de l'animal doit être une date valide" },
         notNull: { msg: "La date de naissance de l'animal est une propriété requise" },
+      },
+    },
+    animalGender: {
+      type: DataTypes.ENUM('Mâle', 'Femelle'),
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['Mâle', 'Femelle']],
+          msg: "Le genre de l'animal doit être 'Mâle' ou 'Femelle'",
+        },
+        notNull: { msg: "Le genre de l'animal est une propriété requise" },
       },
     },
     biomeKey: {
