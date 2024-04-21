@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS
   );
 
 -- Trigger to prevent multiple admins
+DROP TRIGGER IF EXISTS PreventMultipleAdmins;
 CREATE TRIGGER PreventMultipleAdmins BEFORE INSERT ON Users
 FOR EACH ROW
 BEGIN
@@ -120,12 +121,23 @@ BEGIN
   IF NEW.userRole = 'ROLE_ADMIN' THEN
     SELECT COUNT(*) INTO admin_count FROM Users WHERE userRole = 'ROLE_ADMIN';
     IF admin_count >= 1 THEN
-      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot add more than one admin.';
+      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible de créer un autre administrateur';
     END IF;
   END IF;
 END;
 
+-- Trigger to prevent deletion of admin users
+DROP TRIGGER IF EXISTS PreventAdminDeletion;
+CREATE TRIGGER PreventAdminDeletion BEFORE DELETE ON Users
+FOR EACH ROW
+BEGIN
+    IF OLD.userRole = 'ROLE_ADMIN' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible de supprimer un administrateur';
+    END IF;
+END;
+
 -- Trigger to handle deletions from the Animals table
+DROP TRIGGER IF EXISTS AfterAnimalDelete;
 CREATE TRIGGER AfterAnimalDelete AFTER DELETE ON Animals
 FOR EACH ROW
 BEGIN
@@ -135,6 +147,7 @@ BEGIN
 END;
 
 -- Trigger to handle deletions from the Biomes table
+DROP TRIGGER IF EXISTS AfterBiomeDelete;
 CREATE TRIGGER AfterBiomeDelete AFTER DELETE ON Biomes
 FOR EACH ROW
 BEGIN
@@ -142,6 +155,7 @@ BEGIN
 END;
 
 -- Trigger to handle deletions from the Services table
+DROP TRIGGER IF EXISTS AfterServiceDelete;
 CREATE TRIGGER AfterServiceDelete AFTER DELETE ON Services
 FOR EACH ROW
 BEGIN
@@ -149,6 +163,7 @@ BEGIN
 END;
 
 -- Trigger to handle deletions from the Species table
+DROP TRIGGER IF EXISTS AfterSpecieDelete;
 CREATE TRIGGER AfterSpecieDelete AFTER DELETE ON Species
 FOR EACH ROW
 BEGIN
