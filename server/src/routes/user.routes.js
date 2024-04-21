@@ -1,11 +1,11 @@
 const { authenticate } = require('../middlewares/auth');
 const { sequelize } = require('../config/database');
-const genericCrud = require('./generic.crud')(sequelize, 'AppUser', 'App_users');
+const crud = require('./crud')(sequelize, 'User', 'Users');
 
 module.exports = (app) => {
-  app.post('/api/users/', authenticate('ROLE_ADMIN'), genericCrud.create);
-  app.get('/api/users', authenticate('ROLE_ADMIN'), genericCrud.readAll);
-  app.get('/api/users/:id', authenticate('ROLE_ADMIN'), genericCrud.readById);
-  app.put('/api/users/:id', authenticate('ROLE_ADMIN'), genericCrud.update);
-  app.delete('/api/users/:id', authenticate('ROLE_ADMIN'), genericCrud.delete);
+  app.post('/api/users/', crud.create);
+  app.get('/api/users', crud.readAll);
+  app.get('/api/users/:id', crud.readById);
+  app.put('/api/users/:id', crud.update);
+  app.delete('/api/users/:id', crud.delete);
 };

@@ -26,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    feedingBy: {
+      type: DataTypes.STRING(36),
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'userId',
+      },
+    },
     reportKey: {
       type: DataTypes.INTEGER,
       allowNull: false,
