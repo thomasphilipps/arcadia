@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -8,13 +9,16 @@ const apiLimiter = rateLimit({
   message: 'Trop de requêtes, veuillez patienter !',
 });
 
+const corsOptions = {
+  origin: ['http://127.0.0.1:4200', 'http://localhost:4200'],
+  methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 const app = express();
 
-// Middleware to parse JSON bodies
-app.use(bodyParser.json());
-
-// Middleware to limit the number of requests
-app.use(apiLimiter);
+// Middlewares
+app.use(bodyParser.json()).use(cors(corsOptions)).use(apiLimiter);
 
 // Main route to test the server
 app.get('/', (req, res) => {
