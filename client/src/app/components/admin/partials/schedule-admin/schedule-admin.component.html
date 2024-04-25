@@ -1,1 +1,37 @@
-<p>schedule-admin works!</p>
+<div class="container">
+  <div class="header">
+    <h1>Horaires</h1>
+  </div>
+  <table mat-table [dataSource]="schedules">
+    <ng-container matColumnDef="dayName">
+      <th mat-header-cell *matHeaderCellDef>Jour</th>
+      <td mat-cell *matCellDef="let element">{{ element.dayName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="openAm">
+      <th mat-header-cell *matHeaderCellDef>Ouvertue matinée</th>
+      <td mat-cell *matCellDef="let element">{{ element.openAm }}</td>
+    </ng-container>
+    <ng-container matColumnDef="closeAm">
+      <th mat-header-cell *matHeaderCellDef>Fermeture matinée</th>
+      <td mat-cell *matCellDef="let element">{{ element.closeAm }}</td>
+    </ng-container>
+    <ng-container matColumnDef="openPm">
+      <th mat-header-cell *matHeaderCellDef>Ouverture après-midi</th>
+      <td mat-cell *matCellDef="let element">{{ element.openPm }}</td>
+    </ng-container>
+    <ng-container matColumnDef="closePm">
+      <th mat-header-cell *matHeaderCellDef>Fermeture après-midi</th>
+      <td mat-cell *matCellDef="let element">{{ element.closePm }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button>Edit</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

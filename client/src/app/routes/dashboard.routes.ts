@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { DasboardHomeComponent } from '../components/admin/partials/dasboard-home/dasboard-home.component';
-import { ScheduleAdminComponent } from '../components/admin/partials/schedule-admin/schedule-admin.component';
+import { DasboardHomeComponent } from '@components/admin/partials/dasboard-home/dasboard-home.component';
+import { ScheduleAdminComponent } from '@components/admin/partials/schedule-admin/schedule-admin.component';
 
 export default [
   {

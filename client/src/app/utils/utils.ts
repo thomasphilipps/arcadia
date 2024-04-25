@@ -1,5 +1,5 @@
 import { of, Observable } from 'rxjs';
-import { environment } from '../../environments/environement.development';
+import { environment } from '@environments/environment.development';
 
 class UtilityModule {
   /**

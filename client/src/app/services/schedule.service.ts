@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
-import { UtilityModule } from '../utils/utils';
-import { environment } from '../../environments/environement.development';
-import { Schedule } from '../interfaces/schedule.interface';
+import { Observable, catchError, tap, of } from 'rxjs';
+import { environment } from '@environments/environment.development';
+import { Schedule } from '@interfaces/schedule.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,17 +12,30 @@ export class ScheduleService {
 
   constructor(private http: HttpClient) {}
 
-  public getAllSchedules(): Observable<any[] | Schedule[] | null> {
+  public getAllSchedules(): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(`${this.apiURL}/schedules`).pipe(
-      tap((response) => UtilityModule.log(response)),
-      catchError((error) => UtilityModule.handleError(error, null))
+      tap((response) => this.log(response)),
+      catchError((error) => this.handleError(error, null))
     );
   }
 
-  public updateSchedule(dayId: number, schedule: Schedule): Observable<any[] | Schedule | null> {
+  public updateSchedule(dayId: number, schedule: Schedule): Observable<Schedule> {
     return this.http.put<Schedule>(`${this.apiURL}/schedules/${dayId}`, schedule).pipe(
-      tap((response) => UtilityModule.log(response)),
-      catchError((error) => UtilityModule.handleError(error, null))
+      tap((response) => this.log(response)),
+      catchError((error) => this.handleError(error, null))
     );
+  }
+
+  private log(response: any) {
+    if (!environment.production) {
+      console.table(response);
+    }
+  }
+
+  private handleError(error: Error, errorValue: [] | any) {
+    if (!environment.production) {
+      console.error(error);
+    }
+    return of(errorValue);
   }
 }
