@@ -21,7 +21,6 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
   ],
   templateUrl: './schedule-admin.component.html',
   styleUrl: './schedule-admin.component.scss',
-  providers: [DatePipe],
 })
 export class ScheduleAdminComponent implements OnInit {
   schedules: Schedule[] = [];
