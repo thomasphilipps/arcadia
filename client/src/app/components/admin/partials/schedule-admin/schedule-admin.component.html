@@ -2,59 +2,168 @@
   <div class="header">
     <h1>Horaires</h1>
   </div>
-  <table mat-table [dataSource]="schedules">
-    <ng-container matColumnDef="dayName">
-      <th mat-header-cell *matHeaderCellDef>Jour</th>
-      <td mat-cell *matCellDef="let element">{{ element.dayName }}</td>
-    </ng-container>
-    <ng-container matColumnDef="openAm">
-      <th mat-header-cell *matHeaderCellDef>Ouvertue matinée</th>
-      <td mat-cell *matCellDef="let element">
-        @if(element.openAm) {
-        {{ element.openAm }}
-        } @else {-}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="closeAm">
-      <th mat-header-cell *matHeaderCellDef>Fermeture matinée</th>
-      <td mat-cell *matCellDef="let element">
-        @if(element.closeAm) {
-        {{ element.closeAm }}
-        } @else {-}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="openPm">
-      <th mat-header-cell *matHeaderCellDef>Ouverture après-midi</th>
-      <td mat-cell *matCellDef="let element">
-        @if(element.openPm) {
-        {{ element.openPm }}
-        } @else {-}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="closePm">
-      <th mat-header-cell *matHeaderCellDef>Fermeture après-midi</th>
-      <td mat-cell *matCellDef="let element">
-        @if(element.closePm) {
-        {{ element.closePm }}
-        } @else {-}
-      </td>
-    </ng-container>
+  <div>
+    <table mat-table [dataSource]="schedules">
+      <ng-container matColumnDef="dayName">
+        <th mat-header-cell *matHeaderCellDef>Jour</th>
+        <td mat-cell *matCellDef="let element">{{ element.dayName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="openAm">
+        <th mat-header-cell *matHeaderCellDef>Ouvertue matinée</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.openAm) {
+          {{ element.openAm }}
+          } @else {-}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="closeAm">
+        <th mat-header-cell *matHeaderCellDef>Fermeture matinée</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.closeAm) {
+          {{ element.closeAm }}
+          } @else {-}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="openPm">
+        <th mat-header-cell *matHeaderCellDef>Ouverture après-midi</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.openPm) {
+          {{ element.openPm }}
+          } @else {-}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="closePm">
+        <th mat-header-cell *matHeaderCellDef>Fermeture après-midi</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.closePm) {
+          {{ element.closePm }}
+          } @else {-}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Edit icon"
-          fontSet="material-symbols-outlined"
-          (click)="editSchedule(element.dayId)"
-          style="cursor: pointer"
-          >edit_square</mat-icon
-        >
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Edit icon"
+            fontSet="material-symbols-outlined"
+            (click)="editSchedule(element.dayId)"
+            style="cursor: pointer"
+            >edit_square</mat-icon
+          >
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  @if(editingSchedule) {
+  <h3>Horaires d'ouverture de : {{ editingSchedule.dayName }}</h3>
+  <div>
+    <form [formGroup]="scheduleForm">
+      <div>
+        <div>
+          <h4>Matin</h4>
+          <div>
+            <div>
+              <input
+                [ngxTimepicker]="openAmTimePicker"
+                [format]="24"
+                formControlName="openAmTime"
+              />
+              <ngx-material-timepicker #openAmTimePicker></ngx-material-timepicker>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Reset icon"
+                fontSet="material-symbols-outlined"
+                (click)="onResetOpenAmTime()"
+                style="cursor: pointer"
+                >device_reset</mat-icon
+              ><br />
+              <br />
+            </div>
+            <div>
+              <input
+                [ngxTimepicker]="closeAmTimePicker"
+                [format]="24"
+                formControlName="closeAmTime"
+              />
+              <ngx-material-timepicker #closeAmTimePicker></ngx-material-timepicker>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Reset icon"
+                fontSet="material-symbols-outlined"
+                (click)="onResetCloseAmTime()"
+                style="cursor: pointer"
+                >device_reset</mat-icon
+              >
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4>Après-midi</h4>
+          <div>
+            <div>
+              <input
+                [ngxTimepicker]="openPmTimePicker"
+                [format]="24"
+                formControlName="openPmTime"
+              />
+              <ngx-material-timepicker #openPmTimePicker></ngx-material-timepicker>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Reset icon"
+                fontSet="material-symbols-outlined"
+                (click)="onResetOpenPmTime()"
+                style="cursor: pointer"
+                >device_reset</mat-icon
+              ><br />
+              <br />
+            </div>
+            <div>
+              <input
+                [ngxTimepicker]="closePmTimePicker"
+                [format]="24"
+                formControlName="closePmTime"
+              />
+              <ngx-material-timepicker #closePmTimePicker></ngx-material-timepicker>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Reset icon"
+                fontSet="material-symbols-outlined"
+                (click)="onResetClosePmTime()"
+                style="cursor: pointer"
+                >device_reset</mat-icon
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Save icon"
+            fontSet="material-symbols-outlined"
+            (click)="onEditSchedule()"
+            style="cursor: pointer"
+            >save</mat-icon
+          >
+        </div>
+        <div>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Cancel icon"
+            fontSet="material-symbols-outlined"
+            (click)="onCancelEdit()"
+            style="cursor: pointer"
+            >cancel</mat-icon
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+  }
 </div>
