@@ -8,11 +8,12 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angul
 import { Schedule } from '@interfaces/schedule.interface';
 import { ScheduleService } from '@services/schedule.service';
 import { CustomValidators } from '@validators/custom.validators';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'arz-schedule-admin',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatTableModule],
+  imports: [CommonModule, ReactiveFormsModule, MatTableModule, MatIconModule],
   templateUrl: './schedule-admin.component.html',
   styleUrl: './schedule-admin.component.scss',
 })
@@ -46,7 +47,22 @@ export class ScheduleAdminComponent implements OnInit {
   ngOnInit(): void {
     this.scheduleService.getAllSchedules().subscribe((data) => {
       this.schedules = data;
-      console.log(this.schedules);
     });
+  }
+
+  editSchedule(dayId: number) {
+    console.log(dayId);
+
+    this.editingSchedule = this.schedules.find((schedule) => schedule.dayId === dayId) || null;
+
+    /* this.editingSchedule = this.schedules.find((schedule) => schedule.dayId === dayId) || null;
+    if (this.editingSchedule) {
+      this.scheduleForm.patchValue({
+        openAmTime: this.editingSchedule.openAm,
+        closeAmTime: this.editingSchedule.closeAm,
+        openPmTime: this.editingSchedule.openPm,
+        closePmTime: this.editingSchedule.closePm,
+      });
+    } */
   }
 }
