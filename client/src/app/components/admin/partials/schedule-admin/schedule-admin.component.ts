@@ -91,17 +91,6 @@ export class ScheduleAdminComponent implements OnInit {
     }
   }
 
-  private formatTime(time: string | null): string | null {
-    if (time === null || time === '') {
-      return null;
-    }
-    if (!/^\d{2}:\d{2}$/.test(time)) {
-      console.error('Invalid time format');
-      return null;
-    }
-    return `${time}:00`;
-  }
-
   onCancelEdit() {
     this.editingSchedule = null;
   }
@@ -122,7 +111,18 @@ export class ScheduleAdminComponent implements OnInit {
     this.scheduleForm.patchValue({ closePmTime: null });
   }
 
-  popSeconds(timeString: string | null): string {
+  private formatTime(time: string | null): string | null {
+    if (time === null || time === '') {
+      return null;
+    }
+    if (!/^\d{2}:\d{2}$/.test(time)) {
+      console.error('Invalid time format');
+      return null;
+    }
+    return `${time}:00`;
+  }
+
+  private popSeconds(timeString: string | null): string {
     if (!timeString) {
       return '';
     }
