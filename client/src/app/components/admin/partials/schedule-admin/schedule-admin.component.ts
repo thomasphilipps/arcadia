@@ -8,6 +8,9 @@ import { ScheduleService } from '@services/schedule.service';
 import { CustomValidators } from '@validators/custom.validators';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'arz-schedule-admin',
@@ -17,6 +20,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     ReactiveFormsModule,
     MatTableModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     NgxMaterialTimepickerModule,
   ],
   templateUrl: './schedule-admin.component.html',
@@ -64,7 +70,7 @@ export class ScheduleAdminComponent implements OnInit {
     }
   }
 
-  onEditSchedule() {
+  onSaveSchedule() {
     const group = this.scheduleForm;
     let data = this.editingSchedule;
 

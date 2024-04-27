@@ -1,4 +1,10 @@
 @use '@angular/material' as mat;
+
+@use 'bulma/sass/helpers';
+@use 'bulma/sass/grid';
+@use 'bulma/sass/layout';
+@use 'bulma/sass/themes';
+
 @include mat.core();
 
 html,

@@ -1,8 +1,7 @@
 <div class="container">
-  <div class="header">
-    <h1>Horaires</h1>
-  </div>
-  <div>
+  <h1 class="m-6 has-text-centered">Horaires</h1>
+
+  <div class="mb-6">
     <table mat-table [dataSource]="schedules">
       <ng-container matColumnDef="dayName">
         <th mat-header-cell *matHeaderCellDef>Jour</th>
@@ -45,6 +44,7 @@
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
           <mat-icon
+            class="has-text-warning"
             aria-hidden="false"
             aria-label="Edit icon"
             fontSet="material-symbols-outlined"
@@ -60,107 +60,120 @@
     </table>
   </div>
   @if(editingSchedule) {
-  <h3>Horaires d'ouverture de : {{ editingSchedule.dayName }}</h3>
-  <div>
+  <h2 class="has-text-centered">Horaires d'ouverture de : {{ editingSchedule.dayName }}</h2>
+  <div class="has-text-centered">
     <form [formGroup]="scheduleForm">
-      <div>
-        <div>
-          <h4>Matin</h4>
-          <div>
-            <div>
-              <input
-                [ngxTimepicker]="openAmTimePicker"
-                [format]="24"
-                formControlName="openAmTime"
-              />
-              <ngx-material-timepicker #openAmTimePicker></ngx-material-timepicker>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Reset icon"
-                fontSet="material-symbols-outlined"
-                (click)="onResetOpenAmTime()"
-                style="cursor: pointer"
-                >device_reset</mat-icon
-              ><br />
-              <br />
+      <div class="columns">
+        <div class="column is-6 is-offset-3">
+          <div class="columns">
+            <div class="column">
+              <h4>Matin</h4>
+              <mat-form-field>
+                <input
+                  matInput
+                  [ngxTimepicker]="openAmTimePicker"
+                  [format]="24"
+                  formControlName="openAmTime"
+                />
+                <mat-icon
+                  matSuffix
+                  class="has-text-danger"
+                  aria-hidden="false"
+                  aria-label="Reset icon"
+                  fontSet="material-symbols-outlined"
+                  (click)="onResetOpenAmTime()"
+                  style="cursor: pointer"
+                  >device_reset</mat-icon
+                ></mat-form-field
+              ><ngx-material-timepicker #openAmTimePicker></ngx-material-timepicker>
+
+              <mat-form-field>
+                <input
+                  matInput
+                  [ngxTimepicker]="closeAmTimePicker"
+                  [format]="24"
+                  formControlName="closeAmTime"
+                />
+                <ngx-material-timepicker #closeAmTimePicker></ngx-material-timepicker>
+                <mat-icon
+                  matSuffix
+                  class="has-text-danger"
+                  aria-hidden="false"
+                  aria-label="Reset icon"
+                  fontSet="material-symbols-outlined"
+                  (click)="onResetCloseAmTime()"
+                  style="cursor: pointer"
+                  >device_reset</mat-icon
+                >
+              </mat-form-field>
             </div>
-            <div>
-              <input
-                [ngxTimepicker]="closeAmTimePicker"
-                [format]="24"
-                formControlName="closeAmTime"
-              />
-              <ngx-material-timepicker #closeAmTimePicker></ngx-material-timepicker>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Reset icon"
-                fontSet="material-symbols-outlined"
-                (click)="onResetCloseAmTime()"
-                style="cursor: pointer"
-                >device_reset</mat-icon
-              >
+            <div class="column">
+              <h4>Après-midi</h4>
+              <mat-form-field>
+                <input
+                  matInput
+                  [ngxTimepicker]="openPmTimePicker"
+                  [format]="24"
+                  formControlName="openPmTime"
+                />
+                <ngx-material-timepicker #openPmTimePicker></ngx-material-timepicker>
+                <mat-icon
+                  matSuffix
+                  class="has-text-danger"
+                  aria-hidden="false"
+                  aria-label="Reset icon"
+                  fontSet="material-symbols-outlined"
+                  (click)="onResetOpenPmTime()"
+                  style="cursor: pointer"
+                  >device_reset</mat-icon
+                >
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                  matInput
+                  [ngxTimepicker]="closePmTimePicker"
+                  [format]="24"
+                  formControlName="closePmTime"
+                />
+                <ngx-material-timepicker #closePmTimePicker></ngx-material-timepicker>
+                <mat-icon
+                  matSuffix
+                  class="has-text-danger"
+                  aria-hidden="false"
+                  aria-label="Reset icon"
+                  fontSet="material-symbols-outlined"
+                  (click)="onResetClosePmTime()"
+                  style="cursor: pointer"
+                  >device_reset</mat-icon
+                >
+              </mat-form-field>
             </div>
           </div>
-        </div>
-        <div>
-          <h4>Après-midi</h4>
-          <div>
-            <div>
-              <input
-                [ngxTimepicker]="openPmTimePicker"
-                [format]="24"
-                formControlName="openPmTime"
-              />
-              <ngx-material-timepicker #openPmTimePicker></ngx-material-timepicker>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Reset icon"
-                fontSet="material-symbols-outlined"
-                (click)="onResetOpenPmTime()"
-                style="cursor: pointer"
-                >device_reset</mat-icon
-              ><br />
-              <br />
-            </div>
-            <div>
-              <input
-                [ngxTimepicker]="closePmTimePicker"
-                [format]="24"
-                formControlName="closePmTime"
-              />
-              <ngx-material-timepicker #closePmTimePicker></ngx-material-timepicker>
-              <mat-icon
-                aria-hidden="false"
-                aria-label="Reset icon"
-                fontSet="material-symbols-outlined"
-                (click)="onResetClosePmTime()"
-                style="cursor: pointer"
-                >device_reset</mat-icon
-              >
+          <div class="level">
+            <div class="level-right"></div>
+            <div class="level-left has-text-centered">
+              <div class="level-item">
+                <button class="has-text-success" mat-raised-button (click)="onSaveSchedule()">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Save icon"
+                    fontSet="material-symbols-outlined"
+                    >save</mat-icon
+                  >Enregistrer
+                </button>
+              </div>
+              <div class="level-item">
+                <button class="has-text-danger" mat-raised-button (click)="onCancelEdit()">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Cancel icon"
+                    fontSet="material-symbols-outlined"
+                    >cancel</mat-icon
+                  >Annuler
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div>
-        <div>
-          <mat-icon
-            aria-hidden="false"
-            aria-label="Save icon"
-            fontSet="material-symbols-outlined"
-            (click)="onEditSchedule()"
-            style="cursor: pointer"
-            >save</mat-icon
-          >
-        </div>
-        <div>
-          <mat-icon
-            aria-hidden="false"
-            aria-label="Cancel icon"
-            fontSet="material-symbols-outlined"
-            (click)="onCancelEdit()"
-            style="cursor: pointer"
-            >cancel</mat-icon
-          >
         </div>
       </div>
     </form>
