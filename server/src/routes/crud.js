@@ -37,12 +37,26 @@ module.exports = (sequelize, modelName, tableName) => {
           .map(() => '?')
           .join(', ')})`;
 
-        await sequelize.query(sql, {
+        const result = await sequelize.query(sql, {
           replacements: values,
           type: sequelize.QueryTypes.INSERT,
         });
 
-        res.status(201).json({ message: `${modelName} créé avec succès` });
+        // Fetching the newly created record by ID
+        const primaryKeyField = sequelize.model(modelName).primaryKeyAttribute;
+        const lastId = result[0];
+        let fetchSql =
+          getReadByIdQuery(modelName, lastId) ||
+          `SELECT * FROM ${tableName} WHERE ${primaryKeyField} = ?`;
+
+        const [lastRecord] = await sequelize.query(fetchSql, {
+          replacements: [lastId],
+        });
+
+        if (lastRecord.length === 0) {
+          return res.status(404).json({ error: `${modelName} avec id: ${id} introuvable` });
+        }
+        res.status(200).json(lastRecord[0]);
       } catch (error) {
         // Error handling
         if (
