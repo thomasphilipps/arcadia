@@ -4,6 +4,9 @@
   "description": "Arcadia Zoo webapp, ECF for TP DWWM",
   "main": "index.js",
   "scripts": {
+    "install-all": "npm install && npm run install-client && npm run install-server",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
     "dev": "concurrently -c \"yellow.bold,blue.bold\" -n \"Server,Client\" \"npm run dev --prefix server\" \"cd client && ng serve\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
