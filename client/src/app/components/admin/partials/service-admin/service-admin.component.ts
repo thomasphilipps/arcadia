@@ -183,6 +183,16 @@ export class ServiceAdminComponent implements OnInit {
     }
   }
 
+  onViewService(serviceId: number) {
+    const service = this.services.find((service) => service.serviceId === serviceId);
+    if (service) {
+      alert(
+        `Nom du service: ${service.serviceName}\n\nDescription courte: ${service.serviceShortDescr}\n\n` +
+          `Description longue: ${service.serviceLongDescr}`
+      );
+    }
+  }
+
   onCancelEdit() {
     this.serviceForm.reset();
     this.editingService = null;
