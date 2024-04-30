@@ -1,34 +1,20 @@
-import { CommonModule } from '@angular/common';
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 
-import { Service } from '@app/interfaces/service.interface';
-import { ServiceService } from '@app/services/service.service';
-import { truncate } from '@app/utils/utils';
+import { catchError, of, take } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
-import { catchError, of, take } from 'rxjs';
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { Service } from '@app/interfaces/service.interface';
+import { ServiceService } from '@app/services/service.service';
+import { truncate, getFormValidationErrors } from '@app/utils/utils';
+import { MyErrorStateMatcher } from '@app/utils/errorState';
 
 @Component({
   selector: 'arz-service-admin',
@@ -89,7 +75,7 @@ export class ServiceAdminComponent implements OnInit {
       .getAllServices()
       .pipe(
         catchError((error) => {
-          console.error('Erreur lors de la récupération des services:', error);
+          console.error('Erreur lors de la récupération des services: ', error);
           return of([]);
         })
       )
@@ -98,7 +84,7 @@ export class ServiceAdminComponent implements OnInit {
       });
   }
 
-  addService() {
+  addService(): void {
     this.editingService = {
       serviceId: 0,
       serviceName: '',
@@ -109,7 +95,17 @@ export class ServiceAdminComponent implements OnInit {
     this.editingServiceId = null;
   }
 
-  editService(serviceId: number) {
+  viewService(serviceId: number): void {
+    const service = this.services.find((service) => service.serviceId === serviceId);
+    if (service) {
+      alert(
+        `Nom du service: ${service.serviceName}\n\nDescription courte: ${service.serviceShortDescr}\n\n` +
+          `Description longue: ${service.serviceLongDescr}`
+      );
+    }
+  }
+
+  editService(serviceId: number): void {
     this.editingServiceId = serviceId;
     this.editingService = this.services.find((service) => service.serviceId === serviceId) || null;
     if (this.editingService) {
@@ -124,13 +120,48 @@ export class ServiceAdminComponent implements OnInit {
     }
   }
 
-  onSaveService(serviceId: number | null) {
+  deleteService(serviceId: number): void {
+    const serviceName =
+      this.services.find((service) => service.serviceId === serviceId)?.serviceName || '';
+    const message =
+      `Voulez-vous vraiment supprimer le service "${serviceName}" ?` +
+      `\n\nCette action est irréversible !\n\n` +
+      `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
+
+    if (
+      confirm(
+        `Voulez-vous vraiment supprimer le service "${serviceName}" ?\n\nCette action est irréversible !\n\n` +
+          `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`
+      )
+    ) {
+      this.serviceService
+        .deleteService(serviceId)
+        .pipe(
+          catchError((error) => {
+            console.error('Erreur lors de la suppression du service:', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: (result) => {
+            alert('Service supprimé avec succès');
+            this.services = this.services.filter((service) => service.serviceId !== serviceId);
+          },
+          complete: () => {
+            this.editingService = null;
+            this.serviceForm.reset();
+          },
+        });
+    }
+  }
+
+  onSaveService(serviceId: number | null): void {
     const group = this.serviceForm;
-    let data = this.editingService;
+    let data: Service | null = this.editingService;
 
     if (group.invalid) {
-      const errors = this.getFormValidationErrors();
-      console.error(`Erreur : ${errors.join(', ')}`);
+      const errors = getFormValidationErrors(group);
+      console.error(`Erreur Erreur lors de la validation du formulaire: ${errors.join(', ')}`);
       return;
     }
 
@@ -183,71 +214,8 @@ export class ServiceAdminComponent implements OnInit {
     }
   }
 
-  onViewService(serviceId: number) {
-    const service = this.services.find((service) => service.serviceId === serviceId);
-    if (service) {
-      alert(
-        `Nom du service: ${service.serviceName}\n\nDescription courte: ${service.serviceShortDescr}\n\n` +
-          `Description longue: ${service.serviceLongDescr}`
-      );
-    }
-  }
-
-  onCancelEdit() {
+  onCancelEdit(): void {
     this.serviceForm.reset();
     this.editingService = null;
-  }
-
-  deleteService(serviceId: number) {
-    const serviceName =
-      this.services.find((service) => service.serviceId === serviceId)?.serviceName || '';
-    if (
-      confirm(
-        `Voulez-vous vraiment supprimer le service "${serviceName}" ?\n\nCette action est irréversible !\n\n` +
-          `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`
-      )
-    ) {
-      this.serviceService
-        .deleteService(serviceId)
-        .pipe(
-          catchError((error) => {
-            console.error('Erreur lors de la suppression du service:', error);
-            return of(null);
-          })
-        )
-        .subscribe({
-          next: (result) => {
-            alert('Service supprimé avec succès');
-            this.services = this.services.filter((service) => service.serviceId !== serviceId);
-          },
-          complete: () => {
-            this.editingService = null;
-            this.serviceForm.reset();
-          },
-        });
-    }
-  }
-
-  private getFormValidationErrors(): string[] {
-    const errorMessages: string[] = [];
-
-    Object.keys(this.serviceForm.controls).forEach((key) => {
-      const controlErrors = this.serviceForm.get(key)?.errors;
-      if (controlErrors) {
-        Object.keys(controlErrors).forEach((keyError) => {
-          switch (keyError) {
-            case 'required':
-              errorMessages.push(`${key} est requis`);
-              break;
-            case 'maxlength':
-              const maxLength = controlErrors['maxlength'].requiredLength;
-              errorMessages.push(`${key} doit contenir au maximum ${maxLength} caractères`);
-              break;
-          }
-        });
-      }
-    });
-
-    return errorMessages;
   }
 }
