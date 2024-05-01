@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="m-6 has-text-centered">Biomes</h1>
+  <h1 class="m-6 has-text-centered">Habitats</h1>
 
   <div class="mb-5">
     <table mat-table [dataSource]="biomes">
@@ -15,12 +15,6 @@
         <th mat-header-cell *matHeaderCellDef>Description complète</th>
         <td mat-cell *matCellDef="let element">
           {{ truncate(element.biomeLongDescr, 80) }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="biomeStatus">
-        <th mat-header-cell *matHeaderCellDef>Commentaire Vétérinaire</th>
-        <td mat-cell *matCellDef="let element">
-          {{ truncate(element.biomeStatus, 80) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
@@ -61,4 +55,124 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
+  <div class="has-text-right mr-5">
+    <button mat-fab class="has-text-primary" (click)="addBiome()">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add icon"
+        fontSet="material-symbols-outlined"
+        style="color: white"
+      >
+        add
+      </mat-icon>
+    </button>
+  </div>
+  @if(editingBiome) {
+  <h2 class="has-text-centered">
+    {{
+      editingBiome.biomeId !== 0 ? 'Edition de : ' + editingBiome.biomeName : 'Ajouter un habitat'
+    }}
+  </h2>
+  <div class="coluumns">
+    <div class="column is-half is-offset-one-quarter has-text-centered">
+      <form [formGroup]="biomeForm">
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Nom de l'habitat</mat-label>
+            <input matInput formControlName="biomeName" />
+            <mat-hint align="end">
+              {{ biomeForm.get('biomeName')?.value?.length || 0 }}/32
+            </mat-hint>
+            <!-- Prettier ignore -->
+            @if(biomeForm.get('biomeName')?.hasError('required') ){
+            <mat-error>Ce champ est requis</mat-error>
+            }
+            <!-- Prettier ignore -->
+            @if(biomeForm.get('biomeName')?.hasError('maxlength') ){
+            <mat-error>Nom trop long</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Description courte</mat-label>
+            <textarea
+              matInput
+              formControlName="biomeShortDescr"
+              cdkTextareaAutosize
+              #shortAutoSize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="3"
+              cdkAutosizeMaxRows="5"
+            ></textarea>
+            <mat-hint align="end">
+              {{ biomeForm.get('biomeShortDescr')?.value?.length || 0 }}/255
+            </mat-hint>
+            <!-- Prettier ignore -->
+            @if(biomeForm.get('biomeShortDescr')?.hasError('required') ){
+            <mat-error>Ce champ est requis</mat-error>
+            }
+            <!-- Prettier ignore -->
+            @if(biomeForm.get('biomeShortDescr')?.hasError('maxlength') ){
+            <mat-error>Description trop longue</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Description complète</mat-label>
+            <textarea
+              matInput
+              formControlName="biomeLongDescr"
+              cdkTextareaAutosize
+              #longAutoSize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="10"
+              cdkAutosizeMaxRows="25"
+            ></textarea>
+            <mat-hint align="end">
+              {{ biomeForm.get('biomeLongDescr')?.value?.length || 0 }}/1000
+            </mat-hint>
+            <!-- Prettier ignore -->
+            @if(biomeForm.get('biomeLongDescr')?.hasError('required') ){
+            <mat-error>Ce champ est requis</mat-error>
+            }
+            <!-- Prettier ignore -->
+            @if(biomeForm.get('biomeLongDescr')?.hasError('maxlength') ){
+            <mat-error>Description trop longue</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="level">
+          <div class="level-right"></div>
+          <div class="level-left has-text-centered">
+            <div class="level-item">
+              <button
+                mat-raised-button
+                [class.has-text-success]="biomeForm.valid"
+                [disabled]="biomeForm.invalid"
+                (click)="onSaveBiome(editingBiomeId)"
+              >
+                <mat-icon
+                  aria-hidden="false"
+                  aria-label="Save icon"
+                  fontSet="material-symbols-outlined"
+                  >save</mat-icon
+                >Enregistrer
+              </button>
+            </div>
+            <div class="level-item">
+              <button class="has-text-danger" mat-raised-button (click)="onCancelEdit()">
+                <mat-icon
+                  aria-hidden="false"
+                  aria-label="Cancel icon"
+                  fontSet="material-symbols-outlined"
+                  >cancel</mat-icon
+                >Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
 </div>

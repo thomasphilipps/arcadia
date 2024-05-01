@@ -43,13 +43,7 @@ export class BiomeAdminComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  displayedColumns: string[] = [
-    'biomeName',
-    'biomeShortDescr',
-    'biomeLongDescr',
-    'biomeStatus',
-    'action',
-  ];
+  displayedColumns: string[] = ['biomeName', 'biomeShortDescr', 'biomeLongDescr', 'action'];
 
   constructor(private fb: FormBuilder, private biomeService: BiomeService) {
     this.biomeForm = this.fb.group({
