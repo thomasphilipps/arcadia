@@ -1,6 +1,7 @@
 import { DataService } from './dataService';
 
-interface AdminComponentConfig<T> {
+export interface AdminComponentConfig<T> {
+  label: string;
   service: DataService<T>;
   displayColumns: string[];
   formFields: { [key: string]: any[] };
