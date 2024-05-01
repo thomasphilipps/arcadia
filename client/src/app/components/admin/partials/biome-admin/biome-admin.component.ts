@@ -84,6 +84,17 @@ export class BiomeAdminComponent implements OnInit {
     };
   }
 
+  viewBiome(biomeId: number): void {
+    const biome = this.biomes.find((biome) => biome.biomeId === biomeId);
+    if (biome) {
+      alert(
+        `Nom du biome: ${biome.biomeName}\n\nDescription courte: ${biome.biomeShortDescr}\n\n` +
+          `Description longue: ${biome.biomeLongDescr}\n\n` +
+          `Etat: ${biome.biomeStatus} `
+      );
+    }
+  }
+
   editBiome(biomeId: number): void {
     this.editingBiomeId = biomeId;
     this.editingBiome = this.biomes.find((biome) => biome.biomeId === biomeId) || null;
@@ -167,7 +178,7 @@ export class BiomeAdminComponent implements OnInit {
     } else {
       if (data) {
         this.biomeService
-          .addBiome(data)
+          .createBiome(data)
           .pipe(
             catchError((error) => {
               console.error("Erreur lors de l'ajout du biome: ", error);
