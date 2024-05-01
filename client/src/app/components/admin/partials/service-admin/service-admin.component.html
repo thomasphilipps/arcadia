@@ -73,8 +73,11 @@
   </div>
   @if(editingService){
   <h2 class="has-text-centered">
-    @if (editingService.serviceId !== 0) { Edition de : {{ editingService.serviceName }}
-    } @else {Création d'un service}
+    {{
+      editingService.serviceId !== 0
+        ? 'Edition de: ' + editingService.serviceName
+        : 'Ajouter un service'
+    }}
   </h2>
   <div class="columns">
     <div class="column is-half is-offset-one-quarter has-text-centered">
@@ -84,14 +87,14 @@
             <mat-label>Nom du service</mat-label>
             <input matInput formControlName="serviceName" />
             <mat-hint align="end"
-              >{{ serviceForm.controls['serviceName'].value?.length || 0 }}/32"</mat-hint
+              >{{ serviceForm.get('serviceName')?.value?.length || 0 }}/32</mat-hint
             >
             <!-- Prettier ignore -->
-            @if(serviceForm.controls['serviceName'].hasError('required') ){
+            @if(serviceForm.get('serviceName')?.hasError('required') ){
             <mat-error>Ce champ est requis</mat-error>
             }
             <!-- Prettier ignore -->
-            @if(serviceForm.controls['serviceName'].hasError('maxlength') ){
+            @if(serviceForm.get('serviceName')?.hasError('maxlength') ){
             <mat-error>Nom trop long</mat-error>
             }
           </mat-form-field>
@@ -104,18 +107,18 @@
               formControlName="serviceShortDescr"
               cdkTextareaAutosize
               #shortAutoSize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="2"
+              cdkAutosizeMinRows="3"
               cdkAutosizeMaxRows="5"
             ></textarea>
             <mat-hint align="end"
-              >{{ serviceForm.controls['serviceShortDescr'].value?.length || 0 }}/255"</mat-hint
+              >{{ serviceForm.get('serviceShortDescr')?.value?.length || 0 }}/255</mat-hint
             >
             <!-- Prettier ignore -->
-            @if(serviceForm.controls['serviceShortDescr'].hasError('required') ){
+            @if(serviceForm.get('serviceShortDescr')?.hasError('required') ){
             <mat-error>Ce champ est requis</mat-error>
             }
             <!-- Prettier ignore -->
-            @if(serviceForm.controls['serviceShortDescr'].hasError('maxlength') ){
+            @if(serviceForm.get('serviceShortDescr')?.hasError('maxlength') ){
             <mat-error>Description trop longue</mat-error>
             }
           </mat-form-field>
@@ -132,14 +135,14 @@
               cdkAutosizeMaxRows="25"
             ></textarea>
             <mat-hint align="end"
-              >{{ serviceForm.controls['serviceLongDescr'].value?.length || 0 }}/1000"</mat-hint
+              >{{ serviceForm.get('serviceLongDescr')?.value?.length || 0 }}/1000</mat-hint
             >
             <!-- Prettier ignore -->
-            @if(serviceForm.controls['serviceLongDescr'].hasError('required') ){
+            @if(serviceForm.get('serviceLongDescr')?.hasError('required') ){
             <mat-error>Ce champ est requis</mat-error>
             }
             <!-- Prettier ignore -->
-            @if(serviceForm.controls['serviceLongDescr'].hasError('maxlength') ){
+            @if(serviceForm.get('serviceLongDescr')?.hasError('maxlength') ){
             <mat-error>Description trop longue</mat-error>
             }
           </mat-form-field>
