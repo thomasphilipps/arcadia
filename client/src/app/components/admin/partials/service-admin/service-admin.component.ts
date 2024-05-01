@@ -192,7 +192,7 @@ export class ServiceAdminComponent implements OnInit {
     } else {
       if (data) {
         this.serviceService
-          .addService(data)
+          .createService(data)
           .pipe(
             catchError((error) => {
               console.error("Erreur lors de l'ajout du service:", error);

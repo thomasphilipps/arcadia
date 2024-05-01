@@ -149,8 +149,9 @@
           <div class="level-left has-text-centered">
             <div class="level-item">
               <button
-                class="has-text-success"
                 mat-raised-button
+                [class.has-text-success]="serviceForm.valid"
+                [disabled]="serviceForm.invalid"
                 (click)="onSaveService(editingServiceId)"
               >
                 <mat-icon
