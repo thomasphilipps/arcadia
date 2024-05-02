@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
@@ -15,6 +15,10 @@ import { Biome } from '@app/interfaces/biome.interface';
 import { BiomeService } from '@app/services/biome.service';
 import { truncate, getFormValidationErrors } from '@app/utils/utils';
 import { MyErrorStateMatcher } from '@app/utils/errorState';
+import { ListDataComponent } from '../templates/list-data/list-data.component';
+import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
+import { GenericDataService } from '@app/services/generic-data.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'arz-biome-admin',
@@ -22,18 +26,20 @@ import { MyErrorStateMatcher } from '@app/utils/errorState';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatTableModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     TextFieldModule,
     CdkTextareaAutosize,
+    ListDataComponent,
   ],
   templateUrl: './biome-admin.component.html',
   styleUrl: './biome-admin.component.scss',
 })
 export class BiomeAdminComponent implements OnInit {
+  biomeConfig: AdminComponentConfig<Biome>;
+
   biomes: Biome[] = [];
   editingBiome: Biome | null = null;
   editingBiomeId: number | null = null;
@@ -42,16 +48,41 @@ export class BiomeAdminComponent implements OnInit {
   truncate = truncate;
 
   matcher = new MyErrorStateMatcher();
+  @Output() reloadEvent = new EventEmitter<void>();
 
-  displayedColumns: string[] = ['biomeName', 'biomeShortDescr', 'biomeLongDescr', 'action'];
+  constructor(
+    private fb: FormBuilder,
+    private biomeService: BiomeService,
+    private http: HttpClient
+  ) {
+    this.biomeConfig = {
+      label: 'Habitats',
+      service: new BiomeService(this.http),
+      primaryKey: 'biomeId',
+      displayColumns: [
+        {
+          key: 'biomeName',
+          label: 'Nom',
+        },
+        {
+          key: 'biomeShortDescr',
+          label: 'Description courte',
+        },
+        {
+          key: 'biomeLongDescr',
+          label: 'Description longue',
+        },
+      ],
+      actions: { view: true, edit: true, delete: true },
+      formFields: {
+        biomeName: ['', [Validators.required, Validators.maxLength(32)]],
+        biomeShortDescr: ['', [Validators.required, Validators.maxLength(255)]],
+        biomeLongDescr: ['', [Validators.required, Validators.maxLength(1000)]],
+        biomeStatus: ['', [Validators.maxLength(1000)]],
+      },
+    };
 
-  constructor(private fb: FormBuilder, private biomeService: BiomeService) {
-    this.biomeForm = this.fb.group({
-      biomeName: ['', [Validators.required, Validators.maxLength(32)]],
-      biomeShortDescr: ['', [Validators.required, Validators.maxLength(255)]],
-      biomeLongDescr: ['', [Validators.required, Validators.maxLength(1000)]],
-      biomeStatus: ['', [Validators.maxLength(1000)]],
-    });
+    this.biomeForm = this.fb.group(this.biomeConfig.formFields);
   }
 
   ngOnInit(): void {
@@ -69,6 +100,8 @@ export class BiomeAdminComponent implements OnInit {
   }
 
   addBiome(): void {
+    this.biomeForm.reset();
+    this.editingBiomeId = null;
     this.editingBiome = {
       biomeId: 0,
       biomeName: '',
@@ -82,7 +115,7 @@ export class BiomeAdminComponent implements OnInit {
     const biome = this.biomes.find((biome) => biome.biomeId === biomeId);
     if (biome) {
       alert(
-        `Nom du biome: ${biome.biomeName}\n\nDescription courte: ${biome.biomeShortDescr}\n\n` +
+        `Nom de l'habitat: ${biome.biomeName}\n\nDescription courte: ${biome.biomeShortDescr}\n\n` +
           `Description longue: ${biome.biomeLongDescr}\n\n` +
           `Etat: ${biome.biomeStatus} `
       );
@@ -108,7 +141,7 @@ export class BiomeAdminComponent implements OnInit {
   deleteBiome(biomeId: number): void {
     const biomeName = this.biomes.find((biome) => biome.biomeId === biomeId)?.biomeName || '';
     const message =
-      `Voulez-vous vraiment supprimer le biome "${biomeName}" ?` +
+      `Voulez-vous vraiment supprimer l'habitat' "${biomeName}" ?` +
       `\n\nCette action est irréversible !\n\n` +
       `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
 
@@ -117,13 +150,15 @@ export class BiomeAdminComponent implements OnInit {
         .deleteBiome(biomeId)
         .pipe(
           catchError((error) => {
-            console.error('Erreur lors de la suppression du biome: ', error);
+            console.error("Erreur lors de la suppression de l'habitat: ", error);
             return of(null);
           })
         )
         .subscribe({
           next: (result) => {
-            alert('Biome supprimé avec succès');
+            this.reloadEvent.emit();
+
+            alert('Habitat supprimé avec succès');
             this.biomes = this.biomes.filter((biome) => biome.biomeId !== biomeId);
           },
           complete: () => {
@@ -162,6 +197,7 @@ export class BiomeAdminComponent implements OnInit {
         )
         .subscribe({
           next: (result) => {
+            this.reloadEvent.emit();
             alert('Biome mis à jour avec succès');
           },
           complete: () => {
@@ -181,6 +217,7 @@ export class BiomeAdminComponent implements OnInit {
           )
           .subscribe({
             next: (result) => {
+              this.reloadEvent.emit();
               alert('Biome ajouté avec succès');
               result ? (this.biomes = [...this.biomes, result]) : null;
             },
