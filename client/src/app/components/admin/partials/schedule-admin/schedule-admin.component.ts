@@ -37,8 +37,6 @@ export class ScheduleAdminComponent implements OnInit {
   scheduleForm: FormGroup;
   editingSchedule: Schedule | null = null;
 
-  displayedColumns: string[] = ['dayName', 'openAm', 'closeAm', 'openPm', 'closePm', 'action'];
-
   openAmTime: string | null = null;
   closeAmTime: string | null = null;
   openPmTime: string | null = null;

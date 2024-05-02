@@ -1,20 +1,22 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 
-import { catchError, of, take } from 'rxjs';
+import { catchError, of } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
 
 import { Service } from '@app/interfaces/service.interface';
 import { ServiceService } from '@app/services/service.service';
 import { truncate, getFormValidationErrors } from '@app/utils/utils';
 import { MyErrorStateMatcher } from '@app/utils/errorState';
+import { ListDataComponent } from '../templates/list-data/list-data.component';
+import { HttpClient } from '@angular/common/http';
+import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
 
 @Component({
   selector: 'arz-service-admin',
@@ -22,18 +24,20 @@ import { MyErrorStateMatcher } from '@app/utils/errorState';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatTableModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     TextFieldModule,
     CdkTextareaAutosize,
+    ListDataComponent,
   ],
   templateUrl: './service-admin.component.html',
   styleUrl: './service-admin.component.scss',
 })
 export class ServiceAdminComponent implements OnInit {
+  serviceConfig: AdminComponentConfig<Service>;
+
   services: Service[] = [];
   editingService: Service | null = null;
   editingServiceId: number | null = null;
@@ -42,32 +46,39 @@ export class ServiceAdminComponent implements OnInit {
   truncate = truncate;
 
   matcher = new MyErrorStateMatcher();
-
-  displayedColumns: string[] = [
-    'serviceId',
-    'serviceName',
-    'serviceShortDescr',
-    'serviceLongDescr',
-    'action',
-  ];
+  @Output() reloadEvent = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
     private serviceService: ServiceService,
-    private _ngZone: NgZone
+    private http: HttpClient
   ) {
-    this.serviceForm = this.fb.group({
-      serviceName: ['', [Validators.required, Validators.maxLength(32)]],
-      serviceShortDescr: ['', [Validators.required, Validators.maxLength(255)]],
-      serviceLongDescr: ['', [Validators.required, Validators.maxLength(1000)]],
-    });
-  }
-
-  @ViewChild('longAutosize') longAutosize!: CdkTextareaAutosize;
-  @ViewChild('shortAutoSize') shortAutosize!: CdkTextareaAutosize;
-
-  triggerResize(fieldAutoSize: CdkTextareaAutosize) {
-    this._ngZone.onStable.pipe(take(1)).subscribe(() => fieldAutoSize.resizeToFitContent(true));
+    this.serviceConfig = {
+      label: 'Services',
+      service: new ServiceService(this.http),
+      primaryKey: 'serviceId',
+      displayColumns: [
+        {
+          key: 'serviceName',
+          label: 'Nom',
+        },
+        {
+          key: 'serviceShortDescr',
+          label: 'Description courte',
+        },
+        {
+          key: 'serviceLongDescr',
+          label: 'Description longue',
+        },
+      ],
+      actions: { view: true, edit: true, delete: true },
+      formFields: {
+        serviceName: ['', [Validators.required, Validators.maxLength(32)]],
+        serviceShortDescr: ['', [Validators.required, Validators.maxLength(255)]],
+        serviceLongDescr: ['', [Validators.required, Validators.maxLength(1000)]],
+      },
+    };
+    this.serviceForm = this.fb.group(this.serviceConfig.formFields);
   }
 
   ngOnInit(): void {
@@ -85,6 +96,8 @@ export class ServiceAdminComponent implements OnInit {
   }
 
   addService(): void {
+    this.serviceForm.reset();
+    this.editingServiceId = null;
     this.editingService = {
       serviceId: 0,
       serviceName: '',
@@ -144,6 +157,7 @@ export class ServiceAdminComponent implements OnInit {
         )
         .subscribe({
           next: (result) => {
+            this.reloadEvent.emit();
             alert('Service supprimé avec succès');
             this.services = this.services.filter((service) => service.serviceId !== serviceId);
           },
@@ -182,6 +196,7 @@ export class ServiceAdminComponent implements OnInit {
         )
         .subscribe({
           next: (result) => {
+            this.reloadEvent.emit();
             alert('Service mis à jour avec succès');
           },
           complete: () => {
@@ -201,8 +216,8 @@ export class ServiceAdminComponent implements OnInit {
           )
           .subscribe({
             next: (result) => {
+              this.reloadEvent.emit();
               alert('Service ajouté avec succès');
-              // mise à jour de la liste des services
               result ? (this.services = [...this.services, result]) : null;
             },
             complete: () => {
