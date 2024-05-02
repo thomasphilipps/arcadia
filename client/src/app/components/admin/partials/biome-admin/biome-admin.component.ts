@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
 
 import { Biome } from '@app/interfaces/biome.interface';
 import { BiomeService } from '@app/services/biome.service';
@@ -17,7 +16,6 @@ import { truncate, getFormValidationErrors } from '@app/utils/utils';
 import { MyErrorStateMatcher } from '@app/utils/errorState';
 import { ListDataComponent } from '../templates/list-data/list-data.component';
 import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
-import { GenericDataService } from '@app/services/generic-data.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
