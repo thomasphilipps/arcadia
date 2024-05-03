@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Schedule } from '@interfaces/schedule.interface';
 import { ScheduleService } from '@services/schedule.service';
@@ -11,6 +10,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
+import { HttpClient } from '@angular/common/http';
+import { ListDataComponent } from '../templates/list-data/list-data.component';
 
 @Component({
   selector: 'arz-schedule-admin',
@@ -18,38 +20,72 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatTableModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     NgxMaterialTimepickerModule,
+    ListDataComponent,
   ],
   templateUrl: './schedule-admin.component.html',
   styleUrl: './schedule-admin.component.scss',
 })
 export class ScheduleAdminComponent implements OnInit {
+  scheduleConfig: AdminComponentConfig<Schedule>;
+
   schedules: Schedule[] = [];
   scheduleForm: FormGroup;
   editingSchedule: Schedule | null = null;
-
-  displayedColumns: string[] = ['dayName', 'openAm', 'closeAm', 'openPm', 'closePm', 'action'];
 
   openAmTime: string | null = null;
   closeAmTime: string | null = null;
   openPmTime: string | null = null;
   closePmTime: string | null = null;
 
-  constructor(private fb: FormBuilder, private scheduleService: ScheduleService) {
-    this.scheduleForm = this.fb.group(
-      {
-        openAmTime: new FormControl(''),
-        closeAmTime: new FormControl(''),
-        openPmTime: new FormControl(''),
-        closePmTime: new FormControl(''),
+  @Output() reloadEvent = new EventEmitter<void>();
+
+  constructor(
+    private fb: FormBuilder,
+    private scheduleService: ScheduleService,
+    private http: HttpClient
+  ) {
+    this.scheduleConfig = {
+      label: 'Horaires',
+      service: new ScheduleService(this.http),
+      primaryKey: 'dayId',
+      displayColumns: [
+        {
+          key: 'dayName',
+          label: 'Jour',
+        },
+        {
+          key: 'openAm',
+          label: 'Ouverture AM',
+        },
+        {
+          key: 'closeAm',
+          label: 'Fermeture AM',
+        },
+        {
+          key: 'openPm',
+          label: 'Ouverture PM',
+        },
+        {
+          key: 'closePm',
+          label: 'Fermeture PM',
+        },
+      ],
+      actions: { view: false, edit: true, delete: false },
+      formFields: {
+        openAmTime: [''],
+        closeAmTime: [''],
+        openPmTime: [''],
+        closePmTime: [''],
       },
-      { validators: CustomValidators.timeOrderValidator() }
-    );
+    };
+    this.scheduleForm = this.fb.group(this.scheduleConfig.formFields, {
+      validators: CustomValidators.timeOrderValidator(),
+    });
   }
 
   ngOnInit(): void {
@@ -86,6 +122,7 @@ export class ScheduleAdminComponent implements OnInit {
 
       this.scheduleService.updateSchedule(data.dayId, data).subscribe({
         next: () => {
+          this.reloadEvent.emit();
           this.editingSchedule = null;
           alert('Horaires modifiées');
         },

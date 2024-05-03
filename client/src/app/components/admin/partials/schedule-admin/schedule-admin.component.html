@@ -1,64 +1,12 @@
 <div class="container">
   <h1 class="m-6 has-text-centered">Horaires</h1>
 
-  <div class="mb-6">
-    <table mat-table [dataSource]="schedules">
-      <ng-container matColumnDef="dayName">
-        <th mat-header-cell *matHeaderCellDef>Jour</th>
-        <td mat-cell *matCellDef="let element">{{ element.dayName }}</td>
-      </ng-container>
-      <ng-container matColumnDef="openAm">
-        <th mat-header-cell *matHeaderCellDef>Ouvertue matinée</th>
-        <td mat-cell *matCellDef="let element">
-          @if(element.openAm) {
-          {{ element.openAm }}
-          } @else {-}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="closeAm">
-        <th mat-header-cell *matHeaderCellDef>Fermeture matinée</th>
-        <td mat-cell *matCellDef="let element">
-          @if(element.closeAm) {
-          {{ element.closeAm }}
-          } @else {-}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="openPm">
-        <th mat-header-cell *matHeaderCellDef>Ouverture après-midi</th>
-        <td mat-cell *matCellDef="let element">
-          @if(element.openPm) {
-          {{ element.openPm }}
-          } @else {-}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="closePm">
-        <th mat-header-cell *matHeaderCellDef>Fermeture après-midi</th>
-        <td mat-cell *matCellDef="let element">
-          @if(element.closePm) {
-          {{ element.closePm }}
-          } @else {-}
-        </td>
-      </ng-container>
+  <arz-list-data
+    [config]="scheduleConfig"
+    (editData)="editSchedule($event)"
+    [reloadTrigger]="reloadEvent.asObservable()"
+  ></arz-list-data>
 
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon
-            class="has-text-warning"
-            aria-hidden="false"
-            aria-label="Edit icon"
-            fontSet="material-symbols-outlined"
-            (click)="editSchedule(element.dayId)"
-            style="cursor: pointer"
-            >edit_square</mat-icon
-          >
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
   @if(editingSchedule) {
   <h2 class="has-text-centered">Horaires d'ouverture de : {{ editingSchedule.dayName }}</h2>
   <div class="has-text-centered">
