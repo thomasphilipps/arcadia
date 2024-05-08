@@ -18,6 +18,7 @@
             aria-label="View icon"
             fontSet="material-symbols-outlined"
             style="cursor: pointer"
+            (click)="emitViewEvent(element)"
             >visibility</mat-icon
           >
           } @if(config.actions.edit) {
@@ -27,6 +28,7 @@
             aria-label="Edit icon"
             fontSet="material-symbols-outlined"
             style="cursor: pointer"
+            (click)="emitEditEvent(element)"
             >edit_square</mat-icon
           >
           } @if(config.actions.delete) {
@@ -36,6 +38,7 @@
             aria-label="Delete icon"
             fontSet="material-symbols-outlined"
             style="cursor: pointer"
+            (click)="emitDeleteEvent(element)"
             >delete</mat-icon
           >
           }

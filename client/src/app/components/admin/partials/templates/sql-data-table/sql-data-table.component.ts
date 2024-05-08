@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { truncate } from '@app/utils/utils';
-import { Subscription, catchError, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'arz-sql-data-table',
@@ -16,12 +24,16 @@ import { Subscription, catchError, of } from 'rxjs';
 export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
   private subscription!: Subscription;
 
+  @Input() config!: SqlViewDataConfig<T>;
+
+  @Output() editData = new EventEmitter();
+  @Output() deleteData = new EventEmitter();
+  @Output() viewData = new EventEmitter();
+
   data: T[] = [];
   displayedColumns: string[] = [];
 
   truncate = truncate;
-
-  @Input() config!: SqlViewDataConfig<T>;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
@@ -38,6 +50,24 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
         },
       });
     }
+  }
+
+  private emitEvent(eventEmitter: EventEmitter<any>, data: T): void {
+    const primaryKeyValue = this.config.primaryKey as keyof T;
+    let dataToEmit = data[primaryKeyValue];
+    eventEmitter.emit(dataToEmit);
+  }
+
+  emitViewEvent(data: T) {
+    this.emitEvent(this.viewData, data);
+  }
+
+  emitEditEvent(data: T) {
+    this.emitEvent(this.editData, data);
+  }
+
+  emitDeleteEvent(data: T) {
+    this.emitEvent(this.deleteData, data);
   }
 
   ngOnDestroy(): void {

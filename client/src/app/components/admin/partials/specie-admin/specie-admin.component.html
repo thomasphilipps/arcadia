@@ -1,2 +1,22 @@
-<p>specie-admin works!</p>
-<arz-sql-data-table [config]="speciesConfig"></arz-sql-data-table>
+<div class="container">
+  <h1 class="m-6 has-text-centered">{{ speciesConfig.label }}</h1>
+  <arz-sql-data-table
+    [config]="speciesConfig"
+    (viewData)="viewSpecie($event)"
+    (editData)="editSpecie($event)"
+    (deleteData)="deleteSpecie($event)"
+  ></arz-sql-data-table>
+
+  <div class="has-text-right mr-5">
+    <button mat-fab class="has-text-primary" (click)="addSpecie()">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add icon"
+        fontSet="material-symbols-outlined"
+        style="color: white"
+      >
+        add
+      </mat-icon>
+    </button>
+  </div>
+</div>
