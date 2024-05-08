@@ -1,6 +1,9 @@
+import { Observable } from 'rxjs';
+
 export interface SqlViewDataConfig<T> {
-  labelL: string;
-  primaryKey: string;
+  label: string;
+  data: Observable<T[]>;
+  primaryKey: string | number;
   displayColumns: {
     key: string;
     label: string;

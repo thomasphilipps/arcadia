@@ -1,25 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
-
 import { API_URL } from '@app/app.config';
 import { DataService } from '@app/interfaces/dataService';
 import { environment } from '@environments/environment.development';
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SqlGlobalService<T> implements DataService<T> {
-  private apiBaseURL: string;
+  private apiURL: string;
+
   private dataSubject: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
 
-  constructor(private http: HttpClient, @Inject(API_URL) apiBaseURL: string) {
-    this.apiBaseURL = apiBaseURL;
+  constructor(private http: HttpClient, @Inject(API_URL) apiURL: string) {
+    this.apiURL = apiURL;
   }
 
   loadData() {
     this.http
-      .get<T[]>(this.apiBaseURL)
+      .get<T[]>(this.apiURL)
       .pipe(
         tap((response) => this.log(response)),
         catchError((error) => this.handleError(error, []))
@@ -40,7 +40,7 @@ export class SqlGlobalService<T> implements DataService<T> {
       },
     };
 
-    return this.http.put<T>(`${this.apiBaseURL}/${itemId}`, item, httpOptions).pipe(
+    return this.http.put<T>(`${this.apiURL}/${itemId}`, item, httpOptions).pipe(
       tap((response) => {
         this.log(response);
         this.loadData();
@@ -58,7 +58,7 @@ export class SqlGlobalService<T> implements DataService<T> {
 
     let { itemId, ...itemInfo } = item as any;
 
-    return this.http.post<T>(this.apiBaseURL, itemInfo, httpOptions).pipe(
+    return this.http.post<T>(this.apiURL, itemInfo, httpOptions).pipe(
       tap((response) => {
         this.log(response);
         this.loadData();
@@ -68,7 +68,7 @@ export class SqlGlobalService<T> implements DataService<T> {
   }
 
   deleteData(id: number): Observable<any> {
-    return this.http.delete(`${this.apiBaseURL}/${id}`).pipe(
+    return this.http.delete(`${this.apiURL}/${id}`).pipe(
       tap((response) => {
         this.log(response);
         this.loadData();
