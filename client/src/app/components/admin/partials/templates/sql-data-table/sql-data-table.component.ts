@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -17,7 +16,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'arz-sql-data-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule],
+  imports: [MatTableModule, MatIconModule],
   templateUrl: './sql-data-table.component.html',
   styleUrl: './sql-data-table.component.scss',
 })

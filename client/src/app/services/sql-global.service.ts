@@ -9,11 +9,11 @@ import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class SqlGlobalService<T> implements DataService<T> {
-  private apiURL: string;
+  protected apiURL: string;
 
   private dataSubject: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
 
-  constructor(private http: HttpClient, @Inject(API_URL) apiURL: string) {
+  constructor(protected http: HttpClient, @Inject(API_URL) apiURL: string) {
     this.apiURL = apiURL;
   }
 
@@ -77,13 +77,13 @@ export class SqlGlobalService<T> implements DataService<T> {
     );
   }
 
-  private log(response: any) {
+  protected log(response: any) {
     if (!environment.production) {
       console.table(response);
     }
   }
 
-  private handleError(error: Error, errorValue: [] | any) {
+  protected handleError(error: Error, errorValue: [] | any) {
     if (!environment.production) {
       console.error(error);
     }
