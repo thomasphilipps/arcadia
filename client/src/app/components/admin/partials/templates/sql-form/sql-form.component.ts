@@ -31,7 +31,7 @@ interface FormModel {
   styleUrl: './sql-form.component.scss',
 })
 export class SqlFormComponent<T> implements OnInit {
-  @Input() config?: SqlViewDataConfig<T>;
+  @Input() config!: SqlViewDataConfig<T>;
   @Output() saveData = new EventEmitter<T>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -43,7 +43,7 @@ export class SqlFormComponent<T> implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.config?.formFields
+    this.config.formFields
       ? (this.form = this.toFormGroup(this.config.formFields))
       : console.error('Erreur lors de la lecture des champs du formulaire.');
   }
@@ -71,7 +71,9 @@ export class SqlFormComponent<T> implements OnInit {
     }
   }
 
-  onSaveData(): void {}
+  onSaveData(data: T) {
+    this.saveData.emit(data);
+  }
 
   onCancelEdit(): void {
     this.form.reset();

@@ -3,7 +3,7 @@
 <div class="columns">
   <div class="column is-half is-offset-one-quarter has-text-centered">
     <form [formGroup]="form">
-      @for (field of config?.formFields ; track $index) {
+      @for (field of config.formFields ; track $index) {
       <div>
         @switch(field.type) {
         <!-- Prettier ignore -->
@@ -72,7 +72,7 @@
               mat-raised-button
               [class.has-text-success]="form.valid"
               [disabled]="form.invalid"
-              (click)="onSaveData()"
+              (click)="onSaveData(form.value)"
             >
               <mat-icon
                 aria-hidden="false"

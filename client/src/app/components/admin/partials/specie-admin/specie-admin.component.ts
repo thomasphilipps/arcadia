@@ -10,7 +10,7 @@ import { SpecieService } from '@app/services/specie.service';
 import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
 import { Validators } from '@angular/forms';
-import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'arz-specie-admin',
@@ -24,6 +24,7 @@ export class SpecieAdminComponent implements OnInit {
   speciesConfig: SqlViewDataConfig<Specie>;
 
   editingSpecie: Specie | null = null;
+  editingSpecieId: number | null = null;
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Specie>;
 
@@ -102,18 +103,52 @@ export class SpecieAdminComponent implements OnInit {
   }
 
   getOptions() {
-    this.specieService.getBiomeOptions().subscribe((biomes) => {
-      const specieBiomeField = this.speciesConfig.formFields?.find(
-        (field) => field.controlName === 'biomeKey'
-      );
-      if (specieBiomeField) {
-        specieBiomeField.selectOptions = biomes;
-      }
-    });
+    this.specieService
+      .getBiomeOptions()
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de la suppression de l'espèce: ", error);
+          return of(null);
+        })
+      )
+      .subscribe((biomes) => {
+        const specieBiomeField = this.speciesConfig.formFields?.find(
+          (field) => field.controlName === 'biomeKey'
+        );
+        if (specieBiomeField) {
+          specieBiomeField.selectOptions = biomes || [];
+        }
+      });
+  }
+
+  saveSpecie(data: any) {
+    const operation =
+      this.editingSpecieId === null
+        ? this.specieService.createData(data)
+        : this.specieService.updateData(this.editingSpecieId, data);
+
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de l'enregistrement de l'espèce: ", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: () => {
+          alert('Espèce enregistrée avec succès');
+        },
+        complete: () => {
+          this.editingSpecieId = null;
+          this.editingSpecie = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
+      });
   }
 
   addSpecie() {
     console.log('Adding specie');
+    this.editingSpecieId = null;
     this.sqlFormComponent.editForm = true;
     this.sqlFormComponent.initializeForm(null);
   }
@@ -133,12 +168,38 @@ export class SpecieAdminComponent implements OnInit {
     const editingSpecies = this.species.find((s) => s.specieId === specieId) || null;
 
     if (editingSpecies) {
+      this.editingSpecieId = specieId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingSpecies);
     }
   }
 
   deleteSpecie(specieId: number) {
-    console.log('Deleting specie with id: ', specieId);
+    const specieName =
+      this.species.find((specie) => specie.specieId === specieId)?.specieName || '';
+    const message =
+      `Voulez-vous vraiment supprimer l'espèce : "${specieName}" ?` +
+      `\n\nCette action est irréversible !\n\n` +
+      `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
+
+    if (confirm(message)) {
+      this.specieService
+        .deleteData(specieId)
+        .pipe(
+          catchError((error) => {
+            console.error("Erreur lors de la suppression de l'espèce: ", error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: () => {
+            alert('Espèce supprimée avec succès');
+          },
+          complete: () => {
+            this.editingSpecie = null;
+            this.sqlFormComponent.onCancelEdit();
+          },
+        });
+    }
   }
 }
