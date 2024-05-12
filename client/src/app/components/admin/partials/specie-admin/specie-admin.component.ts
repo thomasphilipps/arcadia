@@ -97,8 +97,13 @@ export class SpecieAdminComponent implements OnInit {
 
   loadSpecies() {
     this.specieService.loadData();
-    this.specieService.getAllData().subscribe((data) => {
-      this.species = data;
+    this.specieService.getAllData().subscribe({
+      next: (species) => {
+        this.species = species;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des données: ', error);
+      },
     });
   }
 

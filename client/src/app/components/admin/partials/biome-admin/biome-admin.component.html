@@ -1,13 +1,12 @@
 <div class="container">
   <h1 class="m-6 has-text-centered">Habitats</h1>
 
-  <arz-list-data
+  <arz-sql-data-table
     [config]="biomeConfig"
     (viewData)="viewBiome($event)"
     (editData)="editBiome($event)"
     (deleteData)="deleteBiome($event)"
-    [reloadTrigger]="reloadEvent.asObservable()"
-  ></arz-list-data>
+  ></arz-sql-data-table>
 
   <div class="has-text-right mr-5">
     <button mat-fab class="has-text-primary" (click)="addBiome()">
@@ -21,112 +20,6 @@
       </mat-icon>
     </button>
   </div>
-  @if(editingBiome) {
-  <h2 class="has-text-centered">
-    {{
-      editingBiome.biomeId !== 0 ? 'Edition de : ' + editingBiome.biomeName : 'Ajouter un habitat'
-    }}
-  </h2>
-  <div class="coluumns">
-    <div class="column is-half is-offset-one-quarter has-text-centered">
-      <form [formGroup]="biomeForm">
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Nom de l'habitat</mat-label>
-            <input matInput formControlName="biomeName" />
-            <mat-hint align="end">
-              {{ biomeForm.get('biomeName')?.value?.length || 0 }}/32
-            </mat-hint>
-            <!-- Prettier ignore -->
-            @if(biomeForm.get('biomeName')?.hasError('required') ){
-            <mat-error>Ce champ est requis</mat-error>
-            }
-            <!-- Prettier ignore -->
-            @if(biomeForm.get('biomeName')?.hasError('maxlength') ){
-            <mat-error>Nom trop long</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Description courte</mat-label>
-            <textarea
-              matInput
-              formControlName="biomeShortDescr"
-              cdkTextareaAutosize
-              #shortAutoSize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="3"
-              cdkAutosizeMaxRows="5"
-            ></textarea>
-            <mat-hint align="end">
-              {{ biomeForm.get('biomeShortDescr')?.value?.length || 0 }}/255
-            </mat-hint>
-            <!-- Prettier ignore -->
-            @if(biomeForm.get('biomeShortDescr')?.hasError('required') ){
-            <mat-error>Ce champ est requis</mat-error>
-            }
-            <!-- Prettier ignore -->
-            @if(biomeForm.get('biomeShortDescr')?.hasError('maxlength') ){
-            <mat-error>Description trop longue</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Description complète</mat-label>
-            <textarea
-              matInput
-              formControlName="biomeLongDescr"
-              cdkTextareaAutosize
-              #longAutoSize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="10"
-              cdkAutosizeMaxRows="25"
-            ></textarea>
-            <mat-hint align="end">
-              {{ biomeForm.get('biomeLongDescr')?.value?.length || 0 }}/1000
-            </mat-hint>
-            <!-- Prettier ignore -->
-            @if(biomeForm.get('biomeLongDescr')?.hasError('required') ){
-            <mat-error>Ce champ est requis</mat-error>
-            }
-            <!-- Prettier ignore -->
-            @if(biomeForm.get('biomeLongDescr')?.hasError('maxlength') ){
-            <mat-error>Description trop longue</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div class="level">
-          <div class="level-right"></div>
-          <div class="level-left has-text-centered">
-            <div class="level-item">
-              <button
-                mat-raised-button
-                [class.has-text-success]="biomeForm.valid"
-                [disabled]="biomeForm.invalid"
-                (click)="onSaveBiome(editingBiomeId)"
-              >
-                <mat-icon
-                  aria-hidden="false"
-                  aria-label="Save icon"
-                  fontSet="material-symbols-outlined"
-                  >save</mat-icon
-                >Enregistrer
-              </button>
-            </div>
-            <div class="level-item">
-              <button class="has-text-danger" mat-raised-button (click)="onCancelEdit()">
-                <mat-icon
-                  aria-hidden="false"
-                  aria-label="Cancel icon"
-                  fontSet="material-symbols-outlined"
-                  >cancel</mat-icon
-                >Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  }
+
+  <arz-sql-form [config]="biomeConfig" (saveData)="saveBiome($event)"></arz-sql-form>
 </div>

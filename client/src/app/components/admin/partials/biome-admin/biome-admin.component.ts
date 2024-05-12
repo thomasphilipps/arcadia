@@ -1,61 +1,38 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
+import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 
 import { Biome } from '@app/interfaces/biome.interface';
 import { BiomeService } from '@app/services/biome.service';
-import { truncate, getFormValidationErrors } from '@app/utils/utils';
-import { MyErrorStateMatcher } from '@app/utils/errorState';
-import { ListDataComponent } from '../templates/list-data/list-data.component';
-import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
-import { HttpClient } from '@angular/common/http';
+import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
+import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
 
 @Component({
   selector: 'arz-biome-admin',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    TextFieldModule,
-    CdkTextareaAutosize,
-    ListDataComponent,
-  ],
+  imports: [CommonModule, MatIconModule, SqlDataTableComponent, SqlFormComponent, MatButtonModule],
   templateUrl: './biome-admin.component.html',
   styleUrl: './biome-admin.component.scss',
 })
 export class BiomeAdminComponent implements OnInit {
-  biomeConfig: AdminComponentConfig<Biome>;
-
   biomes: Biome[] = [];
+  biomeConfig: SqlViewDataConfig<Biome>;
+
   editingBiome: Biome | null = null;
   editingBiomeId: number | null = null;
-  biomeForm: FormGroup;
 
-  truncate = truncate;
+  @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Biome>;
 
-  matcher = new MyErrorStateMatcher();
-  @Output() reloadEvent = new EventEmitter<void>();
-
-  constructor(
-    private fb: FormBuilder,
-    private biomeService: BiomeService,
-    private http: HttpClient
-  ) {
+  constructor(private biomeService: BiomeService) {
     this.biomeConfig = {
       label: 'Habitats',
-      service: new BiomeService(this.http),
+      data: this.biomeService.getAllData(),
       primaryKey: 'biomeId',
       displayColumns: [
         {
@@ -70,43 +47,74 @@ export class BiomeAdminComponent implements OnInit {
           key: 'biomeLongDescr',
           label: 'Description longue',
         },
+        {
+          key: 'biomeStatus',
+          label: 'Etat',
+        },
       ],
       actions: { view: true, edit: true, delete: true },
-      formFields: {
-        biomeName: ['', [Validators.required, Validators.maxLength(32)]],
-        biomeShortDescr: ['', [Validators.required, Validators.maxLength(255)]],
-        biomeLongDescr: ['', [Validators.required, Validators.maxLength(1000)]],
-        biomeStatus: ['', [Validators.maxLength(1000)]],
-      },
+      formFields: [
+        {
+          label: 'Nom',
+          controlName: 'biomeName',
+          type: 'input',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: "Nom de l'habitat",
+        },
+        {
+          label: 'Description abrégée',
+          controlName: 'biomeShortDescr',
+          type: 'textarea',
+          maxLength: 255,
+          minRows: 3,
+          maxRows: 10,
+          validators: [Validators.required, Validators.maxLength(255)],
+          placeholder: "Description courte de l'habitat",
+        },
+        {
+          label: 'Description complète',
+          controlName: 'biomeLongDescr',
+          type: 'textarea',
+          maxLength: 1000,
+          minRows: 5,
+          maxRows: 25,
+          validators: [Validators.required, Validators.maxLength(1000)],
+          placeholder: "Description complète de l'habitat",
+        },
+        {
+          label: 'Etat',
+          controlName: 'biomeStatus',
+          type: 'textarea',
+          maxLength: 1000,
+          minRows: 5,
+          maxRows: 25,
+          validators: [Validators.maxLength(1000)],
+        },
+      ],
     };
-
-    this.biomeForm = this.fb.group(this.biomeConfig.formFields);
   }
 
   ngOnInit(): void {
-    this.biomeService
-      .getAllBiomes()
-      .pipe(
-        catchError((error) => {
-          console.error('Erreur lors de la récupération des biomes: ', error);
-          return of([]);
-        })
-      )
-      .subscribe((data) => {
-        this.biomes = data;
-      });
+    this.loadBiomes();
+  }
+
+  loadBiomes(): void {
+    this.biomeService.loadData();
+    this.biomeService.getAllData().subscribe({
+      next: (biomes) => {
+        this.biomes = biomes;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des habitats: ', error);
+      },
+    });
   }
 
   addBiome(): void {
-    this.biomeForm.reset();
     this.editingBiomeId = null;
-    this.editingBiome = {
-      biomeId: 0,
-      biomeName: '',
-      biomeShortDescr: '',
-      biomeLongDescr: '',
-      biomeStatus: '',
-    };
+    this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.initializeForm(null);
   }
 
   viewBiome(biomeId: number): void {
@@ -121,18 +129,11 @@ export class BiomeAdminComponent implements OnInit {
   }
 
   editBiome(biomeId: number): void {
-    this.editingBiomeId = biomeId;
-    this.editingBiome = this.biomes.find((biome) => biome.biomeId === biomeId) || null;
-    if (this.editingBiome) {
-      this.biomeForm.patchValue(
-        {
-          biomeName: this.editingBiome.biomeName,
-          biomeShortDescr: this.editingBiome.biomeShortDescr,
-          biomeLongDescr: this.editingBiome.biomeLongDescr,
-          biomeStatus: this.editingBiome.biomeStatus,
-        },
-        { emitEvent: false }
-      );
+    const editingBiomes = this.biomes.find((b) => b.biomeId === biomeId) || null;
+    if (editingBiomes) {
+      this.editingBiomeId = biomeId;
+      this.sqlFormComponent.editForm = true;
+      this.sqlFormComponent.initializeForm(editingBiomes);
     }
   }
 
@@ -145,7 +146,7 @@ export class BiomeAdminComponent implements OnInit {
 
     if (confirm(message)) {
       this.biomeService
-        .deleteBiome(biomeId)
+        .deleteData(biomeId)
         .pipe(
           catchError((error) => {
             console.error("Erreur lors de la suppression de l'habitat: ", error);
@@ -153,83 +154,39 @@ export class BiomeAdminComponent implements OnInit {
           })
         )
         .subscribe({
-          next: (result) => {
-            this.reloadEvent.emit();
-
-            alert('Habitat supprimé avec succès');
-            this.biomes = this.biomes.filter((biome) => biome.biomeId !== biomeId);
+          next: () => {
+            alert('Habitat supprimée avec succès');
           },
           complete: () => {
             this.editingBiome = null;
-            this.biomeForm.reset();
+            this.sqlFormComponent.onCancelEdit();
           },
         });
     }
   }
 
-  onSaveBiome(biomeId: number | null): void {
-    const group: FormGroup = this.biomeForm;
-    let data: Biome | null = this.editingBiome;
+  saveBiome(data: any) {
+    const operation =
+      this.editingBiomeId === null
+        ? this.biomeService.createData(data)
+        : this.biomeService.updateData(this.editingBiomeId, data);
 
-    if (group.invalid) {
-      const errors = getFormValidationErrors(group);
-      console.error(`Erreur lors de la validation du formulaire: ${errors.join(', ')}`);
-      return;
-    }
-
-    if (data) {
-      data.biomeName = group.get('biomeName')?.value;
-      data.biomeShortDescr = group.get('biomeShortDescr')?.value;
-      data.biomeLongDescr = group.get('biomeLongDescr')?.value;
-      data.biomeStatus = group.get('biomeStatus')?.value;
-    }
-
-    if (biomeId && data) {
-      this.biomeService
-        .updateBiome(biomeId, data)
-        .pipe(
-          catchError((error) => {
-            console.error('Erreur lors de la mise à jour du biome: ', error);
-            return of(null);
-          })
-        )
-        .subscribe({
-          next: (result) => {
-            this.reloadEvent.emit();
-            alert('Biome mis à jour avec succès');
-          },
-          complete: () => {
-            this.editingBiome = null;
-            this.biomeForm.reset();
-          },
-        });
-    } else {
-      if (data) {
-        this.biomeService
-          .createBiome(data)
-          .pipe(
-            catchError((error) => {
-              console.error("Erreur lors de l'ajout du biome: ", error);
-              return of(null);
-            })
-          )
-          .subscribe({
-            next: (result) => {
-              this.reloadEvent.emit();
-              alert('Biome ajouté avec succès');
-              result ? (this.biomes = [...this.biomes, result]) : null;
-            },
-            complete: () => {
-              this.editingBiome = null;
-              this.biomeForm.reset();
-            },
-          });
-      }
-    }
-  }
-
-  onCancelEdit(): void {
-    this.biomeForm.reset();
-    this.editingBiome = null;
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de l'enregistrement de l'habitat: ", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: () => {
+          alert('Espèce enregistrée avec succès');
+        },
+        complete: () => {
+          this.editingBiomeId = null;
+          this.editingBiome = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
+      });
   }
 }
