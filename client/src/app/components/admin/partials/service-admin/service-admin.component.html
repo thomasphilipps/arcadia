@@ -1,13 +1,12 @@
 <div class="container">
   <h1 class="m-6 has-text-centered">Services</h1>
 
-  <arz-list-data
+  <arz-sql-data-table
     [config]="serviceConfig"
     (viewData)="viewService($event)"
     (editData)="editService($event)"
     (deleteData)="deleteService($event)"
-    [reloadTrigger]="reloadEvent.asObservable()"
-  ></arz-list-data>
+  ></arz-sql-data-table>
 
   <div class="has-text-right mr-5">
     <button mat-fab class="has-text-primary" (click)="addService()">
@@ -21,115 +20,6 @@
       </mat-icon>
     </button>
   </div>
-  @if(editingService){
-  <h2 class="has-text-centered">
-    {{
-      editingService.serviceId !== 0
-        ? 'Edition de: ' + editingService.serviceName
-        : 'Ajouter un service'
-    }}
-  </h2>
-  <div class="columns">
-    <div class="column is-half is-offset-one-quarter has-text-centered">
-      <form [formGroup]="serviceForm">
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Nom du service</mat-label>
-            <input matInput formControlName="serviceName" />
-            <mat-hint align="end"
-              >{{ serviceForm.get('serviceName')?.value?.length || 0 }}/32</mat-hint
-            >
-            <!-- Prettier ignore -->
-            @if(serviceForm.get('serviceName')?.hasError('required') ){
-            <mat-error>Ce champ est requis</mat-error>
-            }
-            <!-- Prettier ignore -->
-            @if(serviceForm.get('serviceName')?.hasError('maxlength') ){
-            <mat-error>Nom trop long</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Description courte</mat-label>
-            <textarea
-              matInput
-              formControlName="serviceShortDescr"
-              cdkTextareaAutosize
-              #shortAutoSize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="3"
-              cdkAutosizeMaxRows="5"
-            ></textarea>
-            <mat-hint align="end"
-              >{{ serviceForm.get('serviceShortDescr')?.value?.length || 0 }}/255</mat-hint
-            >
-            <!-- Prettier ignore -->
-            @if(serviceForm.get('serviceShortDescr')?.hasError('required') ){
-            <mat-error>Ce champ est requis</mat-error>
-            }
-            <!-- Prettier ignore -->
-            @if(serviceForm.get('serviceShortDescr')?.hasError('maxlength') ){
-            <mat-error>Description trop longue</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="full-width">
-            <mat-label>Description complète</mat-label>
-            <textarea
-              matInput
-              formControlName="serviceLongDescr"
-              cdkTextareaAutosize
-              #longAutoSize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="10"
-              cdkAutosizeMaxRows="25"
-            ></textarea>
-            <mat-hint align="end"
-              >{{ serviceForm.get('serviceLongDescr')?.value?.length || 0 }}/1000</mat-hint
-            >
-            <!-- Prettier ignore -->
-            @if(serviceForm.get('serviceLongDescr')?.hasError('required') ){
-            <mat-error>Ce champ est requis</mat-error>
-            }
-            <!-- Prettier ignore -->
-            @if(serviceForm.get('serviceLongDescr')?.hasError('maxlength') ){
-            <mat-error>Description trop longue</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div class="level">
-          <div class="level-right"></div>
-          <div class="level-left has-text-centered">
-            <div class="level-item">
-              <button
-                mat-raised-button
-                [class.has-text-success]="serviceForm.valid"
-                [disabled]="serviceForm.invalid"
-                (click)="onSaveService(editingServiceId)"
-              >
-                <mat-icon
-                  aria-hidden="false"
-                  aria-label="Save icon"
-                  fontSet="material-symbols-outlined"
-                  >save</mat-icon
-                >Enregistrer
-              </button>
-            </div>
-            <div class="level-item">
-              <button class="has-text-danger" mat-raised-button (click)="onCancelEdit()">
-                <mat-icon
-                  aria-hidden="false"
-                  aria-label="Cancel icon"
-                  fontSet="material-symbols-outlined"
-                  >cancel</mat-icon
-                >Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
 
-  }
+  <arz-sql-form [config]="serviceConfig" (saveData)="saveService($event)"></arz-sql-form>
 </div>

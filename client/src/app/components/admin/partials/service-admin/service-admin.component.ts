@@ -1,61 +1,38 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
+import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 
 import { Service } from '@app/interfaces/service.interface';
 import { ServiceService } from '@app/services/service.service';
-import { truncate, getFormValidationErrors } from '@app/utils/utils';
-import { MyErrorStateMatcher } from '@app/utils/errorState';
-import { ListDataComponent } from '../templates/list-data/list-data.component';
-import { HttpClient } from '@angular/common/http';
-import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
+import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
+import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
 
 @Component({
   selector: 'arz-service-admin',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    TextFieldModule,
-    CdkTextareaAutosize,
-    ListDataComponent,
-  ],
+  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './service-admin.component.html',
   styleUrl: './service-admin.component.scss',
 })
 export class ServiceAdminComponent implements OnInit {
-  serviceConfig: AdminComponentConfig<Service>;
-
   services: Service[] = [];
+  serviceConfig: SqlViewDataConfig<Service>;
+
   editingService: Service | null = null;
   editingServiceId: number | null = null;
-  serviceForm: FormGroup;
 
-  truncate = truncate;
+  @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Service>;
 
-  matcher = new MyErrorStateMatcher();
-  @Output() reloadEvent = new EventEmitter<void>();
-
-  constructor(
-    private fb: FormBuilder,
-    private serviceService: ServiceService,
-    private http: HttpClient
-  ) {
+  constructor(private serviceService: ServiceService) {
     this.serviceConfig = {
       label: 'Services',
-      service: new ServiceService(this.http),
+      data: this.serviceService.getAllData(),
       primaryKey: 'serviceId',
       displayColumns: [
         {
@@ -72,40 +49,84 @@ export class ServiceAdminComponent implements OnInit {
         },
       ],
       actions: { view: true, edit: true, delete: true },
-      formFields: {
-        serviceName: ['', [Validators.required, Validators.maxLength(32)]],
-        serviceShortDescr: ['', [Validators.required, Validators.maxLength(255)]],
-        serviceLongDescr: ['', [Validators.required, Validators.maxLength(1000)]],
-      },
+      formFields: [
+        {
+          label: 'Nom',
+          controlName: 'serviceName',
+          type: 'input',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: 'Nom du service',
+        },
+        {
+          label: 'Description abrégée',
+          controlName: 'serviceShortDescr',
+          type: 'textarea',
+          maxLength: 255,
+          minRows: 3,
+          maxRows: 5,
+          validators: [Validators.required, Validators.maxLength(255)],
+          placeholder: 'Description courte du service',
+        },
+        {
+          label: 'Description complète',
+          controlName: 'serviceLongDescr',
+          type: 'textarea',
+          maxLength: 1000,
+          minRows: 5,
+          maxRows: 25,
+          validators: [Validators.required, Validators.maxLength(1000)],
+          placeholder: 'Description complète du service',
+        },
+      ],
     };
-    this.serviceForm = this.fb.group(this.serviceConfig.formFields);
   }
 
   ngOnInit(): void {
-    this.serviceService
-      .getAllServices()
+    this.loadServices();
+  }
+
+  loadServices(): void {
+    this.serviceService.loadData();
+    this.serviceService.getAllData().subscribe({
+      next: (services) => {
+        this.services = services;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des données:', error);
+      },
+    });
+  }
+
+  saveService(data: any) {
+    const operation =
+      this.editingServiceId === null
+        ? this.serviceService.createData(data)
+        : this.serviceService.updateData(this.editingServiceId, data);
+
+    operation
       .pipe(
         catchError((error) => {
-          console.error('Erreur lors de la récupération des services: ', error);
-          return of([]);
+          console.error('Erreur lors de la sauvegarde du service:', error);
+          return of(null);
         })
       )
-      .subscribe((data) => {
-        this.services = data;
+      .subscribe({
+        next: () => {
+          alert('Service sauvegardé avec succès');
+        },
+        complete: () => {
+          this.editingServiceId = null;
+          this.editingService = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
       });
   }
 
   addService(): void {
-    this.serviceForm.reset();
     this.editingServiceId = null;
-    this.editingService = {
-      serviceId: 0,
-      serviceName: '',
-      serviceShortDescr: '',
-      serviceLongDescr: '',
-    };
-    this.serviceForm.reset();
-    this.editingServiceId = null;
+    this.editingService = null;
+    this.sqlFormComponent.initializeForm(null);
   }
 
   viewService(serviceId: number): void {
@@ -119,17 +140,12 @@ export class ServiceAdminComponent implements OnInit {
   }
 
   editService(serviceId: number): void {
-    this.editingServiceId = serviceId;
-    this.editingService = this.services.find((service) => service.serviceId === serviceId) || null;
-    if (this.editingService) {
-      this.serviceForm.patchValue(
-        {
-          serviceName: this.editingService.serviceName,
-          serviceShortDescr: this.editingService.serviceShortDescr,
-          serviceLongDescr: this.editingService.serviceLongDescr,
-        },
-        { emitEvent: false }
-      );
+    const editingService = this.services.find((s) => s.serviceId === serviceId);
+
+    if (editingService) {
+      this.editingServiceId = serviceId;
+      this.editingService = editingService;
+      this.sqlFormComponent.initializeForm(editingService);
     }
   }
 
@@ -141,14 +157,9 @@ export class ServiceAdminComponent implements OnInit {
       `\n\nCette action est irréversible !\n\n` +
       `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
 
-    if (
-      confirm(
-        `Voulez-vous vraiment supprimer le service "${serviceName}" ?\n\nCette action est irréversible !\n\n` +
-          `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`
-      )
-    ) {
+    if (confirm(message)) {
       this.serviceService
-        .deleteService(serviceId)
+        .deleteData(serviceId)
         .pipe(
           catchError((error) => {
             console.error('Erreur lors de la suppression du service:', error);
@@ -156,81 +167,14 @@ export class ServiceAdminComponent implements OnInit {
           })
         )
         .subscribe({
-          next: (result) => {
-            this.reloadEvent.emit();
+          next: () => {
             alert('Service supprimé avec succès');
-            this.services = this.services.filter((service) => service.serviceId !== serviceId);
           },
           complete: () => {
             this.editingService = null;
-            this.serviceForm.reset();
+            this.sqlFormComponent.onCancelEdit();
           },
         });
     }
-  }
-
-  onSaveService(serviceId: number | null): void {
-    const group = this.serviceForm;
-    let data: Service | null = this.editingService;
-
-    if (group.invalid) {
-      const errors = getFormValidationErrors(group);
-      console.error(`Erreur Erreur lors de la validation du formulaire: ${errors.join(', ')}`);
-      return;
-    }
-
-    if (data) {
-      data.serviceName = group.get('serviceName')?.value;
-      data.serviceShortDescr = group.get('serviceShortDescr')?.value;
-      data.serviceLongDescr = group.get('serviceLongDescr')?.value;
-    }
-
-    if (serviceId && data) {
-      this.serviceService
-        .updateService(serviceId, data)
-        .pipe(
-          catchError((error) => {
-            console.error('Erreur lors de la mise à jour du service:', error);
-            return of(null);
-          })
-        )
-        .subscribe({
-          next: (result) => {
-            this.reloadEvent.emit();
-            alert('Service mis à jour avec succès');
-          },
-          complete: () => {
-            this.editingService = null;
-            this.serviceForm.reset();
-          },
-        });
-    } else {
-      if (data) {
-        this.serviceService
-          .createService(data)
-          .pipe(
-            catchError((error) => {
-              console.error("Erreur lors de l'ajout du service:", error);
-              return of(null);
-            })
-          )
-          .subscribe({
-            next: (result) => {
-              this.reloadEvent.emit();
-              alert('Service ajouté avec succès');
-              result ? (this.services = [...this.services, result]) : null;
-            },
-            complete: () => {
-              this.editingService = null;
-              this.serviceForm.reset();
-            },
-          });
-      }
-    }
-  }
-
-  onCancelEdit(): void {
-    this.serviceForm.reset();
-    this.editingService = null;
   }
 }

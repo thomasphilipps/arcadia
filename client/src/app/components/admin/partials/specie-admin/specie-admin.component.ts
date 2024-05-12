@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Validators } from '@angular/forms';
+
+import { catchError, of } from 'rxjs';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,8 +12,6 @@ import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { SpecieService } from '@app/services/specie.service';
 import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
-import { Validators } from '@angular/forms';
-import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'arz-specie-admin',
