@@ -1,0 +1,100 @@
+@if(editForm) {
+<h2 class="has-text-centered">{{ formTitle }}</h2>
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter has-text-centered">
+    <form [formGroup]="form">
+      @for (field of config.formFields ; track $index) {
+      <div>
+        @switch(field.type) {
+        <!-- Prettier ignore -->
+        @case('input') {
+        <mat-form-field class="full-width">
+          <mat-label>{{ field.label }}</mat-label>
+          <input
+            matInput
+            formControlName="{{ field.controlName }}"
+            placeholder="{{ field.placeholder }}"
+          />
+          <mat-hint align="end">
+            {{ form.get(field.controlName)?.value?.length || 0 }}/{{ field.maxLength }}
+          </mat-hint>
+          @if(form.get(field.controlName)?.hasError('required')) {
+          <mat-error>Ce champ est requis</mat-error>
+          } @if(form.get(field.controlName)?.hasError('maxlength')) {
+          <mat-error>{{ field.label }} trop long</mat-error>
+          }
+        </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case ('textarea') {
+        <mat-form-field class="full-width">
+          <mat-label>{{ field.label }}</mat-label>
+          <textarea
+            matInput
+            formControlName="{{ field.controlName }}"
+            cdkTextareaAutosize
+            #autoSize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="{{ field.minRows }}"
+            cdkAutosizeMaxRows="{{ field.maxRows }}"
+            placeholder="{{ field.placeholder }}"
+          ></textarea>
+          <mat-hint align="end">
+            {{ form.get(field.controlName)?.value?.length || 0 }}/{{ field.maxLength }}
+          </mat-hint>
+          @if(form.get(field.controlName)?.hasError('required')) {
+          <mat-error>Ce champ est requis</mat-error>
+          } @if(form.get(field.controlName)?.hasError('maxlength')) {
+          <mat-error>{{ field.label }} trop long</mat-error>
+          }
+        </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case ('select') {
+        <mat-form-field>
+          <mat-label>{{ field.label }}</mat-label>
+          <mat-select formControlName="{{ field.controlName }}">
+            @for(option of field.selectOptions; track option) {
+            <mat-option [value]="option.idValue">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+          @if(form.get(field.controlName)?.hasError('required')) {
+          <mat-error>Ce champ est requis</mat-error>
+          }
+        </mat-form-field>
+        } }
+      </div>
+      }
+      <div class="level">
+        <div class="level-right"></div>
+        <div class="level-left has-text-centered">
+          <div class="level-item">
+            <button
+              mat-raised-button
+              [class.has-text-success]="form.valid"
+              [disabled]="form.invalid"
+              (click)="onSaveData(form.value)"
+            >
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Save icon"
+                fontSet="material-symbols-outlined"
+                >save </mat-icon
+              >Enregister
+            </button>
+          </div>
+          <div class="level-item">
+            <button class="has-text-danger" mat-raised-button (click)="onCancelEdit()">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Cancel icon"
+                fontSet="material-symbols-outlined"
+                >cancel</mat-icon
+              >Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+}

@@ -138,3 +138,6 @@ tools/
 
 # angular
 .angular/
+
+# docker
+docker-compose.override.yml
