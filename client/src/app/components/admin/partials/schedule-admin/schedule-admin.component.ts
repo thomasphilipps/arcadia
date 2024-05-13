@@ -10,9 +10,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { AdminComponentConfig } from '@app/interfaces/componentConfig.interface';
-import { HttpClient } from '@angular/common/http';
-import { ListDataComponent } from '../templates/list-data/list-data.component';
+import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
+import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
 
 @Component({
   selector: 'arz-schedule-admin',
@@ -25,16 +24,17 @@ import { ListDataComponent } from '../templates/list-data/list-data.component';
     MatInputModule,
     MatButtonModule,
     NgxMaterialTimepickerModule,
-    ListDataComponent,
+    SqlDataTableComponent,
   ],
   templateUrl: './schedule-admin.component.html',
   styleUrl: './schedule-admin.component.scss',
 })
 export class ScheduleAdminComponent implements OnInit {
-  scheduleConfig: AdminComponentConfig<Schedule>;
+  // scheduleConfig: AdminComponentConfig<Schedule>;
+  scheduleConfig: SqlViewDataConfig<Schedule>;
 
   schedules: Schedule[] = [];
-  scheduleForm: FormGroup;
+  // scheduleForm: FormGroup;
   editingSchedule: Schedule | null = null;
 
   openAmTime: string | null = null;
@@ -44,14 +44,10 @@ export class ScheduleAdminComponent implements OnInit {
 
   @Output() reloadEvent = new EventEmitter<void>();
 
-  constructor(
-    private fb: FormBuilder,
-    private scheduleService: ScheduleService,
-    private http: HttpClient
-  ) {
+  constructor(private scheduleService: ScheduleService) {
     this.scheduleConfig = {
       label: 'Horaires',
-      service: new ScheduleService(this.http),
+      data: this.scheduleService.getAllData(),
       primaryKey: 'dayId',
       displayColumns: [
         {
@@ -76,25 +72,52 @@ export class ScheduleAdminComponent implements OnInit {
         },
       ],
       actions: { view: false, edit: true, delete: false },
-      formFields: {
-        openAmTime: [''],
-        closeAmTime: [''],
-        openPmTime: [''],
-        closePmTime: [''],
-      },
+      formFields: [
+        {
+          label: 'Ouverture AM',
+          controlName: 'openAmTime',
+          type: 'time',
+        },
+        {
+          label: 'Fermeture AM',
+          controlName: 'closeAmTime',
+          type: 'time',
+        },
+        {
+          label: 'Ouverture PM',
+          controlName: 'openPmTime',
+          type: 'time',
+        },
+        {
+          label: 'Fermeture PM',
+          controlName: 'closePmTime',
+          type: 'time',
+        },
+      ],
+      customValidators: [CustomValidators.timeOrderValidator()],
     };
-    this.scheduleForm = this.fb.group(this.scheduleConfig.formFields, {
-      validators: CustomValidators.timeOrderValidator(),
-    });
   }
 
   ngOnInit(): void {
-    this.scheduleService.getAllSchedules().subscribe((data) => {
-      this.schedules = data;
+    this.loadSchedules();
+  }
+
+  loadSchedules(): void {
+    this.scheduleService.loadData();
+    this.scheduleService.getAllData().subscribe({
+      next: (schedules) => {
+        this.schedules = schedules;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des horaires', error);
+      },
     });
   }
 
   editSchedule(dayId: number) {
+    const editingSchedules = this.schedules.find((schedule) => schedule.dayId === dayId);
+    console.log(editingSchedules);
+    /* 
     this.editingSchedule = this.schedules.find((schedule) => schedule.dayId === dayId) || null;
     if (this.editingSchedule) {
       this.scheduleForm.patchValue({
@@ -103,10 +126,10 @@ export class ScheduleAdminComponent implements OnInit {
         openPmTime: this.popSeconds(this.editingSchedule.openPm),
         closePmTime: this.popSeconds(this.editingSchedule.closePm),
       });
-    }
+    } */
   }
 
-  onSaveSchedule() {
+  /*  onSaveSchedule() {
     const group = this.scheduleForm;
     let data = this.editingSchedule;
 
@@ -171,5 +194,5 @@ export class ScheduleAdminComponent implements OnInit {
     }
     const time = timeString.slice(0, -3);
     return time;
-  }
+  } */
 }

@@ -11,12 +11,13 @@ export interface SqlViewDataConfig<T> {
   }[];
   actions?: { view: boolean; edit: boolean; delete: boolean };
   formFields?: FormField[];
+  customValidators?: ValidatorFn[];
 }
 
 export interface FormField {
   label: string;
   controlName: string;
-  type: string;
+  type?: string;
   maxLength?: number;
   minRows?: number;
   maxRows?: number;

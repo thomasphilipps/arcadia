@@ -1,13 +1,12 @@
 <div class="container">
   <h1 class="m-6 has-text-centered">Horaires</h1>
 
-  <arz-list-data
+  <arz-sql-data-table
     [config]="scheduleConfig"
     (editData)="editSchedule($event)"
-    [reloadTrigger]="reloadEvent.asObservable()"
-  ></arz-list-data>
+  ></arz-sql-data-table>
 
-  @if(editingSchedule) {
+  <!--  @if(editingSchedule) {
   <h2 class="has-text-centered">Horaires d'ouverture de : {{ editingSchedule.dayName }}</h2>
   <div class="has-text-centered">
     <form [formGroup]="scheduleForm">
@@ -126,5 +125,5 @@
       </div>
     </form>
   </div>
-  }
+  } -->
 </div>

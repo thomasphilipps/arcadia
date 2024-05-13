@@ -1,7 +1,7 @@
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -44,11 +44,11 @@ export class SqlFormComponent<T> implements OnInit {
 
   ngOnInit(): void {
     this.config.formFields
-      ? (this.form = this.toFormGroup(this.config.formFields))
+      ? (this.form = this.toFormGroup(this.config.formFields, this.config.customValidators))
       : console.error('Erreur lors de la lecture des champs du formulaire.');
   }
 
-  toFormGroup(formFields: FormField[]): FormGroup {
+  toFormGroup(formFields: FormField[], validatorsOption?: ValidatorFn[]): FormGroup {
     const group: any = {};
 
     formFields.forEach((field) => {
@@ -57,7 +57,7 @@ export class SqlFormComponent<T> implements OnInit {
         : this.fb.control('');
     });
 
-    return this.fb.group(group);
+    return this.fb.group(group, { validators: validatorsOption });
   }
 
   initializeForm<T extends FormModel>(data: T | null): void {

@@ -1,5 +1,7 @@
 @if(editForm) {
 <h2 class="has-text-centered">{{ formTitle }}</h2>
+
+@switch(config.label) { @case ('Horaires') { testmachin } @default {
 <div class="columns">
   <div class="column is-half is-offset-one-quarter has-text-centered">
     <form [formGroup]="form">
@@ -97,4 +99,4 @@
     </form>
   </div>
 </div>
-}
+} } }
