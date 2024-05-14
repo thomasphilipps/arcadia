@@ -4,6 +4,7 @@ const { reviewReadAllQuery, reviewReadByIdQuery } = require('./review.queries');
 const { reportReadAllQuery, reportReadByIdQuery } = require('./report.queries');
 const { feedingReadAllQuery, feedingReadByIdQuery } = require('./feeding.queries');
 const { specieReadAllQuery, specieReadByIdQuery } = require('./specie.queries');
+const { animalReadAllQuery, animalReadByIdQuery } = require('./animal.queries');
 
 const getReadAllQuery = (modelName) => {
   switch (modelName) {
@@ -19,6 +20,8 @@ const getReadAllQuery = (modelName) => {
       return feedingReadAllQuery();
     case 'Specie':
       return specieReadAllQuery();
+    case 'Animal':
+      return animalReadAllQuery();
     default:
       return null;
   }
@@ -38,6 +41,8 @@ const getReadByIdQuery = (modelName, id) => {
       return feedingReadByIdQuery(id);
     case 'Specie':
       return specieReadByIdQuery(id);
+    case 'Animal':
+      return animalReadByIdQuery(id);
     default:
       return null;
   }

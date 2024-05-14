@@ -113,7 +113,7 @@ export class SpecieAdminComponent implements OnInit {
       .getBiomeOptions()
       .pipe(
         catchError((error) => {
-          console.error("Erreur lors de la suppression de l'espèce: ", error);
+          console.error('Erreur lors de la récupération des habitats: ', error);
           return of(null);
         })
       )
