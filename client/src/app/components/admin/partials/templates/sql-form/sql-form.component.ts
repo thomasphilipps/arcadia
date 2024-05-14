@@ -71,6 +71,10 @@ export class SqlFormComponent<T> implements OnInit {
     }
   }
 
+  onResetTime(controlName: string): void {
+    this.form.get(controlName)?.reset();
+  }
+
   onSaveData(data: T) {
     this.saveData.emit(data);
   }

@@ -4,34 +4,49 @@ export class CustomValidators {
   static timeOrderValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const group = control as FormGroup;
-      const openAmTime = convertToDate(group.get('openAmTime')?.value);
-      const closeAmTime = convertToDate(group.get('closeAmTime')?.value);
-      const openPmTime = convertToDate(group.get('openPmTime')?.value);
-      const closePmTime = convertToDate(group.get('closePmTime')?.value);
+      const openAmTime = convertToDate(group.get('openAm')?.value);
+      const closeAmTime = convertToDate(group.get('closeAm')?.value);
+      const openPmTime = convertToDate(group.get('openPm')?.value);
+      const closePmTime = convertToDate(group.get('closePm')?.value);
 
-      const isValid: boolean =
+      // Vérifications des plages horaires
+      const isValidAmTime = (time: Date | null) => !time || time.getHours() <= 12;
+      const isValidPmTime = (time: Date | null) => !time || time.getHours() > 12;
+
+      const isValid =
         (!openPmTime &&
           !closePmTime &&
-          openAmTime !== null &&
-          closeAmTime !== null &&
-          openAmTime < closeAmTime) ||
+          openAmTime &&
+          closeAmTime &&
+          openAmTime < closeAmTime &&
+          isValidAmTime(openAmTime) &&
+          isValidAmTime(closeAmTime)) ||
         (!openAmTime &&
           !closeAmTime &&
-          openPmTime !== null &&
-          closePmTime !== null &&
-          openPmTime < closePmTime) ||
-        (openAmTime !== null &&
-          closeAmTime !== null &&
-          openPmTime !== null &&
-          closePmTime !== null &&
+          openPmTime &&
+          closePmTime &&
+          openPmTime < closePmTime &&
+          isValidPmTime(openPmTime) &&
+          isValidPmTime(closePmTime)) ||
+        (openAmTime &&
+          closeAmTime &&
+          openPmTime &&
+          closePmTime &&
           openAmTime < closeAmTime &&
           closeAmTime < openPmTime &&
-          openPmTime < closePmTime) ||
-        (openAmTime !== null &&
-          closeAmTime === null &&
-          openPmTime === null &&
-          closePmTime !== null &&
-          openAmTime < closePmTime);
+          openPmTime < closePmTime &&
+          isValidAmTime(openAmTime) &&
+          isValidAmTime(closeAmTime) &&
+          isValidPmTime(openPmTime) &&
+          isValidPmTime(closePmTime)) ||
+        (openAmTime &&
+          !closeAmTime &&
+          !openPmTime &&
+          closePmTime &&
+          openAmTime < closePmTime &&
+          isValidAmTime(openAmTime) &&
+          isValidPmTime(closePmTime)) ||
+        (!openAmTime && !closeAmTime && !openPmTime && !closePmTime);
 
       return isValid ? null : { timeOrder: "L'enchaînement des horaires n'est pas conforme" };
     };

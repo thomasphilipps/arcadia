@@ -1,10 +1,13 @@
 @if(editForm) {
 <h2 class="has-text-centered">{{ formTitle }}</h2>
 
-@switch(config.label) { @case ('Horaires') { testmachin } @default {
 <div class="columns">
   <div class="column is-half is-offset-one-quarter has-text-centered">
     <form [formGroup]="form">
+      @if(form.getError('timeOrder')){
+      <mat-error class="mb-3">{{form.errors?.['timeOrder']}}</mat-error>
+      }
+      <!-- Prettier ignore -->
       @for (field of config.formFields ; track $index) {
       <div>
         @switch(field.type) {
@@ -63,6 +66,28 @@
           <mat-error>Ce champ est requis</mat-error>
           }
         </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case ('time') {
+        <mat-form-field>
+          <mat-label>{{ field.label }}</mat-label>
+          <input
+            type="time"
+            matInput
+            formControlName="{{ field.controlName }}"
+            placeholder="{{ field.placeholder }}"
+          />
+          <mat-icon
+            matSuffix
+            class="has-text-danger"
+            aria-hidden="false"
+            aria-label="Reset icon"
+            fontSet="material-symbols-outlined"
+            (click)="onResetTime(field.controlName)"
+            style="cursor: pointer"
+            >device_reset</mat-icon
+          >
+        </mat-form-field>
         } }
       </div>
       }
@@ -99,4 +124,4 @@
     </form>
   </div>
 </div>
-} } }
+}
