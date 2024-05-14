@@ -101,12 +101,10 @@ export class ScheduleAdminComponent implements OnInit {
       this.editingScheduleId = dayId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingSchedules);
-      console.log(this.sqlFormComponent.form);
     }
   }
 
   saveSchedule(data: Schedule) {
-    console.log(data);
     const operation =
       this.editingScheduleId !== null
         ? this.scheduleService.updateData(this.editingScheduleId, data)

@@ -1,8 +1,10 @@
-
 services:
-  db:
+  mysql:
     image: mysql:8.4.0
-    container_name: db
+    container_name: mysqldb
+    command: 
+      - --mysql-native-password=ON
+      - --log-bin-trust-function-creators=1
     environment:
       MYSQL_ROOT_PASSWORD: my_secret_password
       MYSQL_DATABASE: app_db
@@ -11,18 +13,48 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql
+      - mysqldbdata:/var/lib/mysql
+
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:5.2.1
     container_name: pma
     links:
-      - db
+      - mysql
     environment:
-      PMA_HOST: db
+      PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: always
     ports:
-      - 8081:80
+      - 8080:80
+
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/data/db
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: mongo-express
+    links:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    ports:
+      - "8082:8081"
+
+  maildev:
+    image: maildev/maildev;2.1.0
+    container_name: maildev
+    ports:
+      - "1080:1080"   # Web UI
+      - "1025:1025"   # SMTP server
+
 volumes:
-  dbdata:
+  mysqldbdata:
+  mongodbdata:
