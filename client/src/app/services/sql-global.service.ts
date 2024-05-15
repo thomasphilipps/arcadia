@@ -33,7 +33,7 @@ export class SqlGlobalService<T> implements DataService<T> {
     return this.dataSubject.asObservable();
   }
 
-  updateData(itemId: number, item: T): Observable<T> {
+  updateData(itemId: number | string, item: T | Partial<T>): Observable<T> {
     const httpOptions = {
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export class SqlGlobalService<T> implements DataService<T> {
     );
   }
 
-  deleteData(id: number): Observable<any> {
+  deleteData(id: number | string): Observable<any> {
     return this.http.delete(`${this.apiURL}/${id}`).pipe(
       tap((response) => {
         this.log(response);

@@ -9,6 +9,7 @@ import { OptionArray, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfi
 import { AnimalService } from '@app/services/animal.service';
 import { Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
+import { convertIsoDateToLocaleDate, toDate } from '@app/utils/utils';
 
 @Component({
   selector: 'arz-animal-admin',
@@ -23,6 +24,10 @@ export class AnimalAdminComponent implements OnInit {
   speciesOptions: OptionArray[] = [];
 
   editingAnimalId: string | null = null;
+  initialFormValues: Partial<Animal> = {};
+
+  convertDate = convertIsoDateToLocaleDate;
+  toDate = toDate;
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Animal>;
 
@@ -42,14 +47,6 @@ export class AnimalAdminComponent implements OnInit {
       actions: { view: true, edit: true, delete: true },
       formFields: [
         {
-          label: 'Nom',
-          controlName: 'animalName',
-          type: 'text',
-          maxLength: 32,
-          validators: [Validators.required, Validators.maxLength(32)],
-          placeholder: "Nom de l'animal",
-        },
-        {
           label: 'Sexe',
           controlName: 'animalGender',
           type: 'radio',
@@ -68,6 +65,23 @@ export class AnimalAdminComponent implements OnInit {
           placeholder: "Date de naissance de l'animal",
         },
         {
+          label: 'Nom',
+          controlName: 'animalName',
+          type: 'text',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: "Nom de l'animal",
+        },
+        {
+          label: 'Description',
+          controlName: 'animalDescr',
+          type: 'textarea',
+          maxLength: 255,
+          minRows: 3,
+          maxRows: 10,
+          validators: [Validators.required, Validators.maxLength(255)],
+        },
+        {
           label: 'Habitat',
           controlName: 'biomeKey',
           type: 'select',
@@ -82,15 +96,6 @@ export class AnimalAdminComponent implements OnInit {
           validators: [Validators.required],
           placeholder: "Espèce de l'animal",
         },
-        {
-          label: 'Description',
-          controlName: 'animalDescr',
-          type: 'textarea',
-          maxLength: 255,
-          minRows: 3,
-          maxRows: 10,
-          validators: [Validators.required, Validators.maxLength(255)],
-        },
       ],
     };
   }
@@ -99,27 +104,6 @@ export class AnimalAdminComponent implements OnInit {
     this.loadAnimals();
     this.getBiomeOptions();
   }
-
-  saveAnimal(animal: Animal): void {
-    console.log("Sauvegarde de l'animal:", animal);
-  }
-
-  viewAnimal(animalId: string): void {
-    const animal = this.animals.find((a) => a.animalId === animalId);
-    if (animal) {
-      console.log('Voir animal:', animal);
-    }
-  }
-
-  addAnimal() {
-    this.editingAnimalId = null;
-    this.sqlFormComponent.editForm = true;
-    this.sqlFormComponent.initializeForm(null);
-  }
-
-  editAnimal(animalId: string): void {}
-
-  deleteAnimal(animalId: string): void {}
 
   loadAnimals(): void {
     this.animalService.loadData();
@@ -131,6 +115,90 @@ export class AnimalAdminComponent implements OnInit {
         console.error('Erreur lors de la récupération des données: ', error);
       },
     });
+  }
+
+  addAnimal() {
+    this.editingAnimalId = null;
+    this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.initializeForm(null);
+  }
+
+  saveAnimal(animal: Animal): void {
+    const operation =
+      this.editingAnimalId === null
+        ? this.animalService.createData(animal)
+        : this.animalService.updateData(this.editingAnimalId, this.getChangedFields(animal));
+
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de la sauvegarde de l'animal:", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          alert('Animal sauvegardé avec succès');
+        },
+        complete: () => {
+          this.editingAnimalId = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
+      });
+  }
+
+  viewAnimal(animalId: string): void {
+    const animal = this.animals.find((a) => a.animalId === animalId);
+    if (animal) {
+      const birthDateString =
+        animal.animalBirth instanceof Date ? animal.animalBirth.toISOString() : animal.animalBirth;
+      alert(
+        `Nom de l'animal: ${animal.animalName}\n` +
+          `Sexe: ${animal.animalGender}\n` +
+          `Né le: ${this.convertDate(birthDateString)}\n` +
+          `Habitat: ${animal.animalBiome}\n` +
+          `Espèce: ${animal.animalSpecie}\n` +
+          `Description: ${animal.animalDescr}`
+      );
+    }
+  }
+
+  editAnimal(animalId: string): void {
+    const animal = this.animals.find((a) => a.animalId === animalId) || null;
+    if (animal) {
+      this.editingAnimalId = animalId;
+      this.sqlFormComponent.editForm = true;
+      this.sqlFormComponent.initializeForm(animal);
+      this.initialFormValues = this.sqlFormComponent.form.value;
+    }
+  }
+
+  deleteAnimal(animalId: string): void {
+    const animalName = this.animals.find((a) => a.animalId === animalId)?.animalName || '';
+    const message =
+      `Voulez-vous vraiment supprimer l'animal "${animalName}" ?` +
+      `\n\nCette action est irréversible !\n\n` +
+      `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
+
+    if (confirm(message)) {
+      this.animalService
+        .deleteData(animalId)
+        .pipe(
+          catchError((error) => {
+            console.error("Erreur lors de la suppression de l'animal:", error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: () => {
+            alert('Animal supprimé avec succès');
+          },
+          complete: () => {
+            this.editingAnimalId = null;
+            this.sqlFormComponent.onCancelEdit();
+          },
+        });
+    }
   }
 
   getBiomeOptions() {
@@ -170,5 +238,15 @@ export class AnimalAdminComponent implements OnInit {
         }
         this.speciesOptions = species || [];
       });
+  }
+
+  getChangedFields(animal: Animal): Partial<Animal> {
+    const changedFields: any = {};
+    (Object.keys(animal) as (keyof Animal)[]).forEach((key) => {
+      if (animal[key] !== this.initialFormValues[key]) {
+        changedFields[key] = animal[key] as Animal[keyof Animal];
+      }
+    });
+    return changedFields;
   }
 }

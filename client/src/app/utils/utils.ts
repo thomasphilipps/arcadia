@@ -1,6 +1,6 @@
 import { of, Observable } from 'rxjs';
 import { environment } from '@environments/environment.development';
-import { FormGroup } from '@angular/forms';
+import { DateTime } from 'luxon';
 
 function log(response: any): void {
   if (!environment.production) {
@@ -20,27 +20,43 @@ function truncate(text: string | null, limit: number = 50): string | null {
   return text.length > limit ? text.slice(0, limit) + '...' : text;
 }
 
-function getFormValidationErrors(formGroup: FormGroup): string[] {
-  const errorMessages: string[] = [];
+function isISODateString(dateString: string): boolean {
+  // Essayer de créer un objet Date
+  const date = new Date(dateString);
 
-  Object.keys(formGroup.controls).forEach((key) => {
-    const controlErrors = formGroup.get(key)?.errors;
-    if (controlErrors) {
-      Object.keys(controlErrors).forEach((keyError) => {
-        switch (keyError) {
-          case 'required':
-            errorMessages.push(`${key} est requis`);
-            break;
-          case 'maxlength':
-            const maxLength = controlErrors['maxlength'].requiredLength;
-            errorMessages.push(`${key} doit contenir au maximum ${maxLength} caractères`);
-            break;
-        }
-      });
-    }
-  });
+  // Vérifier si la date est invalide
+  if (isNaN(date.getTime())) {
+    return false;
+  }
 
-  return errorMessages;
+  // Vérifier si la chaîne est au format ISO 8601
+  const isoFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+  return isoFormat.test(dateString);
 }
 
-export { log, handleError, truncate, getFormValidationErrors };
+function convertIsoDateToLocaleDate(data: string): string {
+  if (!isISODateString(data)) {
+    return data;
+  }
+  const date = new Date(data);
+  return date.toLocaleDateString();
+}
+
+function toDate(input: string | Date | DateTime): Date {
+  if (input instanceof Date) {
+    return input;
+  }
+
+  if (DateTime.isDateTime(input)) {
+    return input.toJSDate();
+  }
+
+  if (typeof input === 'string' && isISODateString(input)) {
+    const date = DateTime.fromISO(input);
+    return date.toJSDate();
+  }
+
+  throw new Error('Invalid date format');
+}
+
+export { log, handleError, truncate, convertIsoDateToLocaleDate, toDate };

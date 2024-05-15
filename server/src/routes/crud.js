@@ -18,13 +18,21 @@ module.exports = (sequelize, modelName, tableName) => {
       try {
         // Model validation
         const newRecord = sequelize.model(modelName).build(req.body);
-        let userData = req.body;
+        let recordData = req.body;
 
         // Handle User model specific fields
         if (modelName === 'User') {
-          userData.userId = userData.userId || uuidv4();
-          if (userData.userPassword) {
-            userData.userPassword = await hashPassword(userData.userPassword);
+          recordData.userId = recordData.userId || uuidv4();
+          if (recordData.userPassword) {
+            recordData.userPassword = await hashPassword(recordData.userPassword);
+          }
+        }
+
+        // TODO: Generalize this for all models
+        // Generate UUID if not provided
+        if (modelName === 'Animal') {
+          if (!recordData.animalId) {
+            recordData.animalId = uuidv4();
           }
         }
 

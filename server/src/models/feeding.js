@@ -42,5 +42,13 @@ module.exports = (sequelize, DataTypes) => {
         key: 'reportId',
       },
     },
+    animalKey: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Animals',
+        key: 'animalId',
+      },
+    },
   });
 };
