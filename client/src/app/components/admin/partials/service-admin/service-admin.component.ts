@@ -125,7 +125,7 @@ export class ServiceAdminComponent implements OnInit {
 
   addService(): void {
     this.editingServiceId = null;
-    this.editingService = null;
+    this.sqlFormComponent.editForm = true;
     this.sqlFormComponent.initializeForm(null);
   }
 
@@ -144,7 +144,7 @@ export class ServiceAdminComponent implements OnInit {
 
     if (editingService) {
       this.editingServiceId = serviceId;
-      this.editingService = editingService;
+      this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingService);
     }
   }
