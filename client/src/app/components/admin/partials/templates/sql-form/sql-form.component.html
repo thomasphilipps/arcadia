@@ -78,7 +78,10 @@
         @case ('select') {
         <mat-form-field>
           <mat-label>{{ field.label }}</mat-label>
-          <mat-select formControlName="{{ field.controlName }}">
+          <mat-select
+            formControlName="{{ field.controlName }}"
+            (selectionChange)="field.controlName === 'biomeKey' && biomeChange.emit($event.value)"
+          >
             @for(option of field.selectOptions; track option) {
             <mat-option [value]="option.idValue">{{ option.label }}</mat-option>
             }

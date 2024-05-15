@@ -21,5 +21,10 @@
     </button>
   </div>
 
-  <arz-sql-form [config]="animalsConfig" (saveData)="saveAnimal($event)"></arz-sql-form>
+  <arz-sql-form
+    [config]="animalsConfig"
+    [speciesOptions]="speciesOptions"
+    (saveData)="saveAnimal($event)"
+    (biomeChange)="getSpecieByBiomeId($event)"
+  ></arz-sql-form>
 </div>

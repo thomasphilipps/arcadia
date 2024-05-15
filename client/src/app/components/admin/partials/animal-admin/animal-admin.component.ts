@@ -5,7 +5,7 @@ import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Animal } from '@app/interfaces/animal.interface';
-import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
+import { OptionArray, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { AnimalService } from '@app/services/animal.service';
 import { Validators } from '@angular/forms';
 import { catchError, of } from 'rxjs';
@@ -15,11 +15,12 @@ import { catchError, of } from 'rxjs';
   standalone: true,
   imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './animal-admin.component.html',
-  styleUrl: './animal-admin.component.scss',
+  styleUrls: ['./animal-admin.component.scss'],
 })
 export class AnimalAdminComponent implements OnInit {
   animals: Animal[] = [];
   animalsConfig: SqlViewDataConfig<Animal>;
+  speciesOptions: OptionArray[] = [];
 
   editingAnimalId: string | null = null;
 
@@ -31,30 +32,12 @@ export class AnimalAdminComponent implements OnInit {
       data: this.animalService.getAllData(),
       primaryKey: 'animalId',
       displayColumns: [
-        {
-          key: 'animalName',
-          label: 'Nom',
-        },
-        {
-          key: 'animalGender',
-          label: 'Sexe',
-        },
-        {
-          key: 'animalBirth',
-          label: 'Né le',
-        },
-        {
-          key: 'animalBiome',
-          label: 'Habitat',
-        },
-        {
-          key: 'animalSpecie',
-          label: 'Espèce',
-        },
-        {
-          key: 'animalDescr',
-          label: 'Description',
-        },
+        { key: 'animalName', label: 'Nom' },
+        { key: 'animalGender', label: 'Sexe' },
+        { key: 'animalBirth', label: 'Né le' },
+        { key: 'animalBiome', label: 'Habitat' },
+        { key: 'animalSpecie', label: 'Espèce' },
+        { key: 'animalDescr', label: 'Description' },
       ],
       actions: { view: true, edit: true, delete: true },
       formFields: [
@@ -185,6 +168,7 @@ export class AnimalAdminComponent implements OnInit {
         if (animalSpecieField) {
           animalSpecieField.selectOptions = species || [];
         }
+        this.speciesOptions = species || [];
       });
   }
 }
