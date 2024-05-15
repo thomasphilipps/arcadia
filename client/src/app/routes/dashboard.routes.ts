@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AnimalAdminComponent } from '@app/components/admin/partials/animal-admin/animal-admin.component';
 import { BiomeAdminComponent } from '@app/components/admin/partials/biome-admin/biome-admin.component';
 import { ServiceAdminComponent } from '@app/components/admin/partials/service-admin/service-admin.component';
 import { SpecieAdminComponent } from '@app/components/admin/partials/specie-admin/specie-admin.component';
@@ -38,6 +39,11 @@ export default [
         path: 'specie',
         title: 'Espèces | Arcadia admin',
         component: SpecieAdminComponent,
+      },
+      {
+        path: 'animal',
+        title: 'Animaux | Arcadia admin',
+        component: AnimalAdminComponent,
       },
     ],
   },

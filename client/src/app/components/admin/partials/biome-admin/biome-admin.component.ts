@@ -57,7 +57,7 @@ export class BiomeAdminComponent implements OnInit {
         {
           label: 'Nom',
           controlName: 'biomeName',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: "Nom de l'habitat",
@@ -165,7 +165,7 @@ export class BiomeAdminComponent implements OnInit {
     }
   }
 
-  saveBiome(data: any) {
+  saveBiome(data: Biome) {
     const operation =
       this.editingBiomeId === null
         ? this.biomeService.createData(data)

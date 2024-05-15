@@ -10,7 +10,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
-import { truncate } from '@app/utils/utils';
+import { truncate, convertIsoDateToLocaleDate } from '@app/utils/utils';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -33,6 +33,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
   displayedColumns: string[] = [];
 
   truncate = truncate;
+  convertDate = convertIsoDateToLocaleDate;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {

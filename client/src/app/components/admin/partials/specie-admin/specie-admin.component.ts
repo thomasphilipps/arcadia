@@ -57,7 +57,7 @@ export class SpecieAdminComponent implements OnInit {
         {
           label: 'Nom',
           controlName: 'specieName',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: "Nom de l'espèce",
@@ -65,7 +65,7 @@ export class SpecieAdminComponent implements OnInit {
         {
           label: 'Taxonomie',
           controlName: 'specieTaxon',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: "Taxonomie de l'espèce",
@@ -113,7 +113,7 @@ export class SpecieAdminComponent implements OnInit {
       .getBiomeOptions()
       .pipe(
         catchError((error) => {
-          console.error("Erreur lors de la suppression de l'espèce: ", error);
+          console.error('Erreur lors de la récupération des habitats: ', error);
           return of(null);
         })
       )
@@ -127,7 +127,7 @@ export class SpecieAdminComponent implements OnInit {
       });
   }
 
-  saveSpecie(data: any) {
+  saveSpecie(data: Specie) {
     const operation =
       this.editingSpecieId === null
         ? this.specieService.createData(data)
@@ -153,7 +153,6 @@ export class SpecieAdminComponent implements OnInit {
   }
 
   addSpecie() {
-    console.log('Adding specie');
     this.editingSpecieId = null;
     this.sqlFormComponent.editForm = true;
     this.sqlFormComponent.initializeForm(null);
@@ -170,7 +169,6 @@ export class SpecieAdminComponent implements OnInit {
   }
 
   editSpecie(specieId: number) {
-    console.log('Editing specie with id: ', specieId);
     const editingSpecies = this.species.find((s) => s.specieId === specieId) || null;
 
     if (editingSpecies) {

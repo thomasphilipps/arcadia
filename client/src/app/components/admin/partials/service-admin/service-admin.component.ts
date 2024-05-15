@@ -53,7 +53,7 @@ export class ServiceAdminComponent implements OnInit {
         {
           label: 'Nom',
           controlName: 'serviceName',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: 'Nom du service',
@@ -98,7 +98,7 @@ export class ServiceAdminComponent implements OnInit {
     });
   }
 
-  saveService(data: any) {
+  saveService(data: Service) {
     const operation =
       this.editingServiceId === null
         ? this.serviceService.createData(data)
@@ -125,7 +125,7 @@ export class ServiceAdminComponent implements OnInit {
 
   addService(): void {
     this.editingServiceId = null;
-    this.editingService = null;
+    this.sqlFormComponent.editForm = true;
     this.sqlFormComponent.initializeForm(null);
   }
 
@@ -144,7 +144,7 @@ export class ServiceAdminComponent implements OnInit {
 
     if (editingService) {
       this.editingServiceId = serviceId;
-      this.editingService = editingService;
+      this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingService);
     }
   }

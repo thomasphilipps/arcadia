@@ -4,7 +4,7 @@
     <ng-container matColumnDef="{{ column.key }}">
       <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ truncate(element[column.key], 80) }}
+        {{ truncate(convertDate(element[column.key]), 80) }}
       </td> </ng-container
     >} @if(config.actions) {
     <ng-container matColumnDef="actions">

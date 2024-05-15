@@ -104,6 +104,8 @@ CREATE TABLE IF NOT EXISTS
     feedingDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     feedingBy VARCHAR(36),
     reportKey INT,
+    animalKey VARCHAR(36),
+    FOREIGN KEY (animalKey) REFERENCES Animals (animalId),
     FOREIGN KEY (reportKey) REFERENCES Reports (reportId),
     FOREIGN KEY (feedingBy) REFERENCES Users (userId)
   );

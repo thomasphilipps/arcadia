@@ -5,9 +5,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angul
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormField, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  FormField,
+  OptionArray,
+  SqlViewDataConfig,
+} from '@app/interfaces/sqlViewDataConfig.interface';
 
 interface FormModel {
   [key: string]: any;
@@ -16,6 +24,7 @@ interface FormModel {
 @Component({
   selector: 'arz-sql-form',
   standalone: true,
+  providers: [provideLuxonDateAdapter(), { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -24,16 +33,20 @@ interface FormModel {
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatRadioModule,
+    MatDatepickerModule,
     TextFieldModule,
     CdkTextareaAutosize,
   ],
   templateUrl: './sql-form.component.html',
-  styleUrl: './sql-form.component.scss',
+  styleUrls: ['./sql-form.component.scss'],
 })
 export class SqlFormComponent<T> implements OnInit {
   @Input() config!: SqlViewDataConfig<T>;
+  @Input() speciesOptions: OptionArray[] = [];
   @Output() saveData = new EventEmitter<T>();
   @Output() cancel = new EventEmitter<void>();
+  @Output() biomeChange = new EventEmitter<number>();
 
   form!: FormGroup;
 
@@ -46,6 +59,17 @@ export class SqlFormComponent<T> implements OnInit {
     this.config.formFields
       ? (this.form = this.toFormGroup(this.config.formFields, this.config.customValidators))
       : console.error('Erreur lors de la lecture des champs du formulaire.');
+
+    // AnimalAdminComponent specific code
+    this.form.get('biomeKey')?.valueChanges.subscribe((biomeId) => {
+      this.speciesOptions = [];
+      if (biomeId) {
+        this.form.get('specieKey')?.enable();
+        this.biomeChange.emit(biomeId);
+      } else {
+        this.form.get('specieKey')?.disable();
+      }
+    });
   }
 
   toFormGroup(formFields: FormField[], validatorsOption?: ValidatorFn[]): FormGroup {
