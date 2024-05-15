@@ -188,15 +188,3 @@ VALUES
   ('Vendredi'),
   ('Samedi'),
   ('Dimanche');
-
-  -- Initial biomes
-INSERT INTO `Biomes` (`biomeId`, `biomeName`, `biomeShortDescr`, `biomeLongDescr`, `biomeStatus`) VALUES
-(1, 'Savane', 'Une vaste plaine herbeuse avec des arbres dispersés', 'La savane est un biome ouvert caractérisé par des herbes hautes et des arbres clairsemés. Elle est principalement située dans les régions tropicales et subtropicales où la saison des pluies est suivie par une longue saison sèche. Ce biome soutient une grande diversité d\'herbivores, ce qui, à son tour, attire de nombreux prédateurs.', NULL),
-(2, 'Jungle', 'Une forêt tropicale dense et riche en vie', 'La jungle, caractérisée par sa densité végétale élevée, est un habitat crucial pour des milliers d\'espèces animales et végétales. Avec une canopée épaisse et un sous-bois riche, elle est essentielle pour la régulation du climat mondial et le stockage du carbone. La diversité biologique dans les jungles est parmi les plus élevées sur Terre.', NULL),
-(3, 'Marais', 'Un habitat humide riche en biodiversité', 'Les marais sont des écosystèmes humides où l\'eau est présente en grande quantité toute l\'année. Ils abritent une variété d\'espèces de plantes aquatiques et terrestres ainsi que de nombreux animaux, des oiseaux aux reptiles. Ces zones jouent un rôle crucial dans la régulation des cycles de l\'eau et sont des sites importants pour la biodiversité.', NULL);
-
--- Initial services
-INSERT INTO `Services` (`serviceId`, `serviceName`, `serviceShortDescr`, `serviceLongDescr`) VALUES
-(1, 'Zoo Gourmet', 'Restauration diversifiée au cœur du zoo', 'Zoo Gourmet offre une expérience culinaire unique pour nos visiteurs avec une sélection de plats inspirés de la cuisine du monde entier. Situé au centre du zoo, notre service comprend des options végétariennes, des grillades, des rafraîchissements et des plats adaptés aux enfants. Profitez d\'un repas tranquille tout en observant la beauté de la nature et la diversité des animaux du zoo.'),
-(2, 'Visite guidée', 'Visite guidée gratuite du zoo', 'Profitez d\'une expérience enrichissante avec nos visites guidées gratuites, disponibles tous les jours. Nos guides experts vous emmèneront à travers divers habitats du zoo, vous fourniront des informations détaillées sur les espèces que nous hébergeons et les efforts de conservation en cours. C\'est une opportunité parfaite pour les familles, les étudiants et les passionnés de nature d\'apprendre tout en explorant le zoo de manière interactive et éducative.'),
-(3, 'Zoo Express Train', 'Circuit en petit train à travers le zoo', 'Découvrez le Zoo Express Train, notre service de petit train qui offre une visite panoramique du zoo. Parfait pour les familles et les visiteurs qui souhaitent découvrir les différentes zones du zoo sans se fatiguer. Le train passe par tous les principaux habitats et points d\'intérêt, permettant aux visiteurs de voir les animaux de près tout en apprenant sur eux grâce à un commentaire audio disponible en plusieurs langues.');

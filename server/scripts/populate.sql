@@ -6,14 +6,14 @@ INSERT INTO `Users` (`userId`, `userEmail`, `userName`, `userPassword`, `userRol
 ('51347675-b55a-4cbc-855f-2576d39f9b72', 'paul@zoo-arcadia.com', 'Paul', '$2b$10$NFo2YBcgotmm0JPX2YWsT.qrNS26zYEfu2D5pk1HDDYCHGyXLwtSe', 'ROLE_EMPLOYEE');
 
   -- Initial schedules
-INSERT INTO `Schedules` (`dayId`, `dayName`, `openAm`, `closeAm`, `openPm`, `closePm`) VALUES
-(1, 'Lundi', '09:30:00', NULL, NULL, '18:00:00'),
-(2, 'Mardi', '09:30:00', NULL, NULL, '18:00:00'),
-(3, 'Mercredi', '09:30:00', NULL, NULL, '19:30:00'),
-(4, 'Jeudi', '09:30:00', NULL, NULL, '18:00:00'),
-(5, 'Vendredi', '09:30:00', NULL, NULL, '18:00:00'),
-(6, 'Samedi', '09:30:00', NULL, NULL, '19:30:00'),
-(7, 'Dimanche', NULL, NULL, NULL, NULL);
+UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '18:00:00' WHERE `dayId` = 1;
+UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '18:00:00' WHERE `dayId` = 2;
+UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '19:30:00' WHERE `dayId` = 3;
+UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '18:00:00' WHERE `dayId` = 4;
+UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '18:00:00' WHERE `dayId` = 5;
+UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '19:30:00' WHERE `dayId` = 6;
+UPDATE `Schedules` SET `openAm` = NULL, `closeAm` = NULL, `openPm` = NULL, `closePm` = NULL WHERE `dayId` = 7;
+
 
   -- Initial biomes
 INSERT INTO `Biomes` (`biomeId`, `biomeName`, `biomeShortDescr`, `biomeLongDescr`, `biomeStatus`) VALUES
