@@ -165,7 +165,7 @@ export class BiomeAdminComponent implements OnInit {
     }
   }
 
-  saveBiome(data: any) {
+  saveBiome(data: Biome) {
     const operation =
       this.editingBiomeId === null
         ? this.biomeService.createData(data)

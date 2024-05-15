@@ -127,7 +127,7 @@ export class SpecieAdminComponent implements OnInit {
       });
   }
 
-  saveSpecie(data: any) {
+  saveSpecie(data: Specie) {
     const operation =
       this.editingSpecieId === null
         ? this.specieService.createData(data)
@@ -169,7 +169,6 @@ export class SpecieAdminComponent implements OnInit {
   }
 
   editSpecie(specieId: number) {
-    console.log('Editing specie with id: ', specieId);
     const editingSpecies = this.species.find((s) => s.specieId === specieId) || null;
 
     if (editingSpecies) {

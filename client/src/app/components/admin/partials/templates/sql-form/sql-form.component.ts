@@ -60,6 +60,7 @@ export class SqlFormComponent<T> implements OnInit {
       ? (this.form = this.toFormGroup(this.config.formFields, this.config.customValidators))
       : console.error('Erreur lors de la lecture des champs du formulaire.');
 
+    // AnimalAdminComponent specific code
     this.form.get('biomeKey')?.valueChanges.subscribe((biomeId) => {
       this.speciesOptions = [];
       if (biomeId) {

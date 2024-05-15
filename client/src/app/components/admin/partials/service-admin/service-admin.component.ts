@@ -98,7 +98,7 @@ export class ServiceAdminComponent implements OnInit {
     });
   }
 
-  saveService(data: any) {
+  saveService(data: Service) {
     const operation =
       this.editingServiceId === null
         ? this.serviceService.createData(data)

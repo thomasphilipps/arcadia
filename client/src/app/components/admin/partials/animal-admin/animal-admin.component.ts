@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { Validators } from '@angular/forms';
+
+import { catchError, of } from 'rxjs';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+
+import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
 import { Animal } from '@app/interfaces/animal.interface';
 import { OptionArray, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { AnimalService } from '@app/services/animal.service';
-import { Validators } from '@angular/forms';
-import { catchError, of } from 'rxjs';
 import { convertIsoDateToLocaleDate, toDate } from '@app/utils/utils';
 
 @Component({
@@ -123,30 +126,6 @@ export class AnimalAdminComponent implements OnInit {
     this.sqlFormComponent.initializeForm(null);
   }
 
-  saveAnimal(animal: Animal): void {
-    const operation =
-      this.editingAnimalId === null
-        ? this.animalService.createData(animal)
-        : this.animalService.updateData(this.editingAnimalId, this.getChangedFields(animal));
-
-    operation
-      .pipe(
-        catchError((error) => {
-          console.error("Erreur lors de la sauvegarde de l'animal:", error);
-          return of(null);
-        })
-      )
-      .subscribe({
-        next: (result) => {
-          alert('Animal sauvegardé avec succès');
-        },
-        complete: () => {
-          this.editingAnimalId = null;
-          this.sqlFormComponent.onCancelEdit();
-        },
-      });
-  }
-
   viewAnimal(animalId: string): void {
     const animal = this.animals.find((a) => a.animalId === animalId);
     if (animal) {
@@ -201,6 +180,30 @@ export class AnimalAdminComponent implements OnInit {
     }
   }
 
+  saveAnimal(animal: Animal): void {
+    const operation =
+      this.editingAnimalId === null
+        ? this.animalService.createData(animal)
+        : this.animalService.updateData(this.editingAnimalId, this.getChangedFields(animal));
+
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de la sauvegarde de l'animal:", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          alert('Animal sauvegardé avec succès');
+        },
+        complete: () => {
+          this.editingAnimalId = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
+      });
+  }
+
   getBiomeOptions() {
     this.animalService
       .getBiomeOptions()
@@ -240,6 +243,7 @@ export class AnimalAdminComponent implements OnInit {
       });
   }
 
+  // TODO: Move this method to a shared service
   getChangedFields(animal: Animal): Partial<Animal> {
     const changedFields: any = {};
     (Object.keys(animal) as (keyof Animal)[]).forEach((key) => {
