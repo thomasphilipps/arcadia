@@ -2,11 +2,16 @@ import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FormField, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 
 interface FormModel {
@@ -16,6 +21,7 @@ interface FormModel {
 @Component({
   selector: 'arz-sql-form',
   standalone: true,
+  providers: [provideLuxonDateAdapter(), { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -24,6 +30,8 @@ interface FormModel {
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatRadioModule,
+    MatDatepickerModule,
     TextFieldModule,
     CdkTextareaAutosize,
   ],

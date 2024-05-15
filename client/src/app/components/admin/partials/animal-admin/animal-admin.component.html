@@ -1,1 +1,25 @@
-<p>animal-admin works!</p>
+<div class="container">
+  <h1 class="m-6 has-text-centered">Animaux</h1>
+
+  <arz-sql-data-table
+    [config]="animalsConfig"
+    (viewData)="viewAnimal($event)"
+    (editData)="editAnimal($event)"
+    (deleteData)="deleteAnimal($event)"
+  ></arz-sql-data-table>
+
+  <div class="has-text-right mr-5">
+    <button mat-fab class="has-text-primary" (click)="addAnimal()">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add icon"
+        fontSet="material-symbols-outlined"
+        style="color: white"
+      >
+        add
+      </mat-icon>
+    </button>
+  </div>
+
+  <arz-sql-form [config]="animalsConfig" (saveData)="saveAnimal($event)"></arz-sql-form>
+</div>

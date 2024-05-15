@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { Animal } from '@app/interfaces/animal.interface';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { AnimalService } from '@app/services/animal.service';
+import { Validators } from '@angular/forms';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'arz-animal-admin',
@@ -55,12 +57,86 @@ export class AnimalAdminComponent implements OnInit {
         },
       ],
       actions: { view: true, edit: true, delete: true },
+      formFields: [
+        {
+          label: 'Nom',
+          controlName: 'animalName',
+          type: 'text',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: "Nom de l'animal",
+        },
+        {
+          label: 'Sexe',
+          controlName: 'animalGender',
+          type: 'radio',
+          radioOptions: [
+            { idValue: 'Mâle', label: 'Mâle' },
+            { idValue: 'Femelle', label: 'Femelle' },
+          ],
+          validators: [Validators.required],
+          placeholder: 'Mâle ou Femelle',
+        },
+        {
+          label: 'Né le',
+          controlName: 'animalBirth',
+          type: 'date',
+          validators: [Validators.required],
+          placeholder: "Date de naissance de l'animal",
+        },
+        {
+          label: 'Habitat',
+          controlName: 'biomeKey',
+          type: 'select',
+          validators: [Validators.required],
+          placeholder: "Habitat de l'animal",
+        },
+        {
+          label: 'Espèce',
+          controlName: 'specieKey',
+          type: 'select',
+          selectOptions: [],
+          validators: [Validators.required],
+          placeholder: "Espèce de l'animal",
+        },
+        {
+          label: 'Description',
+          controlName: 'animalDescr',
+          type: 'textarea',
+          maxLength: 255,
+          minRows: 3,
+          maxRows: 10,
+          validators: [Validators.required, Validators.maxLength(255)],
+        },
+      ],
     };
   }
 
   ngOnInit(): void {
     this.loadAnimals();
+    this.getBiomeOptions();
   }
+
+  saveAnimal(animal: Animal): void {
+    console.log("Sauvegarde de l'animal:", animal);
+  }
+
+  viewAnimal(animalId: string): void {
+    const animal = this.animals.find((a) => a.animalId === animalId);
+    if (animal) {
+      console.log('Voir animal:', animal);
+    }
+  }
+
+  addAnimal() {
+    this.editingAnimalId = null;
+    this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.initializeForm(null);
+  }
+
+  editAnimal(animalId: string): void {}
+
+  deleteAnimal(animalId: string): void {}
 
   loadAnimals(): void {
     this.animalService.loadData();
@@ -72,5 +148,43 @@ export class AnimalAdminComponent implements OnInit {
         console.error('Erreur lors de la récupération des données: ', error);
       },
     });
+  }
+
+  getBiomeOptions() {
+    this.animalService
+      .getBiomeOptions()
+      .pipe(
+        catchError((error) => {
+          console.error('Erreur lors de la récupération des habitats: ', error);
+          return of(null);
+        })
+      )
+      .subscribe((biomes) => {
+        const animalBiomeField = this.animalsConfig.formFields?.find(
+          (field) => field.controlName === 'biomeKey'
+        );
+        if (animalBiomeField) {
+          animalBiomeField.selectOptions = biomes || [];
+        }
+      });
+  }
+
+  getSpecieByBiomeId(biomeId: number) {
+    this.animalService
+      .getSpecieByBiomeId(biomeId)
+      .pipe(
+        catchError((error) => {
+          console.error('Erreur lors de la récupération des espèces: ', error);
+          return of(null);
+        })
+      )
+      .subscribe((species) => {
+        const animalSpecieField = this.animalsConfig.formFields?.find(
+          (field) => field.controlName === 'specieKey'
+        );
+        if (animalSpecieField) {
+          animalSpecieField.selectOptions = species || [];
+        }
+      });
   }
 }

@@ -12,10 +12,11 @@
       <div>
         @switch(field.type) {
         <!-- Prettier ignore -->
-        @case('input') {
+        @case('text') {
         <mat-form-field class="full-width">
           <mat-label>{{ field.label }}</mat-label>
           <input
+            type="text"
             matInput
             formControlName="{{ field.controlName }}"
             placeholder="{{ field.placeholder }}"
@@ -29,6 +30,26 @@
           <mat-error>{{ field.label }} trop long</mat-error>
           }
         </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case ('date') {
+        <div class="has-text-left">
+          <mat-form-field>
+            <mat-label>{{ field.label }}</mat-label>
+            <input
+              matInput
+              formControlName="{{ field.controlName }}"
+              placeholder="{{ field.placeholder }}"
+              [matDatepicker]="picker"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if(form.get(field.controlName)?.hasError('required')) {
+            <mat-error>Ce champ est requis</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
         }
         <!-- Prettier ignore -->
         @case ('textarea') {
@@ -88,6 +109,21 @@
             >device_reset</mat-icon
           >
         </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case('radio') {
+        <div class="mb-3 has-text-left">
+          <label>{{ field.label }}</label>
+          <mat-radio-group formControlName="{{ field.controlName }}">
+            @for(option of field.radioOptions; track option) {
+            <mat-radio-button [value]="option.idValue">{{ option.label }}</mat-radio-button>
+            }
+          </mat-radio-group>
+          @if(form.get(field.controlName)?.hasError('required') &&
+          !form.get(field.controlName)?.untouched) {
+          <mat-error>Veuillez sélectionner une option</mat-error>
+          }
+        </div>
         } }
       </div>
       }

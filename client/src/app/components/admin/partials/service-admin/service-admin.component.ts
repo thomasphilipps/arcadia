@@ -53,7 +53,7 @@ export class ServiceAdminComponent implements OnInit {
         {
           label: 'Nom',
           controlName: 'serviceName',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: 'Nom du service',

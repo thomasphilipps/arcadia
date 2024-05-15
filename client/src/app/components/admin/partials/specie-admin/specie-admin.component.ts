@@ -57,7 +57,7 @@ export class SpecieAdminComponent implements OnInit {
         {
           label: 'Nom',
           controlName: 'specieName',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: "Nom de l'espèce",
@@ -65,7 +65,7 @@ export class SpecieAdminComponent implements OnInit {
         {
           label: 'Taxonomie',
           controlName: 'specieTaxon',
-          type: 'input',
+          type: 'text',
           maxLength: 32,
           validators: [Validators.required, Validators.maxLength(32)],
           placeholder: "Taxonomie de l'espèce",
@@ -153,7 +153,6 @@ export class SpecieAdminComponent implements OnInit {
   }
 
   addSpecie() {
-    console.log('Adding specie');
     this.editingSpecieId = null;
     this.sqlFormComponent.editForm = true;
     this.sqlFormComponent.initializeForm(null);
