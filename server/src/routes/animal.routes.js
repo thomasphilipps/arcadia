@@ -1,6 +1,6 @@
 const { authenticate } = require('../middlewares/auth');
 const { sequelize } = require('../config/database');
-const crud = require('./crud')(sequelize, 'Feeding', 'Feedings');
+const crud = require('./crud')(sequelize, 'Animal', 'Animals');
 
 module.exports = (app) => {
   app.post('/api/animals/', crud.create);
