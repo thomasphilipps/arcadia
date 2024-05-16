@@ -1,1 +1,9 @@
-<p>user-admin works!</p>
+<div class="container">
+  <h1 class="m-6 has-text-centered">Utilisateurs</h1>
+
+  <arz-sql-data-table
+    [config]="userConfig"
+    (viewData)="viewUser($event)"
+    (deleteData)="deleteUser($event)"
+  ></arz-sql-data-table>
+</div>
