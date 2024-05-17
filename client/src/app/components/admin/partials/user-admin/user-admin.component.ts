@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { User } from '@app/interfaces/user.interface';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { UserService } from '@app/services/user.service';
+import { MailingService } from '@app/services/mailing.service';
+import { MailConfig } from '@app/interfaces/mail.interface';
 
 @Component({
   selector: 'arz-user-admin',
@@ -24,7 +26,7 @@ export class UserAdminComponent implements OnInit {
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<User>;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private mailingService: MailingService) {
     this.userConfig = {
       label: 'Utilisateurs',
       data: this.userService.getAllData(),
@@ -62,5 +64,23 @@ export class UserAdminComponent implements OnInit {
 
   deleteUser(userId: string) {
     console.log(`Suppression de l'utilisateur : ${userId}`);
+  }
+
+  sendMail() {
+    const mailContent: MailConfig = {
+      to: 'toto@letoto.com',
+      subject: 'Test',
+      text: 'Test',
+      html: '<h1>Test</h1>',
+    };
+
+    this.mailingService.sendEmail(mailContent).subscribe({
+      next: (response) => {
+        console.log('Email envoyé avec succès: ', response);
+      },
+      error: (error) => {
+        console.error("Erreur lors de l'envoi de l'email: ", error);
+      },
+    });
   }
 }

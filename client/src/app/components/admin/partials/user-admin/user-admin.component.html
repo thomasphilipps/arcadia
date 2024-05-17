@@ -6,4 +6,17 @@
     (viewData)="viewUser($event)"
     (deleteData)="deleteUser($event)"
   ></arz-sql-data-table>
+
+  <div class="has-text-right mr-5">
+    <button mat-fab class="has-text-primary" (click)="sendMail()">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add icon"
+        fontSet="material-symbols-outlined"
+        style="color: white"
+      >
+        add
+      </mat-icon>
+    </button>
+  </div>
 </div>
