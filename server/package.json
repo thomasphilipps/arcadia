@@ -4,7 +4,7 @@
   "description": "API for Zoo Arcadia app",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config ./server.js dotenv_config_path=../.env.local",
+    "dev": "nodemon -r dotenv/config ./server.js dotenv_config_path=../.env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
