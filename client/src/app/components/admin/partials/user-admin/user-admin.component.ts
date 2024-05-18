@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,10 @@ import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { UserService } from '@app/services/user.service';
 import { MailingService } from '@app/services/mailing.service';
 import { MailConfig } from '@app/interfaces/mail.interface';
+import { ROLE_LABELS } from '@app/utils/role-constants';
+import { Validators } from '@angular/forms';
+import { CustomValidators } from '@app/validators/custom.validators';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'arz-user-admin',
@@ -17,7 +21,7 @@ import { MailConfig } from '@app/interfaces/mail.interface';
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.scss',
 })
-export class UserAdminComponent implements OnInit {
+export class UserAdminComponent implements OnInit, AfterViewInit {
   users: User[] = [];
   userConfig: SqlViewDataConfig<User>;
 
@@ -37,6 +41,56 @@ export class UserAdminComponent implements OnInit {
         { key: 'userRole', label: 'Rôle' },
       ],
       actions: { view: true, edit: false, delete: true },
+      formFields: [
+        {
+          label: 'Rôle',
+          controlName: 'userRole',
+          type: 'select',
+          selectOptions: [
+            { idValue: 'ROLE_EMPLOYEE', label: 'Employé' },
+            { idValue: 'ROLE_VETERINARY', label: 'Vétérinaire' },
+          ],
+          validators: [Validators.required],
+          placeholder: "Rôle de l'utilisateur",
+        },
+        {
+          label: 'Nom',
+          controlName: 'userName',
+          type: 'text',
+          maxLength: 32,
+          validators: [
+            Validators.required,
+            Validators.maxLength(32),
+            CustomValidators.nameFormat(),
+          ],
+          placeholder: "Nom de l'utilisateur",
+        },
+        {
+          label: 'Email',
+          controlName: 'userEmail',
+          type: 'text',
+          maxLength: 255,
+          validators: [
+            Validators.required,
+            Validators.email,
+            Validators.maxLength(255),
+            CustomValidators.uniqueEmail(this.users),
+          ],
+          placeholder: "Email de l'utilisateur",
+        },
+        {
+          label: 'Mot de passe',
+          controlName: 'userPassword',
+          type: 'password',
+          maxLength: 64,
+          validators: [
+            Validators.required,
+            Validators.maxLength(64),
+            CustomValidators.passwordComplexity(),
+          ],
+          placeholder: "Mot de passe de l'utilisateur",
+        },
+      ],
     };
   }
 
@@ -44,11 +98,17 @@ export class UserAdminComponent implements OnInit {
     this.loadUsers();
   }
 
-  loadUsers(): void {
+  ngAfterViewInit(): void {
+    // Update email validator after view init
+    this.updateEmailValidator();
+  }
+
+  loadUsers() {
     this.userService.loadData();
     this.userService.getAllData().subscribe({
       next: (users) => {
         this.users = users;
+        //this.updateEmailValidator();
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données: ', error);
@@ -56,14 +116,76 @@ export class UserAdminComponent implements OnInit {
     });
   }
 
-  addUser(): void {}
+  addUser() {
+    this.editingUserId = null;
+    this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.initializeForm(null);
+    this.updateEmailValidator();
+  }
 
   viewUser(userId: string): void {
     console.log(`Affichage de l'utilisateur : ${userId}`);
+    const user = this.users.find((u) => u.userId === userId);
+    if (user) {
+      alert(
+        `Nom: ${user.userName}\n\nEmail: ${user.userEmail}\n\n` +
+          `Rôle: ${this.getRoleLabel(user.userRole)}`
+      );
+    }
   }
 
   deleteUser(userId: string) {
     console.log(`Suppression de l'utilisateur : ${userId}`);
+    const userName = this.users.find((u) => u.userId === userId)?.userName;
+    const message =
+      `Voulez-vous vraiment supprimer l'utilisateur "${userName}" ?` +
+      `\n\nCette action est irréversible !\n\n` +
+      `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
+
+    if (confirm(message)) {
+      this.userService
+        .deleteData(userId)
+        .pipe(
+          catchError((error) => {
+            console.error("Erreur lors de la suppression de l'utilisateur", error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: () => {
+            alert('Utilisateur supprimé avec succès');
+          },
+          complete: () => {
+            this.editingUserId = null;
+            this.sqlFormComponent.onCancelEdit();
+          },
+        });
+    }
+  }
+
+  saveUser(user: User) {
+    console.log("Sauvegarde de l'utilisateur: ", user);
+    const operation =
+      this.editingUserId === null
+        ? this.userService.createData(user)
+        : this.userService.updateData(this.editingUserId, this.getChangedFields(user));
+
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de la sauvegarde de l'utilisateur: ", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: () => {
+          alert('Utilisateur sauvegardé avec succès');
+        },
+        complete: () => {
+          this.editingUserId = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
+      });
   }
 
   sendMail() {
@@ -82,5 +204,33 @@ export class UserAdminComponent implements OnInit {
         console.error("Erreur lors de l'envoi de l'email: ", error);
       },
     });
+  }
+
+  getRoleLabel(role: string): string {
+    return ROLE_LABELS[role] || role;
+  }
+
+  updateEmailValidator() {
+    const emailControl = this.sqlFormComponent.form.get('userEmail');
+    if (emailControl) {
+      const validators = [
+        Validators.required,
+        Validators.email,
+        Validators.maxLength(255),
+        CustomValidators.uniqueEmail(this.users),
+      ];
+      emailControl.setValidators(validators);
+      emailControl.updateValueAndValidity();
+    }
+  }
+
+  getChangedFields(user: User): Partial<User> {
+    const changedFields: any = {};
+    (Object.keys(user) as (keyof User)[]).forEach((key) => {
+      if (user[key] !== this.initialFormValues[key]) {
+        changedFields[key] = user[key] as User[keyof User];
+      }
+    });
+    return changedFields;
   }
 }
