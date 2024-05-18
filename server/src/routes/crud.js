@@ -22,7 +22,9 @@ module.exports = (sequelize, modelName, tableName) => {
 
         // Handle User model specific fields
         if (modelName === 'User') {
-          recordData.userId = recordData.userId || uuidv4();
+          if (!recordData.userId) {
+            recordData.userId = uuidv4();
+          }
           if (recordData.userPassword) {
             recordData.userPassword = await hashPassword(recordData.userPassword);
           }
@@ -39,8 +41,8 @@ module.exports = (sequelize, modelName, tableName) => {
         await newRecord.validate();
 
         // Create record if validation passed
-        const keys = Object.keys(req.body);
-        const values = keys.map((key) => req.body[key]);
+        const keys = Object.keys(recordData);
+        const values = keys.map((key) => recordData[key]);
         const sql = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${keys
           .map(() => '?')
           .join(', ')})`;
@@ -52,19 +54,23 @@ module.exports = (sequelize, modelName, tableName) => {
 
         // Fetching the newly created record by ID
         const primaryKeyField = sequelize.model(modelName).primaryKeyAttribute;
-        const lastId = result[0];
+        const lastId = recordData[primaryKeyField]
+          ? recordData[primaryKeyField]
+          : result[0].toString();
+
         let fetchSql =
           getReadByIdQuery(modelName, lastId) ||
           `SELECT * FROM ${tableName} WHERE ${primaryKeyField} = ?`;
 
         const [lastRecord] = await sequelize.query(fetchSql, {
           replacements: [lastId],
+          type: sequelize.QueryTypes.SELECT,
         });
 
         if (lastRecord.length === 0) {
-          return res.status(404).json({ error: `${modelName} avec id: ${id} introuvable` });
+          return res.status(404).json({ error: `${modelName} avec id: ${lastId} introuvable` });
         }
-        res.status(200).json(lastRecord[0]);
+        res.status(200).json(lastRecord);
       } catch (error) {
         // Error handling
         if (

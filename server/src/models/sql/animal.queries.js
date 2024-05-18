@@ -18,7 +18,7 @@ const animalReadByIdQuery = (id) => {
     FROM Animals
     LEFT JOIN Species ON Animals.specieKey = Species.specieId
     LEFT JOIN Biomes ON Animals.biomeKey = Biomes.biomeId
-    WHERE animalId = ${id}`;
+    WHERE animalId = '${id}'`;
 };
 
 module.exports = {

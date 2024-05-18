@@ -24,6 +24,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
   private subscription!: Subscription;
 
   @Input() config!: SqlViewDataConfig<T>;
+  @Input() getRoleLabel!: (role: string) => string;
 
   @Output() editData = new EventEmitter();
   @Output() deleteData = new EventEmitter();

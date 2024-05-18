@@ -13,6 +13,7 @@ import { Animal } from '@app/interfaces/animal.interface';
 import { OptionArray, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { AnimalService } from '@app/services/animal.service';
 import { convertIsoDateToLocaleDate, toDate } from '@app/utils/utils';
+import { CustomValidators } from '@app/validators/custom.validators';
 
 @Component({
   selector: 'arz-animal-admin',
@@ -72,7 +73,11 @@ export class AnimalAdminComponent implements OnInit {
           controlName: 'animalName',
           type: 'text',
           maxLength: 32,
-          validators: [Validators.required, Validators.maxLength(32)],
+          validators: [
+            Validators.required,
+            Validators.maxLength(32),
+            CustomValidators.nameFormat(),
+          ],
           placeholder: "Nom de l'animal",
         },
         {

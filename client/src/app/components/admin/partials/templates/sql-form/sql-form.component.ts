@@ -49,6 +49,7 @@ export class SqlFormComponent<T> implements OnInit {
   @Output() biomeChange = new EventEmitter<number>();
 
   form!: FormGroup;
+  hide: boolean = true;
 
   editForm: boolean = false;
   formTitle: string | null = null;

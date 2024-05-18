@@ -4,7 +4,7 @@
   "description": "API for Zoo Arcadia app",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config ./server.js dotenv_config_path=../.env.local",
+    "dev": "nodemon -r dotenv/config ./server.js dotenv_config_path=../.env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "express-rate-limit": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.6",
+    "nodemailer": "^6.9.13",
     "sequelize": "^6.37.2",
     "uuid": "^9.0.1"
   },

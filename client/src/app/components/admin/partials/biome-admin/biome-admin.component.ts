@@ -12,6 +12,7 @@ import { BiomeService } from '@app/services/biome.service';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { CustomValidators } from '@app/validators/custom.validators';
 
 @Component({
   selector: 'arz-biome-admin',
@@ -59,7 +60,11 @@ export class BiomeAdminComponent implements OnInit {
           controlName: 'biomeName',
           type: 'text',
           maxLength: 32,
-          validators: [Validators.required, Validators.maxLength(32)],
+          validators: [
+            Validators.required,
+            Validators.maxLength(32),
+            CustomValidators.nameFormat(),
+          ],
           placeholder: "Nom de l'habitat",
         },
         {

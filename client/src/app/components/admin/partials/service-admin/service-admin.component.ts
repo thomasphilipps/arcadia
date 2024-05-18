@@ -12,6 +12,7 @@ import { ServiceService } from '@app/services/service.service';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { CustomValidators } from '@app/validators/custom.validators';
 
 @Component({
   selector: 'arz-service-admin',
@@ -55,7 +56,11 @@ export class ServiceAdminComponent implements OnInit {
           controlName: 'serviceName',
           type: 'text',
           maxLength: 32,
-          validators: [Validators.required, Validators.maxLength(32)],
+          validators: [
+            Validators.required,
+            Validators.maxLength(32),
+            CustomValidators.nameFormat(),
+          ],
           placeholder: 'Nom du service',
         },
         {

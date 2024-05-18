@@ -28,6 +28,44 @@
           <mat-error>Ce champ est requis</mat-error>
           } @if(form.get(field.controlName)?.hasError('maxlength')) {
           <mat-error>{{ field.label }} trop long</mat-error>
+          } @if(form.get(field.controlName)?.hasError('email')) {
+          <mat-error>Adresse email invalide</mat-error>
+          } @if(form.get(field.controlName)?.hasError('nameFormat')) {
+          <mat-error>{{ form.get(field.controlName)?.getError('nameFormat') }}</mat-error>
+          } @if(form.get(field.controlName)?.hasError('uniqueEmail')) {
+          <mat-error>{{ form.get(field.controlName)?.getError('uniqueEmail') }}</mat-error>
+          }
+        </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case('password') {
+        <mat-form-field class="full-width">
+          <mat-label>{{ field.label }}</mat-label>
+          <input
+            matInput
+            type="{{ hide ? 'password' : 'text' }}"
+            formControlName="{{ field.controlName }}"
+            placeholder="{{ field.placeholder }}"
+          />
+          <mat-icon
+            matSuffix
+            aria-hidden="false"
+            aria-label="Reset icon"
+            fontSet="material-symbols-outlined"
+            (click)="hide = !hide"
+            >{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon
+          >
+          <mat-hint align="end">
+            12 caractères mini & 3 parmi: majuscule, minuscule, chiffre, caractère spécial
+          </mat-hint>
+          @if(form.get(field.controlName)?.hasError('required')) {
+          <mat-error>Ce champ est requis</mat-error>
+          } @if(form.get(field.controlName)?.hasError('maxlength')) {
+          <mat-error>{{ field.label }} trop long</mat-error>
+          } @if(form.get(field.controlName)?.hasError('passwordComplexity')){
+          <mat-error class="mb-3">{{
+            form.get(field.controlName)?.getError('passwordComplexity')
+          }}</mat-error>
           }
         </mat-form-field>
         }
@@ -130,7 +168,7 @@
         } }
       </div>
       }
-      <div class="level">
+      <div class="level mt-3">
         <div class="level-right"></div>
         <div class="level-left has-text-centered">
           <div class="level-item">
