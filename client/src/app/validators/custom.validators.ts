@@ -95,12 +95,15 @@ export class CustomValidators {
       }
 
       const namePattern =
-        /^(?![ -]+$)[a-zA-ZàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ]{2}[a-zA-ZàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\- ]*$/;
+        /^(?![ '-]+$)[a-zA-ZàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ]{2}[a-zA-ZàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\- ']*$/;
       const isValid = namePattern.test(value);
 
       return isValid
         ? null
-        : { nameFormat: 'La chaîne ne peut contenir que des lettres, espaces et tirets' };
+        : {
+            nameFormat:
+              'La chaîne ne peut contenir que des lettres, espaces, apostrophes et tirets',
+          };
     };
   }
 }

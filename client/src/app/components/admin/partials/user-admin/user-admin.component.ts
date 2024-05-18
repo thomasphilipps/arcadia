@@ -13,6 +13,7 @@ import { ROLE_LABELS } from '@app/utils/role-constants';
 import { Validators } from '@angular/forms';
 import { CustomValidators } from '@app/validators/custom.validators';
 import { catchError, of } from 'rxjs';
+import { environment } from '@environments/environment.development';
 
 @Component({
   selector: 'arz-user-admin',
@@ -108,7 +109,6 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
     this.userService.getAllData().subscribe({
       next: (users) => {
         this.users = users;
-        //this.updateEmailValidator();
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données: ', error);
@@ -124,7 +124,6 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
   }
 
   viewUser(userId: string): void {
-    console.log(`Affichage de l'utilisateur : ${userId}`);
     const user = this.users.find((u) => u.userId === userId);
     if (user) {
       alert(
@@ -135,7 +134,6 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(userId: string) {
-    console.log(`Suppression de l'utilisateur : ${userId}`);
     const userName = this.users.find((u) => u.userId === userId)?.userName;
     const message =
       `Voulez-vous vraiment supprimer l'utilisateur "${userName}" ?` +
@@ -164,7 +162,6 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
   }
 
   saveUser(user: User) {
-    console.log("Sauvegarde de l'utilisateur: ", user);
     const operation =
       this.editingUserId === null
         ? this.userService.createData(user)
@@ -180,6 +177,7 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: () => {
           alert('Utilisateur sauvegardé avec succès');
+          this.sendMail(user);
         },
         complete: () => {
           this.editingUserId = null;
@@ -188,20 +186,46 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
       });
   }
 
-  sendMail() {
+  sendMail(user: User) {
+    const textMessage: string =
+      `Bonjour ${user.userName},\n\n` +
+      `Votre espace personnel ${this.getRoleLabel(user.userRole).toLowerCase()} ` +
+      `sur Arcadia Zoo a été créé.\n` +
+      `Vous pouvez désormais vous connecter à votre compte avec votre adresse email.\n\n` +
+      `Veuillez vous rapprocher de l'administrateur pour récupérer votre mot de passe.\n\n` +
+      `Cordialement,\n\n` +
+      `L'équipe Arcadia Zoo.`;
+    const htmlMessage: string =
+      `<html>` +
+      `<body style="font-family: Arial, sans-serif;">` +
+      `<p>Bonjour ${user.userName},</p>
+      <br>Votre espace personnel ${this.getRoleLabel(
+        user.userRole
+      ).toLowerCase()} sur Arcadia Zoo a été créé.</br>` +
+      `Vous pouvez désormais vous connecter à votre compte avec votre adresse email.</p>` +
+      `<p>Veuillez vous rapprocher de l'administrateur pour récupérer votre mot de passe.</p>` +
+      `<p>Cordialement,</p>` +
+      `<p>L'équipe Arcadia Zoo.</p>` +
+      `</body>` +
+      `</html>`;
+
     const mailContent: MailConfig = {
-      to: 'toto@letoto.com',
-      subject: 'Test',
-      text: 'Test',
-      html: '<h1>Test</h1>',
+      to: user.userEmail,
+      subject: 'Votre espace personnel Arcadia Zoo a été créé',
+      text: textMessage,
+      html: htmlMessage,
     };
 
     this.mailingService.sendEmail(mailContent).subscribe({
       next: (response) => {
-        console.log('Email envoyé avec succès: ', response);
+        if (!environment.production) {
+          console.log('Email envoyé avec succès: ', response);
+        }
       },
       error: (error) => {
-        console.error("Erreur lors de l'envoi de l'email: ", error);
+        if (!environment.production) {
+          console.error("Erreur lors de l'envoi de l'email: ", error);
+        }
       },
     });
   }
