@@ -8,7 +8,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'arz-dashboard-main',
@@ -27,9 +28,24 @@ import { RouterOutlet } from '@angular/router';
 })
 export class DashboardMainComponent {
   private breakpointObserver = inject(BreakpointObserver);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Tablet).pipe(
     map((result) => result.matches),
     shareReplay()
   );
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn;
+  }
+
+  hasRole(expectedRoles: string[]): boolean {
+    return this.authService.hasRole(expectedRoles);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['dashboard/login']);
+  }
 }
