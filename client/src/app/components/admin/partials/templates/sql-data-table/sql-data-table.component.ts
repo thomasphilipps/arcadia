@@ -8,6 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { truncate, convertIsoDateToLocaleDate } from '@app/utils/utils';
@@ -16,7 +17,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'arz-sql-data-table',
   standalone: true,
-  imports: [MatTableModule, MatIconModule],
+  imports: [MatTableModule, MatIconModule, MatSortModule],
   templateUrl: './sql-data-table.component.html',
   styleUrl: './sql-data-table.component.scss',
 })
@@ -81,7 +82,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
     return Array.from({ length: 5 }, (_, i) => i < rating);
   }
 
-  isBoolean(value: any): boolean {
-    return typeof value === 'boolean';
+  isBooleanColumn(key: string): boolean {
+    return this.config.booleanColumns?.includes(key) ?? false;
   }
 }

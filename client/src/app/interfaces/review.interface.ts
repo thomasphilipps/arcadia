@@ -6,4 +6,5 @@ export interface Review {
   reviewPostedOn: Date;
   reviewApproved: boolean;
   reviewApprovedBy: string | null;
+  approvedBy: string | null;
 }
