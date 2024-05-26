@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from '@app/components/admin/pages/login/login.component';
 import { AnimalAdminComponent } from '@app/components/admin/partials/animal-admin/animal-admin.component';
 import { BiomeAdminComponent } from '@app/components/admin/partials/biome-admin/biome-admin.component';
+import { ReviewAdminComponent } from '@app/components/admin/partials/review-admin/review-admin.component';
 import { ServiceAdminComponent } from '@app/components/admin/partials/service-admin/service-admin.component';
 import { SpecieAdminComponent } from '@app/components/admin/partials/specie-admin/specie-admin.component';
 import { UserAdminComponent } from '@app/components/admin/partials/user-admin/user-admin.component';
@@ -72,6 +73,13 @@ export default [
         component: UserAdminComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] },
+      },
+      {
+        path: 'review',
+        title: 'Avis | Arcadia admin',
+        component: ReviewAdminComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_ADMIN', 'ROLE_EMPLOYEE'] },
       },
       {
         path: 'unauthorized',
