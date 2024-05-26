@@ -8,7 +8,7 @@ module.exports = (app) => {
     const userEmail = req.body.userEmail;
     const userPassword = req.body.userPassword;
     try {
-      const userResult = await sequelize.query('SELECT * FROM `App_users` WHERE `userEmail` = ?', {
+      const userResult = await sequelize.query('SELECT * FROM `Users` WHERE `userEmail` = ?', {
         replacements: [userEmail],
         type: sequelize.QueryTypes.SELECT,
       });

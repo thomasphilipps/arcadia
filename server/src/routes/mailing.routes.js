@@ -1,3 +1,4 @@
+const { authenticate } = require('../middlewares/auth');
 const nodemailer = require('nodemailer');
 
 module.exports = (app) => {
@@ -13,7 +14,7 @@ module.exports = (app) => {
     },
   });
 
-  app.post('/api/send-email', (req, res) => {
+  app.post('/api/send-email', authenticate(['ROLE_ADMIN']), (req, res) => {
     const { to, subject, text, html } = req.body;
 
     const mailOptions = {
