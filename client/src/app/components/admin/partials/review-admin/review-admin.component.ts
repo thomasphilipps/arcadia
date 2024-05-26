@@ -58,6 +58,7 @@ export class ReviewAdminComponent implements OnInit {
         },
       ],
       actions: { view: true, edit: true, delete: true },
+      sortable: true,
     };
   }
 

@@ -5,12 +5,13 @@ export interface SqlViewDataConfig<T> {
   label: string;
   data: Observable<T[]>;
   primaryKey: string | number;
-  booleanColumns?: string[];
   displayColumns: {
     key: string;
     label: string;
   }[];
   actions?: { view: boolean; edit: boolean; delete: boolean };
+  booleanColumns?: string[];
+  sortable?: boolean;
   formFields?: FormField[];
   customValidators?: ValidatorFn[];
 }

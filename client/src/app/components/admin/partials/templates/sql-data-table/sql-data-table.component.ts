@@ -6,10 +6,12 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { truncate, convertIsoDateToLocaleDate } from '@app/utils/utils';
 import { Subscription } from 'rxjs';
@@ -19,9 +21,9 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [MatTableModule, MatIconModule, MatSortModule],
   templateUrl: './sql-data-table.component.html',
-  styleUrl: './sql-data-table.component.scss',
+  styleUrls: ['./sql-data-table.component.scss'],
 })
-export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
+export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterViewInit {
   private subscription!: Subscription;
 
   @Input() config!: SqlViewDataConfig<T>;
@@ -33,9 +35,12 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
 
   data: T[] = [];
   displayedColumns: string[] = [];
+  dataSource = new MatTableDataSource<T>();
 
   truncate = truncate;
   convertDate = convertIsoDateToLocaleDate;
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
@@ -49,8 +54,15 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
       this.subscription = this.config.data.subscribe({
         next: (data) => {
           this.data = data;
+          this.dataSource.data = this.data;
         },
       });
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.config.sortable) {
+      this.dataSource.sort = this.sort;
     }
   }
 

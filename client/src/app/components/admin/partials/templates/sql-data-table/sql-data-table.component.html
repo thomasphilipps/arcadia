@@ -1,8 +1,10 @@
 <div class="mb-5">
-  <table mat-table [dataSource]="data">
-    @for(column of config.displayColumns; track $index){
+  <table mat-table [dataSource]="dataSource" matSort [matSortDisabled]="!config.sortable">
+    @for(column of config.displayColumns; track $index) {
     <ng-container matColumnDef="{{ column.key }}">
-      <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ column.label }}
+      </th>
       <td mat-cell *matCellDef="let element">
         @switch (true) {
         <!-- Prettier ignore -->
@@ -24,8 +26,9 @@
         @default {
         {{ truncate(convertDate(element[column.key]), 80) }}
         } }
-      </td> </ng-container
-    >} @if(config.actions) {
+      </td>
+    </ng-container>
+    } @if(config.actions) {
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
@@ -40,7 +43,7 @@
             (click)="emitViewEvent(element)"
             >visibility</mat-icon
           >
-          } @if(config.actions.edit) {
+          > } @if(config.actions.edit) {
           <mat-icon
             class="has-text-warning level-item"
             aria-hidden="false"
