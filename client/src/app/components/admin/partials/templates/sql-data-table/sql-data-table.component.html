@@ -6,7 +6,14 @@
       <td mat-cell *matCellDef="let element">
         @if(column.key === 'userRole') {
         {{ getRoleLabel(element[column.key]) }}
-        } @else {
+        } @else if (column.key === 'reviewRating') { @for(star of getStars(element[column.key]);
+        track star) {
+        <span [class]="star ? 'has-text-warning' : 'has-text-grey'">&#9733;</span>
+        } } @else if (isBoolean(element[column.key])) {
+        <span [class]="element[column.key] ? 'has-text-success' : 'has-text-danger'">
+          {{ element[column.key] ? '&#10004;' : '&#10006;' }}
+        </span>
+        }@else {
         {{ truncate(convertDate(element[column.key]), 80) }}
         }
       </td> </ng-container

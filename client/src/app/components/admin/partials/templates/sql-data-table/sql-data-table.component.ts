@@ -76,4 +76,12 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
+  getStars(rating: number): boolean[] {
+    return Array.from({ length: 5 }, (_, i) => i < rating);
+  }
+
+  isBoolean(value: any): boolean {
+    return typeof value === 'boolean';
+  }
 }
