@@ -103,3 +103,15 @@ INSERT INTO `Animals` (`animalId`, `animalName`, `animalDescr`, `animalBirth`, `
 -- Hérons cendrés
 ('c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', 'Henry', 'Héron cendré mâle, admiré pour sa stature élancée et sa capacité à harponner des poissons.', '2013-11-08 00:00:00', 'Mâle', 3, 11),
 ('d1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', 'Harriet', 'Héron cendré femelle, élégante et souvent vue près de l\'eau.', '2014-02-19 00:00:00', 'Femelle', 3, 11);
+
+INSERT INTO `Reviews` (`reviewAlias`, `reviewContent`, `reviewRating`, `reviewPostedOn`, `reviewApproved`, `reviewApprovedBy`) VALUES
+('JeanDupont', 'Le Zoo Arcadia est incroyable ! La savane est tellement réaliste, on se croirait en Afrique.', 5, '2024-05-20 14:32:00', 0, NULL),
+('MarieL', 'J\'ai adoré la visite guidée. Les guides sont très informés et passionnés.', 5, '2024-05-18 09:45:00', 0, NULL),
+('PierreD', 'Le Zoo Gourmet offre une cuisine délicieuse, mais un peu chère.', 4, '2024-05-15 17:20:00', 0, NULL),
+('ClaraB', 'Les habitats sont bien entretenus, mais certains animaux étaient difficiles à voir.', 3, '2024-05-10 11:10:00', 0, NULL),
+('LucasM', 'Le Zoo Express Train est parfait pour voir tout le zoo sans se fatiguer.', 5, '2024-05-08 20:55:00', 0, NULL),
+('SophieR', 'Déçue par le marais, je m\'attendais à voir plus d\'animaux.', 2, '2024-05-05 15:05:00', 0, NULL),
+('AntoineC', 'Mes enfants ont adoré les singes araignées. Super expérience familiale.', 5, '2024-04-30 13:30:00', 0, NULL),
+('EmmaT', 'Les crocodiles du Nil étaient impressionnants. On apprend beaucoup de choses.', 4, '2024-04-25 18:45:00', 0, NULL),
+('NathalieG', 'Belle journée au zoo, mais il manque des endroits pour se reposer à l\'ombre.', 3, '2024-04-20 10:05:00', 0, NULL),
+('PaulH', 'Les perroquets Ara sont magnifiques, surtout lors des spectacles.', 5, '2024-04-15 16:25:00', 0, NULL);
