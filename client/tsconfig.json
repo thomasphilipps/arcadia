@@ -11,7 +11,10 @@
       "@interfaces/*": ["src/app/interfaces/*"],
       "@services/*": ["src/app/services/*"],
       "@validators/*": ["src/app/validators/*"],
-      "@environments/*": ["src/environments/*"]
+      "@environments/*": ["src/environments/*"],
+      "@mainAdminStyle": [
+        "src/app/components/admin/pages/dashboard-main/dashboard-main.component.scss"
+      ]
     },
     "strict": true,
     "noImplicitOverride": true,
