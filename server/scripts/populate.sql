@@ -3,7 +3,7 @@
 INSERT INTO `Users` (`userId`, `userEmail`, `userName`, `userPassword`, `userRole`) VALUES
 ('15ee5d2b-c0b7-4c40-8534-4e20ee8b144a', 'henri@zoo-arcadia.com', 'Henri', '$2b$10$P33QAsOnTa2k9Jc4hFbyTO3mBfbsEcv.f3/wjdbdZ2otftbmEk9qm', 'ROLE_VETERINARY'),
 ('48ac9728-0000-11ef-8213-00155d07f9b8', 'admin@zoo-arcadia.com', 'José', '$2b$10$VgGJXGl9HghBi7QmSEaGa.kRk5g5dyos4vA1y6MuZ/7OyGtKcjWaW', 'ROLE_ADMIN'),
-('51347675-b55a-4cbc-855f-2576d39f9b72', 'paul@zoo-arcadia.com', 'Paul', '$2b$10$NFo2YBcgotmm0JPX2YWsT.qrNS26zYEfu2D5pk1HDDYCHGyXLwtSe', 'ROLE_EMPLOYEE');
+('095e7eef-b25e-427e-9c4e-7c603bb76487', 'paul@zoo-arcadia.com', 'Paul', '$2b$10$NFo2YBcgotmm0JPX2YWsT.qrNS26zYEfu2D5pk1HDDYCHGyXLwtSe', 'ROLE_EMPLOYEE');
 
   -- Initial schedules
 UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '18:00:00' WHERE `dayId` = 1;
@@ -114,4 +114,9 @@ INSERT INTO `Reviews` (`reviewAlias`, `reviewContent`, `reviewRating`, `reviewPo
 ('AntoineC', 'Mes enfants ont adoré les singes araignées. Super expérience familiale.', 5, '2024-04-30 13:30:00', 0, NULL),
 ('EmmaT', 'Les crocodiles du Nil étaient impressionnants. On apprend beaucoup de choses.', 4, '2024-04-25 18:45:00', 0, NULL),
 ('NathalieG', 'Belle journée au zoo, mais il manque des endroits pour se reposer à l\'ombre.', 3, '2024-04-20 10:05:00', 0, NULL),
-('PaulH', 'Les perroquets Ara sont magnifiques, surtout lors des spectacles.', 5, '2024-04-15 16:25:00', 0, NULL);
+('PaulH', 'Les perroquets Ara sont magnifiques, surtout lors des spectacles.', 5, '2024-04-15 16:25:00', 0, NULL),
+('AliceF', 'Les girafes sont majestueuses. Super expérience pour les enfants.', 5, '2024-05-22 12:30:00', 1, '48ac9728-0000-11ef-8213-00155d07f9b8'),
+('BrunoG', 'La visite en train est agréable, mais un peu courte.', 4, '2024-05-21 11:50:00', 1, '48ac9728-0000-11ef-8213-00155d07f9b8'),
+('CelineH', 'Le marais est fascinant, surtout les crocodiles.', 5, '2024-05-19 14:00:00', 1, '095e7eef-b25e-427e-9c4e-7c603bb76487'),
+('DavidK', 'Les zèbres et les gnous étaient très actifs. Moment agréable.', 4, '2024-05-17 10:30:00', 1, '095e7eef-b25e-427e-9c4e-7c603bb76487'),
+('EliseL', 'Bonne ambiance générale, mais il manque des toilettes.', 3, '2024-05-16 16:00:00', 1, '095e7eef-b25e-427e-9c4e-7c603bb76487');
