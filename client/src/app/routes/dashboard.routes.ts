@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from '@app/components/admin/pages/login/login.component';
 import { AnimalAdminComponent } from '@app/components/admin/partials/animal-admin/animal-admin.component';
 import { BiomeAdminComponent } from '@app/components/admin/partials/biome-admin/biome-admin.component';
+import { ReportAdminComponent } from '@app/components/admin/partials/report-admin/report-admin.component';
 import { ReviewAdminComponent } from '@app/components/admin/partials/review-admin/review-admin.component';
 import { ServiceAdminComponent } from '@app/components/admin/partials/service-admin/service-admin.component';
 import { SpecieAdminComponent } from '@app/components/admin/partials/specie-admin/specie-admin.component';
@@ -51,7 +52,7 @@ export default [
         title: 'Biomes | Arcadia admin',
         component: BiomeAdminComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['ROLE_ADMIN'] },
+        data: { roles: ['ROLE_ADMIN', 'ROLE_VETERINARY'] },
       },
       {
         path: 'specie',
@@ -80,6 +81,13 @@ export default [
         component: ReviewAdminComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN', 'ROLE_EMPLOYEE'] },
+      },
+      {
+        path: 'vet-report',
+        title: 'Rapport vétérinaire | Arcadia admin',
+        component: ReportAdminComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_VETERINARY'] },
       },
       {
         path: 'unauthorized',

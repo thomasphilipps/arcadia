@@ -39,7 +39,7 @@
         </mat-icon>
         Services
       </a>
-      } @if(hasRole(['ROLE_ADMIN'])) {
+      } @if(hasRole(['ROLE_ADMIN', 'ROLE_VETERINARY'])) {
       <a mat-list-item href="dashboard/biome">
         <mat-icon aria-hidden="false" aria-label="Biomes icon" fontSet="material-symbols-outlined">
           forest
@@ -73,6 +73,17 @@
           group
         </mat-icon>
         Utilisateurs
+      </a>
+      } @if(hasRole(['ROLE_VETERINARY'])) {
+      <a mat-list-item href="dashboard/vet-report">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Consultation icon"
+          fontSet="material-symbols-outlined"
+        >
+          medical_services
+        </mat-icon>
+        Visite animal
       </a>
       }
     </mat-nav-list>
