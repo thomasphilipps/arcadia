@@ -74,6 +74,16 @@
             (click)="emitDeleteEvent(element)"
             >delete</mat-icon
           >
+          } @if(config.actions.newSub) {
+          <mat-icon
+            class="has-text-success level-item"
+            aria-hidden="false"
+            aria-label="New sub icon"
+            fontSet="material-symbols-outlined"
+            style="cursor: pointer"
+            (click)="emitNewSubEvent(element)"
+            >add_circle</mat-icon
+          >
           }
         </div>
       </td>
