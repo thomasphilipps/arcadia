@@ -2,6 +2,7 @@ import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,11 +12,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import {
   FormField,
   OptionArray,
   SqlViewDataConfig,
 } from '@app/interfaces/sqlViewDataConfig.interface';
+import { StarRatingComponent } from '../star-rating/star-rating.component';
 
 interface FormModel {
   [key: string]: any;
@@ -37,6 +41,8 @@ interface FormModel {
     MatDatepickerModule,
     TextFieldModule,
     CdkTextareaAutosize,
+    MatCheckboxModule,
+    StarRatingComponent,
   ],
   templateUrl: './sql-form.component.html',
   styleUrls: ['./sql-form.component.scss'],
@@ -87,7 +93,7 @@ export class SqlFormComponent<T> implements OnInit {
 
   initializeForm<T extends FormModel>(data: T | null): void {
     if (data) {
-      const dataName = this.extractValueByNameKey(data);
+      const dataName = this.extractValueByNameKey(data) || 'enregistrement';
       this.form.patchValue(data, { emitEvent: false });
       this.formTitle = `Modifier ${dataName}`;
     } else {

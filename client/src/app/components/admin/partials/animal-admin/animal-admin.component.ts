@@ -7,8 +7,8 @@ import { catchError, of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { Animal } from '@app/interfaces/animal.interface';
 import { OptionArray, SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { AnimalService } from '@app/services/animal.service';

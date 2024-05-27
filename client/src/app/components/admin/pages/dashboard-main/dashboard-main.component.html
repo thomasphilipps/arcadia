@@ -11,54 +11,70 @@
     @if(isLoggedIn()) {
     <mat-nav-list>
       @if(hasRole(['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_VETERINARY'])) {
-      <a mat-list-item href="dashboard/home"
-        ><mat-icon aria-hidden="false" aria-label="Home icon" fontSet="material-symbols-outlined"
-          >home</mat-icon
-        >
-        Accueil</a
-      >} @if(hasRole(['ROLE_ADMIN'])) {
-      <a mat-list-item href="dashboard/schedule"
-        ><mat-icon
+      <a mat-list-item href="dashboard/home">
+        <mat-icon aria-hidden="false" aria-label="Home icon" fontSet="material-symbols-outlined">
+          home
+        </mat-icon>
+        Accueil
+      </a>
+      } @if(hasRole(['ROLE_ADMIN'])) {
+      <a mat-list-item href="dashboard/schedule">
+        <mat-icon
           aria-hidden="false"
           aria-label="Schedule icon"
           fontSet="material-symbols-outlined"
-          >schedule</mat-icon
         >
-        Horaires</a
-      >} @if(hasRole(['ROLE_ADMIN', 'ROLE_EMPLOYEE'])) {
-      <a mat-list-item href="dashboard/service"
-        ><mat-icon
+          schedule
+        </mat-icon>
+        Horaires
+      </a>
+      } @if(hasRole(['ROLE_ADMIN', 'ROLE_EMPLOYEE'])) {
+      <a mat-list-item href="dashboard/service">
+        <mat-icon
           aria-hidden="false"
           aria-label="Services icon"
           fontSet="material-symbols-outlined"
-          >info</mat-icon
         >
-        Services</a
-      >} @if(hasRole(['ROLE_ADMIN'])) {
-      <a mat-list-item href="dashboard/biome"
-        ><mat-icon aria-hidden="false" aria-label="Biomes icon" fontSet="material-symbols-outlined"
-          >forest</mat-icon
-        >
-        Habitats</a
-      >} @if(hasRole(['ROLE_ADMIN'])) {
-      <a mat-list-item href="dashboard/specie"
-        ><mat-icon aria-hidden="false" aria-label="Species icon" fontSet="material-symbols-outlined"
-          >pets</mat-icon
-        >
-        Espèces</a
-      >} @if(hasRole(['ROLE_ADMIN'])) {
-      <a mat-list-item href="dashboard/animal"
-        ><mat-icon aria-hidden="false" aria-label="Animals icon" fontSet="material-symbols-outlined"
-          >raven</mat-icon
-        >
-        Animaux</a
-      >} @if(hasRole(['ROLE_ADMIN'])) {
-      <a mat-list-item href="dashboard/user"
-        ><mat-icon aria-hidden="false" aria-label="Users icon" fontSet="material-symbols-outlined"
-          >group</mat-icon
-        >
-        Utilisateurs</a
-      >}
+          info
+        </mat-icon>
+        Services
+      </a>
+      } @if(hasRole(['ROLE_ADMIN'])) {
+      <a mat-list-item href="dashboard/biome">
+        <mat-icon aria-hidden="false" aria-label="Biomes icon" fontSet="material-symbols-outlined">
+          forest
+        </mat-icon>
+        Habitats
+      </a>
+      } @if(hasRole(['ROLE_ADMIN'])) {
+      <a mat-list-item href="dashboard/specie">
+        <mat-icon aria-hidden="false" aria-label="Species icon" fontSet="material-symbols-outlined">
+          pets
+        </mat-icon>
+        Espèces
+      </a>
+      } @if(hasRole(['ROLE_ADMIN'])) {
+      <a mat-list-item href="dashboard/animal">
+        <mat-icon aria-hidden="false" aria-label="Animals icon" fontSet="material-symbols-outlined">
+          raven
+        </mat-icon>
+        Animaux
+      </a>
+      } @if(hasRole(['ROLE_ADMIN', 'ROLE_EMPLOYEE'])) {
+      <a mat-list-item href="dashboard/review">
+        <mat-icon aria-hidden="false" aria-label="Review icon" fontSet="material-symbols-outlined">
+          rate_review
+        </mat-icon>
+        Avis
+      </a>
+      } @if(hasRole(['ROLE_ADMIN'])) {
+      <a mat-list-item href="dashboard/user">
+        <mat-icon aria-hidden="false" aria-label="Users icon" fontSet="material-symbols-outlined">
+          group
+        </mat-icon>
+        Utilisateurs
+      </a>
+      }
     </mat-nav-list>
     }
   </mat-sidenav>
@@ -66,9 +82,9 @@
     <mat-toolbar color="primary">
       @if (isHandset$ | async) {
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-        <mat-icon aria-label="Side nav toggle icon" fontSet="material-symbols-outlined"
-          >menu</mat-icon
-        >
+        <mat-icon aria-label="Side nav toggle icon" fontSet="material-symbols-outlined">
+          menu
+        </mat-icon>
       </button>
       }
       <span>Arcadia</span>

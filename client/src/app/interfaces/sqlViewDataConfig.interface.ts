@@ -10,6 +10,8 @@ export interface SqlViewDataConfig<T> {
     label: string;
   }[];
   actions?: { view: boolean; edit: boolean; delete: boolean };
+  booleanColumns?: string[];
+  sortable?: boolean;
   formFields?: FormField[];
   customValidators?: ValidatorFn[];
 }
@@ -21,6 +23,8 @@ export interface FormField {
   maxLength?: number;
   minRows?: number;
   maxRows?: number;
+  minValue?: number;
+  maxValue?: number;
   selectOptions?: OptionArray[];
   radioOptions?: OptionArray[];
   validators?: ValidatorFn[];

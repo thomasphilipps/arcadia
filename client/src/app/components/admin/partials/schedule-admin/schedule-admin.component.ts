@@ -7,8 +7,8 @@ import { Schedule } from '@interfaces/schedule.interface';
 import { ScheduleService } from '@services/schedule.service';
 import { CustomValidators } from '@validators/custom.validators';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 
 @Component({
   selector: 'arz-schedule-admin',

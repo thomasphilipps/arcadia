@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { User } from '@app/interfaces/user.interface';

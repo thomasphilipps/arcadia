@@ -10,8 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { Specie } from '@app/interfaces/specie.interface';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { SpecieService } from '@app/services/specie.service';
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { CustomValidators } from '@app/validators/custom.validators';
 
 @Component({
