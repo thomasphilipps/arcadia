@@ -241,6 +241,8 @@ export class ReviewAdminComponent implements OnInit {
           placeholder: "Contenu de l'avis",
         },
       ],
+      noFilter: true,
+      sortable: true,
     };
     return { ...defaultConfig, ...options };
   }

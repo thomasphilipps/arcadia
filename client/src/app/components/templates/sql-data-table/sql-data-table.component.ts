@@ -9,7 +9,10 @@ import {
   ViewChild,
   AfterViewInit,
 } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
@@ -19,7 +22,14 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'arz-sql-data-table',
   standalone: true,
-  imports: [MatTableModule, MatIconModule, MatSortModule],
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatSortModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+  ],
   templateUrl: './sql-data-table.component.html',
   styleUrls: ['./sql-data-table.component.scss'],
 })
@@ -41,6 +51,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
   convertDate = convertIsoDateToLocaleDate;
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
@@ -61,6 +72,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
     if (this.config.sortable) {
       this.dataSource.sort = this.sort;
     }
@@ -96,5 +108,13 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
 
   isBooleanColumn(key: string): boolean {
     return this.config.booleanColumns?.includes(key) ?? false;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

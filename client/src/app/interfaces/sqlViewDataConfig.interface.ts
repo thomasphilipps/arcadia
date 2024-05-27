@@ -14,6 +14,8 @@ export interface SqlViewDataConfig<T> {
   sortable?: boolean;
   formFields?: FormField[];
   customValidators?: ValidatorFn[];
+  noFilter?: boolean;
+  noPaginator?: boolean;
 }
 
 export interface FormField {

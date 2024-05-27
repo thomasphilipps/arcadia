@@ -105,6 +105,7 @@ export class AnimalAdminComponent implements OnInit {
           placeholder: "Espèce de l'animal",
         },
       ],
+      sortable: true,
     };
   }
 

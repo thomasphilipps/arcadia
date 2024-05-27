@@ -76,6 +76,8 @@ export class ScheduleAdminComponent implements OnInit {
         },
       ],
       customValidators: [CustomValidators.timeOrderValidator()],
+      noFilter: true,
+      noPaginator: true,
     };
   }
 
