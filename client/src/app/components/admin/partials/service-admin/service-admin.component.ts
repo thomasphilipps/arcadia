@@ -10,8 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Service } from '@app/interfaces/service.interface';
 import { ServiceService } from '@app/services/service.service';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { CustomValidators } from '@app/validators/custom.validators';
 
 @Component({

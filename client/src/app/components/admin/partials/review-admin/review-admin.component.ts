@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Review } from '@app/interfaces/review.interface';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { ReviewService } from '@app/services/review.service';
-import { SqlFormComponent } from '../templates/sql-form/sql-form.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { SqlDataTableComponent } from '../templates/sql-data-table/sql-data-table.component';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ThisReceiver } from '@angular/compiler';
 
