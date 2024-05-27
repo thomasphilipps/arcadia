@@ -1,7 +1,7 @@
 export interface Review {
   reviewId: number;
-  reviwAlias: string;
-  reviwContent: string;
+  reviewAlias: string;
+  reviewContent: string;
   reviewRating: number;
   reviewPostedOn: Date;
   reviewApproved: boolean;

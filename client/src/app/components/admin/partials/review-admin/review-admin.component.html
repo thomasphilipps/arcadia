@@ -1,10 +1,39 @@
 <div class="container">
-  <h1 class="m-6 has-text-centered">{{ reviewConfig.label }}</h1>
+  <h1 class="m-6 has-text-centered">En attente de validation</h1>
 
   <arz-sql-data-table
-    [config]="reviewConfig"
+    [config]="reviewConfigUnapproved"
     (viewData)="viewReview($event)"
     (editData)="editReview($event)"
     (deleteData)="deleteReview($event)"
   ></arz-sql-data-table>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2 class="m-6 has-text-centered">Approuvées</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <arz-sql-data-table
+        [config]="reviewConfigApproved"
+        (viewData)="viewReview($event)"
+        (editData)="editReview($event)"
+        (deleteData)="deleteReview($event)"
+      ></arz-sql-data-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="has-text-right my-6 mr-5">
+    <button mat-fab class="has-text-primary" (click)="addReview()">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Add icon"
+        fontSet="material-symbols-outlined"
+        style="color: white"
+      >
+        add
+      </mat-icon>
+    </button>
+  </div>
 </div>
