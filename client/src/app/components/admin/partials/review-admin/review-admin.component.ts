@@ -53,7 +53,7 @@ export class ReviewAdminComponent implements OnInit {
       this.reviewService.getApprovedReviews(),
       {
         displayColumns: [
-          ...this.reviewConfigUnapproved.displayColumns,
+          ...this.reviewConfigUnapproved.displayColumns!,
           { key: 'approvedBy', label: 'Validée par' },
         ],
       }

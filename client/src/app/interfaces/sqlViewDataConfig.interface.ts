@@ -5,7 +5,7 @@ export interface SqlViewDataConfig<T> {
   label: string;
   data: Observable<T[]>;
   primaryKey: string | number;
-  displayColumns: {
+  displayColumns?: {
     key: string;
     label: string;
   }[];

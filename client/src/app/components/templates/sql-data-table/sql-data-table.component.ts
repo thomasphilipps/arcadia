@@ -59,7 +59,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
         this.subscription.unsubscribe();
       }
       this.displayedColumns = [
-        ...this.config.displayColumns.map((column) => column.key),
+        ...this.config.displayColumns!.map((column) => column.key),
         ...(this.config.actions ? ['actions'] : []),
       ];
       this.subscription = this.config.data.subscribe({
