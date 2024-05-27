@@ -23,6 +23,8 @@ export interface FormField {
   maxLength?: number;
   minRows?: number;
   maxRows?: number;
+  minValue?: number;
+  maxValue?: number;
   selectOptions?: OptionArray[];
   radioOptions?: OptionArray[];
   validators?: ValidatorFn[];

@@ -87,7 +87,17 @@
             }
           </mat-form-field>
         </div>
-
+        }
+        <!-- Prettier ignore -->
+        @case('score') {
+        <div class="has-text-left mb-5">
+          <span>{{ field.label }}&nbsp;&nbsp;&nbsp;</span>
+          <arz-star-rating
+            class="is-size-4"
+            [score]="form.get(field.controlName)?.value"
+            (scoreChange)="form.get(field.controlName)!.setValue($event)"
+          ></arz-star-rating>
+        </div>
         }
         <!-- Prettier ignore -->
         @case ('textarea') {
@@ -150,6 +160,17 @@
             >device_reset</mat-icon
           >
         </mat-form-field>
+        }
+        <!-- Prettier ignore -->
+        @case('checkbox') {
+        <div class="mb-3 has-text-left">
+          <mat-checkbox formControlName="{{ field.controlName }}">{{ field.label }}</mat-checkbox>
+          <br />
+          @if(form.get(field.controlName)?.hasError('required') &&
+          !form.get(field.controlName)?.untouched) {
+          <mat-error>Veuillez cocher la case</mat-error>
+          }
+        </div>
         }
         <!-- Prettier ignore -->
         @case('radio') {

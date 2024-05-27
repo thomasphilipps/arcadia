@@ -1,14 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Review } from '@app/interfaces/review.interface';
-import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
-import { ReviewService } from '@app/services/review.service';
-import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { Validators } from '@angular/forms';
+
+import { catchError, of } from 'rxjs';
+
 import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+
+import { Review } from '@app/interfaces/review.interface';
+import { ReviewService } from '@app/services/review.service';
+import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
+import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
+import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { AuthService } from '@app/services/auth.service';
+import { toDate } from '@app/utils/utils';
 
 @Component({
   selector: 'arz-review-admin',
@@ -25,51 +31,35 @@ import { MatExpansionModule } from '@angular/material/expansion';
   styleUrls: ['./review-admin.component.scss'],
 })
 export class ReviewAdminComponent implements OnInit {
-  private reviewsSubjectApproved = new BehaviorSubject<Review[]>([]);
-  private reviewsSubjectUnapproved = new BehaviorSubject<Review[]>([]);
-
+  reviews: Review[] = [];
   reviewConfigApproved: SqlViewDataConfig<Review>;
   reviewConfigUnapproved: SqlViewDataConfig<Review>;
+  reviewConfig: SqlViewDataConfig<Review>;
 
   editingReview: Review | null = null;
   editingReviewId: number | null = null;
+  initialFormValues: Partial<Review> = {};
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Review>;
 
-  constructor(private reviewService: ReviewService) {
-    this.reviewConfigApproved = {
-      label: 'Avis Approuvés',
-      data: this.reviewsSubjectApproved.asObservable(),
-      primaryKey: 'reviewId',
-      booleanColumns: ['reviewApproved'],
-      displayColumns: [
-        { key: 'reviewAlias', label: "Nom de l'auteur" },
-        { key: 'reviewRating', label: 'Note' },
-        { key: 'reviewContent', label: 'Contenu' },
-        { key: 'reviewPostedOn', label: 'Date de soumission' },
-        { key: 'reviewApproved', label: 'Validée' },
-        { key: 'approvedBy', label: 'Validée par' },
-      ],
-      actions: { view: true, edit: true, delete: true },
-      sortable: true,
-    };
+  constructor(private reviewService: ReviewService, private authService: AuthService) {
+    this.reviewConfigUnapproved = this.createReviewConfig(
+      'Avis Non Approuvés',
+      this.reviewService.getUnapprovedReviews()
+    );
 
-    this.reviewConfigUnapproved = {
-      label: 'Avis Non Approuvés',
-      data: this.reviewsSubjectUnapproved.asObservable(),
-      primaryKey: 'reviewId',
-      booleanColumns: ['reviewApproved'],
-      displayColumns: [
-        { key: 'reviewAlias', label: "Nom de l'auteur" },
-        { key: 'reviewRating', label: 'Note' },
-        { key: 'reviewContent', label: 'Contenu' },
-        { key: 'reviewPostedOn', label: 'Date de soumission' },
-        { key: 'reviewApproved', label: 'Validée' },
-        { key: 'approvedBy', label: 'Validée par' },
-      ],
-      actions: { view: true, edit: true, delete: true },
-      sortable: true,
-    };
+    this.reviewConfigApproved = this.createReviewConfig(
+      'Avis Approuvés',
+      this.reviewService.getApprovedReviews(),
+      {
+        displayColumns: [
+          ...this.reviewConfigUnapproved.displayColumns,
+          { key: 'approvedBy', label: 'Validée par' },
+        ],
+      }
+    );
+
+    this.reviewConfig = { ...this.reviewConfigUnapproved };
   }
 
   ngOnInit(): void {
@@ -80,24 +70,27 @@ export class ReviewAdminComponent implements OnInit {
     this.reviewService.loadData();
     this.reviewService.getAllData().subscribe({
       next: (reviews) => {
-        const approvedReviews = reviews.filter((review) => review.reviewApproved);
-        const unapprovedReviews = reviews.filter((review) => !review.reviewApproved);
-
-        this.reviewsSubjectApproved.next(approvedReviews);
-        this.reviewsSubjectUnapproved.next(unapprovedReviews);
+        this.reviews = reviews;
       },
-      error: (err) => {
-        console.error('Erreur lors du chargement des avis', err);
+      error: (error) => {
+        console.error('Erreur lors du chargement des avis: ', error);
       },
     });
   }
 
-  //viewReview(reviewId: number): void {}
+  addReview(): void {
+    const newReview: Partial<Review> = {
+      reviewPostedOn: toDate(new Date()), // Initialisation de reviewPostedOn à la date du jour
+      reviewApproved: true,
+    };
+
+    this.editingReviewId = null;
+    this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.initializeForm(newReview as Review); // Passer les valeurs initiales au formulaire
+  }
 
   viewReview(reviewId: number): void {
-    const review =
-      this.reviewsSubjectApproved.getValue().find((review) => review.reviewId === reviewId) ||
-      this.reviewsSubjectUnapproved.getValue().find((review) => review.reviewId === reviewId);
+    const review = this.reviews.find((review) => review.reviewId === reviewId);
     if (review) {
       alert(
         `Nom de l'auteur: ${review.reviewAlias}\n\n` +
@@ -112,19 +105,143 @@ export class ReviewAdminComponent implements OnInit {
     }
   }
 
-  addReview(): void {
-    // Code pour ajouter une review
-  }
-
   editReview(reviewId: number): void {
-    // Code pour éditer une review
+    const editingReview = this.reviews.find((r) => r.reviewId === reviewId) || null;
+    if (editingReview) {
+      this.editingReviewId = reviewId;
+      this.sqlFormComponent.editForm = true;
+      this.sqlFormComponent.initializeForm(editingReview);
+      this.initialFormValues = this.sqlFormComponent.form.value;
+    }
   }
 
   deleteReview(reviewId: number): void {
-    // Code pour supprimer une review
+    const reviewAlias =
+      this.reviews.find((review) => review.reviewId === reviewId)?.reviewAlias || '';
+    const message =
+      `Voulez-vous vraiment supprimer l'avis de "${reviewAlias}" ?` +
+      `\n\nCette action est irréversible !\n\n` +
+      `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
+
+    if (confirm(message)) {
+      this.reviewService
+        .deleteData(reviewId)
+        .pipe(
+          catchError((error) => {
+            console.error("Erreur lors de la suppression de l'avis: ", error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: () => {
+            alert('Avis supprimé avec succès');
+            this.loadReviews(); // Reload reviews after deletion
+          },
+          complete: () => {
+            this.editingReview = null;
+            this.sqlFormComponent.onCancelEdit();
+          },
+        });
+    }
   }
 
-  saveReview(review: Review): void {
-    // Code pour enregistrer une review
+  saveReview(review: Review) {
+    const currentUser = this.authService.currentUserValue;
+    if (currentUser) {
+      review.reviewApprovedBy = currentUser.userId;
+    }
+    console.log(review);
+
+    review.reviewRating = +review.reviewRating; // Convertir la note en nombre
+
+    const operation =
+      this.editingReviewId === null
+        ? this.reviewService.createData(review)
+        : this.reviewService.updateData(this.editingReviewId, this.getChangedFields(review));
+
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de l'enregistrement de l'avis: ", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: () => {
+          alert('Avis enregistré avec succès');
+          this.loadReviews(); // Reload reviews after saving
+        },
+        complete: () => {
+          this.editingReviewId = null;
+          this.editingReview = null;
+          this.sqlFormComponent.onCancelEdit();
+        },
+      });
+  }
+
+  getChangedFields(review: Review): Partial<Review> {
+    const changedFields: any = {};
+    (Object.keys(review) as (keyof Review)[]).forEach((key) => {
+      if (review[key] !== this.initialFormValues[key]) {
+        changedFields[key] = review[key] as Review[keyof Review];
+      }
+    });
+    return changedFields;
+  }
+
+  private createReviewConfig(
+    label: string,
+    data: any,
+    options?: Partial<SqlViewDataConfig<Review>>
+  ): SqlViewDataConfig<Review> {
+    const defaultConfig: SqlViewDataConfig<Review> = {
+      label,
+      data,
+      primaryKey: 'reviewId',
+      booleanColumns: ['reviewApproved'],
+      displayColumns: [
+        { key: 'reviewAlias', label: "Nom de l'auteur" },
+        { key: 'reviewRating', label: 'Note' },
+        { key: 'reviewContent', label: 'Contenu' },
+        { key: 'reviewPostedOn', label: 'Date de soumission' },
+      ],
+      actions: { view: true, edit: true, delete: true },
+      formFields: [
+        {
+          label: 'Publication approuvée',
+          controlName: 'reviewApproved',
+          type: 'checkbox',
+        },
+        {
+          label: 'Note',
+          controlName: 'reviewRating',
+          type: 'score',
+          minValue: 1,
+          maxValue: 5,
+          validators: [Validators.required, Validators.min(1), Validators.max(5)],
+          placeholder: 'Note (1-5)',
+        },
+        {
+          label: "Nom de l'auteur",
+          controlName: 'reviewAlias',
+          type: 'text',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: "Nom de l'auteur",
+        },
+
+        {
+          label: 'Contenu',
+          controlName: 'reviewContent',
+          type: 'textarea',
+          maxLength: 1000,
+          minRows: 3,
+          maxRows: 10,
+          validators: [Validators.required, Validators.maxLength(1000)],
+          placeholder: "Contenu de l'avis",
+        },
+      ],
+    };
+    return { ...defaultConfig, ...options };
   }
 }

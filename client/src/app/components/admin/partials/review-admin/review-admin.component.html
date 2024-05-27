@@ -1,18 +1,25 @@
 <div class="container">
-  <h1 class="m-6 has-text-centered">En attente de validation</h1>
-
-  <arz-sql-data-table
-    [config]="reviewConfigUnapproved"
-    (viewData)="viewReview($event)"
-    (editData)="editReview($event)"
-    (deleteData)="deleteReview($event)"
-  ></arz-sql-data-table>
+  <h1 class="m-6 has-text-centered">Avis des visiteurs</h1>
 
   <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2 class="m-6 has-text-centered">Non traités</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <arz-sql-data-table
+        [config]="reviewConfigUnapproved"
+        (viewData)="viewReview($event)"
+        (editData)="editReview($event)"
+        (deleteData)="deleteReview($event)"
+      ></arz-sql-data-table>
+    </mat-expansion-panel>
+
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h2 class="m-6 has-text-centered">Approuvées</h2>
+          <h2 class="m-6 has-text-centered">Approuvés</h2>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <arz-sql-data-table
@@ -35,5 +42,8 @@
         add
       </mat-icon>
     </button>
+  </div>
+  <div class="mb-6">
+    <arz-sql-form [config]="reviewConfig" (saveData)="saveReview($event)"></arz-sql-form>
   </div>
 </div>
