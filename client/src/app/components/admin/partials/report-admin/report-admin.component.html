@@ -1,5 +1,9 @@
 <div class="container">
   <h1 class="m-6 has-text-centered">Rapports sur les animaux</h1>
 
-  <arz-sql-data-table [config]="animalsConfig"></arz-sql-data-table>
+  <arz-sql-data-table
+    [config]="reportsConfig"
+    (viewData)="viewLastAnimalReport($event)"
+    (newSubData)="addReport($event)"
+  ></arz-sql-data-table>
 </div>

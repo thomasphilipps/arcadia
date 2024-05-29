@@ -1,4 +1,4 @@
-export interface Report {
+export interface VetReport {
   reportId: number;
   reportState: string;
   reportDate: Date;
@@ -8,4 +8,9 @@ export interface Report {
   animalKey: string;
   veterinaryKey: string;
   reportedBy: string;
+  animalBiome: string;
+  animalSpecie: string;
+  animalName: string;
+  animalGender: string;
+  animalBirth: Date;
 }

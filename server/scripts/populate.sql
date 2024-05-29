@@ -30,23 +30,23 @@ INSERT INTO `Services` (`serviceId`, `serviceName`, `serviceShortDescr`, `servic
 
 -- Insertion des espèces de la Savane
 INSERT INTO `Species` (`specieId`, `specieName`, `specieTaxon`, `specieDescr`, `biomeKey`) VALUES
-(1, 'Girafes', 'Giraffa camelopardalis', 'La girafe, reconnue pour son cou exceptionnellement long et ses taches uniques, est la plus haute des créatures terrestres. Ces gracieux herbivores se nourrissent principalement des feuilles d\'arbres hauts, une adaptation évolutive à leur habitat de savane africaine.', 1),
-(2, 'Zèbres', 'Equus quagga', 'Les zèbres sont célèbres pour leurs rayures distinctives noires et blanches, chaque individu ayant un motif unique comme les empreintes digitales chez l\'humain. Ils sont très sociaux et parcourent la savane en grands troupeaux.', 1),
-(3, 'Gnous', 'Connochaetes taurinus', 'Les gnous, ou antilopes à barbe, sont connus pour leur migration spectaculaire en masse à travers les plaines africaines. Ces herbivores robustes jouent un rôle clé dans l\'écosystème en tant que proies pour de nombreux prédateurs.', 1),
-(4, 'Antilopes Cobe de Lechwe','Kobus leche', 'Les Cobe de Lechwe sont des antilopes adaptées aux zones humides, avec des sabots larges parfaits pour la boue et l\'eau. Leur pelage huileux repousse l\'eau, et ils sont souvent vus en train de patauger dans l\'eau pour échapper aux prédateurs.', 1);
+(1, 'Girafe', 'Giraffa camelopardalis', 'La girafe, reconnue pour son cou exceptionnellement long et ses taches uniques, est la plus haute des créatures terrestres. Ces gracieux herbivores se nourrissent principalement des feuilles d\'arbres hauts, une adaptation évolutive à leur habitat de savane africaine.', 1),
+(2, 'Zèbre', 'Equus quagga', 'Les zèbres sont célèbres pour leurs rayures distinctives noires et blanches, chaque individu ayant un motif unique comme les empreintes digitales chez l\'humain. Ils sont très sociaux et parcourent la savane en grands troupeaux.', 1),
+(3, 'Gnou', 'Connochaetes taurinus', 'Les gnous, ou antilopes à barbe, sont connus pour leur migration spectaculaire en masse à travers les plaines africaines. Ces herbivores robustes jouent un rôle clé dans l\'écosystème en tant que proies pour de nombreux prédateurs.', 1),
+(4, 'Antilope Cobe de Lechwe','Kobus leche', 'Les Cobe de Lechwe sont des antilopes adaptées aux zones humides, avec des sabots larges parfaits pour la boue et l\'eau. Leur pelage huileux repousse l\'eau, et ils sont souvent vus en train de patauger dans l\'eau pour échapper aux prédateurs.', 1);
 
 -- Insertion des espèces de la Jungle
 INSERT INTO `Species` (`specieId`, `specieName`, `specieTaxon`, `specieDescr`, `biomeKey`) VALUES
-(5, 'Singes Araignées', 'Ateles geoffroyi', 'Le singe araignée se distingue par sa grande agilité dans les arbres de la jungle, utilisant sa longue queue préhensile comme cinquième membre pour se balancer entre les branches. Ces primates sociaux forment des groupes complexes et communicatifs.', 2),
-(6, 'Perroquets Ara', 'Ara macao', 'Les perroquets Ara sont réputés pour leur plumage brillant et coloré et leur intelligence remarquable. Ils sont capables d\'imiter les sons et les voix humaines, faisant d\'eux des favoris parmi les visiteurs de zoos.', 2),
-(7, 'Tigres', 'Panthera tigris', 'Le tigre, le plus grand des félins, captive les visiteurs par son allure majestueuse et ses rayures emblématiques. Chasseur solitaire par nature, le tigre est un prédateur topique dans son habitat forestier.', 2),
+(5, 'Singe Araignée', 'Ateles geoffroyi', 'Le singe araignée se distingue par sa grande agilité dans les arbres de la jungle, utilisant sa longue queue préhensile comme cinquième membre pour se balancer entre les branches. Ces primates sociaux forment des groupes complexes et communicatifs.', 2),
+(6, 'Perroquet Ara', 'Ara macao', 'Les perroquets Ara sont réputés pour leur plumage brillant et coloré et leur intelligence remarquable. Ils sont capables d\'imiter les sons et les voix humaines, faisant d\'eux des favoris parmi les visiteurs de zoos.', 2),
+(7, 'Tigre', 'Panthera tigris', 'Le tigre, le plus grand des félins, captive les visiteurs par son allure majestueuse et ses rayures emblématiques. Chasseur solitaire par nature, le tigre est un prédateur topique dans son habitat forestier.', 2),
 (8, 'Paresseux', 'Bradypus variegatus', 'Les paresseux passent la majorité de leur vie suspendus aux arbres de la jungle, se déplaçant lentement pour conserver de l\'énergie. Leur métabolisme extrêmement lent est fascinant, adapté à leur régime alimentaire faible en calories.', 2);
 
 -- Insertion des espèces des Marais
 INSERT INTO `Species` (`specieId`, `specieName`, `specieTaxon`, `specieDescr`, `biomeKey`) VALUES
-(9, 'Crocodiles du Nil', 'Crocodylus niloticus', 'Les crocodiles du Nil sont parmi les plus grands crocodiles au monde, avec une impressionnante capacité d\'adaptation à divers habitats aquatiques. Redoutés comme prédateurs, ils jouent un rôle crucial dans la régulation des populations d\'autres espèces.', 3),
-(10, 'Loutres de rivière', 'Lontra canadensis', 'Les loutres de rivière, agiles et joueuses, sont un plaisir à observer, surtout lorsqu\'elles manipulent des objets ou jouent entre elles. Leur forte socialisation contribue à renforcer les liens familiaux et groupaux.', 3),
-(11, 'Hérons cendrés', 'Ardea cinerea', 'Le héron cendré est admiré pour sa stature élancée et sa technique de pêche patiente et précise. Ces grands échassiers sont souvent vus immobiles dans l\'eau, attendant de harponner un poisson avec leur long bec pointu.', 3);
+(9, 'Crocodile du Nil', 'Crocodylus niloticus', 'Les crocodiles du Nil sont parmi les plus grands crocodiles au monde, avec une impressionnante capacité d\'adaptation à divers habitats aquatiques. Redoutés comme prédateurs, ils jouent un rôle crucial dans la régulation des populations d\'autres espèces.', 3),
+(10, 'Loutre de rivière', 'Lontra canadensis', 'Les loutres de rivière, agiles et joueuses, sont un plaisir à observer, surtout lorsqu\'elles manipulent des objets ou jouent entre elles. Leur forte socialisation contribue à renforcer les liens familiaux et groupaux.', 3),
+(11, 'Héron cendré', 'Ardea cinerea', 'Le héron cendré est admiré pour sa stature élancée et sa technique de pêche patiente et précise. Ces grands échassiers sont souvent vus immobiles dans l\'eau, attendant de harponner un poisson avec leur long bec pointu.', 3);
 
 
 INSERT INTO `Animals` (`animalId`, `animalName`, `animalDescr`, `animalBirth`, `animalGender`, `biomeKey`, `specieKey`) VALUES
