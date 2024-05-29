@@ -22,10 +22,13 @@ module.exports = (app) => {
 
       const sql = `
        SELECT
-          Reports.*,
-          Users.userName as reportedBy
-          FROM Reports
-          LEFT JOIN Users ON Reports.veterinaryKey = Users.userId WHERE animalKey = ?`;
+        Reports.*,
+        Users.userName as reportedBy,
+        Animals.animalName as animalName
+      FROM Reports
+      LEFT JOIN Users ON Reports.veterinaryKey = Users.userId
+      LEFT JOIN Animals ON Reports.animalKey = Animals.animalId
+      WHERE animalKey = ?`;
 
       const [reports] = await sequelize.query(sql, {
         replacements: [animalId],

@@ -9,7 +9,7 @@ export interface SqlViewDataConfig<T> {
     key: string;
     label: string;
   }[];
-  actions?: { view: boolean; edit: boolean; delete: boolean; newSub?: boolean };
+  actions?: { view?: boolean; edit?: boolean; delete?: boolean; newSub?: boolean };
   booleanColumns?: string[];
   sortable?: boolean;
   formFields?: FormField[];
