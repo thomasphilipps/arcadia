@@ -7,7 +7,7 @@ const reportReadAllQuery = () => {
       Species.specieName AS animalSpecie,
       Biomes.biomeName AS animalBiome,
       Animals.animalBirth AS animalBirth,
-      Animals.animalGender AS animalSex
+      Animals.animalGender AS animalGender
     FROM Reports
     LEFT JOIN Users ON Reports.veterinaryKey = Users.userId
     LEFT JOIN Animals ON Reports.animalKey = Animals.animalId
@@ -24,7 +24,7 @@ const reportReadByIdQuery = (id) => {
       Species.specieName AS animalSpecie,
       Biomes.biomeName AS animalBiome,
       Animals.animalBirth AS animalBirth,
-      Animals.animalGender AS animalSex
+      Animals.animalGender AS animalGender
     FROM Reports
     LEFT JOIN Users ON Reports.veterinaryKey = Users.userId
     LEFT JOIN Animals ON Reports.animalKey = Animals.animalId
