@@ -122,4 +122,16 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
       this.dataSource.paginator.firstPage();
     }
   }
+
+  canEdit(element: T): boolean {
+    return typeof this.config.actions?.edit === 'function'
+      ? this.config.actions.edit(element)
+      : !!this.config.actions?.edit;
+  }
+
+  canDelete(element: T): boolean {
+    return typeof this.config.actions?.delete === 'function'
+      ? this.config.actions.delete(element)
+      : !!this.config.actions?.delete;
+  }
 }

@@ -113,7 +113,11 @@ export class ReportAdminComponent implements OnInit {
         { key: 'reportState', label: 'Etat' },
         { key: 'reportDetails', label: 'Détails' },
       ],
-      actions: { view: true },
+      actions: {
+        view: true,
+        edit: (report) => this.currentUser?.userId === report.veterinaryKey,
+        delete: (report) => this.currentUser?.userId === report.veterinaryKey,
+      },
       sortable: false,
       noFilter: true,
     };
@@ -122,12 +126,13 @@ export class ReportAdminComponent implements OnInit {
   updateReportListConfig(animalId: string): void {
     const reports = this.getAnimalReports(animalId) || [];
     const animal = this.animals.find((a) => a.animalId === animalId);
+    this.selectedAnimal = animal || null;
+
     this.reportListConfig = {
       ...this.reportListConfig,
       label: `Rapports pour l'animal: ${animal?.animalName}`,
       data: of(reports),
     };
-    this.selectedAnimal = animal || null;
   }
 
   getAnimalReports(animalId: string): VetReport[] | null {
@@ -146,7 +151,6 @@ export class ReportAdminComponent implements OnInit {
   }
 
   viewAnimalReport(reportId: number): void {
-    console.log('Voir le rapport: ', reportId);
     const report = this.reports.find((r) => r.reportId === reportId);
     let message = '';
     if (report) {
@@ -161,7 +165,7 @@ export class ReportAdminComponent implements OnInit {
 
       Etat: ${report.reportState}
       Détails: ${report.reportDetails}
-      
+
       Nourriture recommandée: ${report.reportFoodAmount} ${report.reportFoodType}`;
     } else {
       message = `Erreur lors de la récupération du rapport`;
