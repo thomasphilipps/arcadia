@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
+import { MatExpansionModule } from '@angular/material/expansion';
+
+import { of } from 'rxjs';
+
 import { SqlDataTableComponent } from '@app/components/templates/sql-data-table/sql-data-table.component';
 import { Animal } from '@app/interfaces/animal.interface';
 import { VetReport } from '@app/interfaces/report.interace';
@@ -8,28 +13,22 @@ import { AnimalService } from '@app/services/animal.service';
 import { AuthService } from '@app/services/auth.service';
 import { ReportService } from '@app/services/report.service';
 import { toDate } from '@app/utils/utils';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'arz-report-admin',
   standalone: true,
-  imports: [SqlDataTableComponent],
+  imports: [SqlDataTableComponent, MatExpansionModule],
   templateUrl: './report-admin.component.html',
   styleUrls: ['./report-admin.component.scss'],
 })
 export class ReportAdminComponent implements OnInit {
   animals: Animal[] = [];
   reports: VetReport[] = [];
-  reportsConfig: SqlViewDataConfig<Animal> = {
-    label: '',
-    data: of([]),
-    primaryKey: '',
-    displayColumns: [],
-    actions: { newSub: false, view: false },
-    sortable: false,
-  };
-
+  reportsConfig: SqlViewDataConfig<Animal> = this.createAnimalConfig();
+  reportListConfig: SqlViewDataConfig<VetReport> = this.createReportConfig();
   currentUser: User | null = null;
+  showReportList: boolean = false;
+  selectedAnimal: Animal | null = null;
 
   constructor(
     private animalService: AnimalService,
@@ -48,7 +47,7 @@ export class ReportAdminComponent implements OnInit {
     this.animalService.getAllData().subscribe({
       next: (animals) => {
         this.animals = animals;
-        this.updateViewData();
+        this.updateAnimalConfig();
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données: ', error);
@@ -61,7 +60,7 @@ export class ReportAdminComponent implements OnInit {
     this.reportService.getAllData().subscribe({
       next: (reports) => {
         this.reports = reports;
-        this.updateViewData();
+        this.updateAnimalConfig();
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données: ', error);
@@ -69,9 +68,10 @@ export class ReportAdminComponent implements OnInit {
     });
   }
 
-  updateViewData(): void {
+  updateAnimalConfig(): void {
     const viewdata = this.animals.map((animal) => {
-      const lastReport = this.getLastAnimalReport(animal.animalId);
+      const reports = this.getAnimalReports(animal.animalId);
+      const lastReport = reports ? reports[0] : null;
       return {
         ...animal,
         lastReportDate: lastReport?.reportDate,
@@ -80,8 +80,15 @@ export class ReportAdminComponent implements OnInit {
     });
 
     this.reportsConfig = {
+      ...this.reportsConfig,
+      data: of(viewdata),
+    };
+  }
+
+  createAnimalConfig(): SqlViewDataConfig<Animal> {
+    return {
       label: 'Animaux',
-      data: of(viewdata), // Transform viewdata to an Observable
+      data: of([]),
       primaryKey: 'animalId',
       displayColumns: [
         { key: 'animalName', label: 'Nom' },
@@ -95,36 +102,69 @@ export class ReportAdminComponent implements OnInit {
     };
   }
 
-  getLastAnimalReport(animalId: string): VetReport | null {
+  createReportConfig(): SqlViewDataConfig<VetReport> {
+    return {
+      label: '',
+      data: of([]),
+      primaryKey: 'reportId',
+      displayColumns: [
+        { key: 'reportDate', label: 'Date' },
+        { key: 'reportedBy', label: 'Vétérinaire' },
+        { key: 'reportState', label: 'Etat' },
+        { key: 'reportDetails', label: 'Détails' },
+      ],
+      actions: { view: true },
+      sortable: false,
+      noFilter: true,
+    };
+  }
+
+  updateReportListConfig(animalId: string): void {
+    const reports = this.getAnimalReports(animalId) || [];
+    const animal = this.animals.find((a) => a.animalId === animalId);
+    this.reportListConfig = {
+      ...this.reportListConfig,
+      label: `Rapports pour l'animal: ${animal?.animalName}`,
+      data: of(reports),
+    };
+    this.selectedAnimal = animal || null;
+  }
+
+  getAnimalReports(animalId: string): VetReport[] | null {
     const reports = this.reports.filter((report) => report.animalKey === animalId);
     if (reports.length === 0) {
       return null;
     }
 
     reports.sort((a, b) => new Date(b.reportDate).getTime() - new Date(a.reportDate).getTime());
-    return reports[0];
+    return reports;
   }
 
-  viewLastAnimalReport(animalId: string): void {
-    const latestReport = this.getLastAnimalReport(animalId);
-    console.log("Dernier rapport pour l'animal: ", latestReport);
-    let message = '';
-    if (latestReport) {
-      const reportDate = toDate(latestReport.reportDate).toLocaleDateString();
-      message = `
-      Dernier rapport pour ${latestReport.animalName}
+  viewReports(animalId: string): void {
+    this.showReportList = true;
+    this.updateReportListConfig(animalId);
+  }
 
-      ${latestReport.animalSpecie} ${latestReport.animalGender} né(e) le ${toDate(
-        latestReport.animalBirth
-      ).toLocaleDateString()}
+  viewAnimalReport(reportId: number): void {
+    console.log('Voir le rapport: ', reportId);
+    const report = this.reports.find((r) => r.reportId === reportId);
+    let message = '';
+    if (report) {
+      const reportDate = toDate(report.reportDate).toLocaleDateString();
+      const birthDate = toDate(report.animalBirth).toLocaleDateString();
+      message = `
+      Rapport du ${reportDate} pour ${report.animalName}
+
+      ${report.animalSpecie} ${report.animalGender} né(e) le ${birthDate}
       
-      Date: ${reportDate}
-      Vétérinaire: ${latestReport.reportedBy}
-      Etat: ${latestReport.reportState}
-      Détails: ${latestReport.reportDetails}
-      Nourriture recommandée: ${latestReport.reportFoodAmount} ${latestReport.reportFoodType}`;
+      Vétérinaire: ${report.reportedBy}
+
+      Etat: ${report.reportState}
+      Détails: ${report.reportDetails}
+      
+      Nourriture recommandée: ${report.reportFoodAmount} ${report.reportFoodType}`;
     } else {
-      message = `Aucun rapport trouvé pour cet animal`;
+      message = `Erreur lors de la récupération du rapport`;
     }
     alert(message);
   }
