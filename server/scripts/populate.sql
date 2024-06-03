@@ -1,9 +1,12 @@
 -- TODO: supprimer l'insertion de l'admin avant la mise en ligne
 -- Insertion des utilisateurs
 INSERT INTO `Users` (`userId`, `userEmail`, `userName`, `userPassword`, `userRole`) VALUES
-('15ee5d2b-c0b7-4c40-8534-4e20ee8b144a', 'henri@zoo-arcadia.com', 'Henri', '$2b$10$P33QAsOnTa2k9Jc4hFbyTO3mBfbsEcv.f3/wjdbdZ2otftbmEk9qm', 'ROLE_VETERINARY'),
 ('48ac9728-0000-11ef-8213-00155d07f9b8', 'admin@zoo-arcadia.com', 'José', '$2b$10$S0xZ3yjY00B1sv924I73guqbUqnCCwRmqBlHCS5YpzTfRHQD1IwCC', 'ROLE_ADMIN'),
-('095e7eef-b25e-427e-9c4e-7c603bb76487', 'paul@zoo-arcadia.com', 'Paul', '$2b$10$NFo2YBcgotmm0JPX2YWsT.qrNS26zYEfu2D5pk1HDDYCHGyXLwtSe', 'ROLE_EMPLOYEE');
+('095e7eef-b25e-427e-9c4e-7c603bb76487', 'paul@zoo-arcadia.com', 'Paul', '$2b$10$NFo2YBcgotmm0JPX2YWsT.qrNS26zYEfu2D5pk1HDDYCHGyXLwtSe', 'ROLE_EMPLOYEE'),
+('15ee5d2b-c0b7-4c40-8534-4e20ee8b144a', 'henri@zoo-arcadia.com', 'Henri', '$2b$10$P33QAsOnTa2k9Jc4hFbyTO3mBfbsEcv.f3/wjdbdZ2otftbmEk9qm', 'ROLE_VETERINARY'),
+('321d9219-3dcd-4cc3-9431-c52981ad7452', 'carine@zoo-arcadia.com', 'Carine', '$2b$10$lWMW8KHYnlVOGhV5nvKMr.LvtzGXw4PDQAGcYzYIAxF6Q0de/WLuK', 'ROLE_EMPLOYEE'),
+('b8464391-b7e8-4534-aa7b-fc30f1875cc5', 'frank@zoo-arcadia.com', 'Frank', '$2b$10$GplW5cQjj3NfiXqBbe6//uWrHJWysaMtx2M73mL8Kk9kTvv5hNXJa', 'ROLE_VETERINARY');
+
 
   -- Initial schedules
 UPDATE `Schedules` SET `openAm` = '09:30:00', `closeAm` = NULL, `openPm` = NULL, `closePm` = '18:00:00' WHERE `dayId` = 1;
@@ -123,17 +126,17 @@ INSERT INTO `Reviews` (`reviewAlias`, `reviewContent`, `reviewRating`, `reviewPo
 
 INSERT INTO `Reports` (`reportState`, `reportDate`, `reportDetails`, `reportFoodType`, `reportFoodAmount`, `animalKey`, `veterinaryKey`) VALUES
 -- Rapports pour les Girafes
-('En bonne santé', '2024-05-01 10:00:00', 'Aucun signe de maladie.', 'Feuilles', '5 kg', 'd290f1ee-6c54-4b01-90e6-d701748f0851', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-01 10:00:00', 'Aucun signe de maladie.', 'Feuilles', '5 kg', 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Fatiguée', '2024-04-20 14:00:00', 'Légère fatigue observée.', 'Herbes', '4 kg', 'd290f1ee-6c54-4b01-90e6-d701748f0851', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-03-15 11:00:00', 'Très active et joueuse.', 'Fruits', '3 kg', 'd290f1ee-6c54-4b01-90e6-d701748f0851', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Active', '2024-03-15 11:00:00', 'Très active et joueuse.', 'Fruits', '3 kg', 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('En bonne santé', '2024-05-02 10:30:00', 'Pas de problème de santé.', 'Feuilles', '6 kg', 'f1c2a5d4-68e4-4d8b-9fd8-f5cbb07b5bc3', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère boiterie', '2024-04-15 15:00:00', 'Boiterie légère observée.', 'Herbes', '5 kg', 'f1c2a5d4-68e4-4d8b-9fd8-f5cbb07b5bc3', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère boiterie', '2024-04-15 15:00:00', 'Boiterie légère observée.', 'Herbes', '5 kg', 'f1c2a5d4-68e4-4d8b-9fd8-f5cbb07b5bc3', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('En forme', '2024-03-10 09:00:00', 'Très en forme.', 'Fruits', '4 kg', 'f1c2a5d4-68e4-4d8b-9fd8-f5cbb07b5bc3', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
-('Energique', '2024-05-05 11:30:00', 'Très énergique et joueuse.', 'Feuilles', '4 kg', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère toux', '2024-04-18 14:30:00', 'Petite toux observée.', 'Herbes', '3 kg', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Bonne condition', '2024-03-12 10:45:00', 'En bonne condition générale.', 'Fruits', '3.5 kg', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Energique', '2024-05-05 11:30:00', 'Très énergique et joueuse.', 'Feuilles', '4 kg', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Légère toux', '2024-04-18 14:30:00', 'Petite toux observée.', 'Herbes', '3 kg', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Bonne condition', '2024-03-12 10:45:00', 'En bonne condition générale.', 'Fruits', '3.5 kg', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Zèbres
 ('En bonne santé', '2024-05-03 09:00:00', 'Aucun problème détecté.', 'Herbes', '4 kg', 'a3e1b3e4-4449-47a1-8434-0b97d8a8b755', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
@@ -141,68 +144,68 @@ INSERT INTO `Reports` (`reportState`, `reportDate`, `reportDetails`, `reportFood
 ('Active', '2024-03-08 12:00:00', 'Très active et sociale.', 'Fruits', '2.5 kg', 'a3e1b3e4-4449-47a1-8434-0b97d8a8b755', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 ('En bonne santé', '2024-05-04 10:30:00', 'Pas de soucis de santé.', 'Herbes', '5 kg', '4b837d26-19e8-45a8-b144-9072dd7b9f33', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère boiterie', '2024-04-22 14:00:00', 'Boiterie légère détectée.', 'Feuilles', '4 kg', '4b837d26-19e8-45a8-b144-9072dd7b9f33', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('En forme', '2024-03-09 11:00:00', 'Très en forme et actif.', 'Fruits', '3 kg', '4b837d26-19e8-45a8-b144-9072dd7b9f33', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère boiterie', '2024-04-22 14:00:00', 'Boiterie légère détectée.', 'Feuilles', '4 kg', '4b837d26-19e8-45a8-b144-9072dd7b9f33', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('En forme', '2024-03-09 11:00:00', 'Très en forme et actif.', 'Fruits', '3 kg', '4b837d26-19e8-45a8-b144-9072dd7b9f33', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
-('Energique', '2024-05-06 12:30:00', 'Très énergique et joueuse.', 'Herbes', '3 kg', 'd6f74cc5-5c6c-4f0f-bf6c-8384f6e8a47f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Energique', '2024-05-06 12:30:00', 'Très énergique et joueuse.', 'Herbes', '3 kg', 'd6f74cc5-5c6c-4f0f-bf6c-8384f6e8a47f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Légère toux', '2024-04-19 15:00:00', 'Toux légère observée.', 'Feuilles', '2.5 kg', 'd6f74cc5-5c6c-4f0f-bf6c-8384f6e8a47f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Bonne condition', '2024-03-13 10:45:00', 'En bonne condition générale.', 'Fruits', '2.8 kg', 'd6f74cc5-5c6c-4f0f-bf6c-8384f6e8a47f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 -- Rapports pour les Gnous
 ('En bonne santé', '2024-05-07 11:00:00', 'Aucun signe de maladie.', 'Herbes', '5 kg', 'f7e9e8c2-d8ef-472d-b408-9e3b1f35a8d6', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Fatigué', '2024-04-21 13:30:00', 'Fatigue légère observée.', 'Foin', '4 kg', 'f7e9e8c2-d8ef-472d-b408-9e3b1f35a8d6', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Fatigué', '2024-04-21 13:30:00', 'Fatigue légère observée.', 'Foin', '4 kg', 'f7e9e8c2-d8ef-472d-b408-9e3b1f35a8d6', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Active', '2024-03-10 10:00:00', 'Très actif et joueur.', 'Légumes', '3.5 kg', 'f7e9e8c2-d8ef-472d-b408-9e3b1f35a8d6', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
-('En bonne santé', '2024-05-08 12:00:00', 'Pas de problème de santé.', 'Herbes', '6 kg', 'b0d3f29a-431e-4b8a-99ab-8a2e6c1c8e4f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-08 12:00:00', 'Pas de problème de santé.', 'Herbes', '6 kg', 'b0d3f29a-431e-4b8a-99ab-8a2e6c1c8e4f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Légère boiterie', '2024-04-23 15:00:00', 'Boiterie légère observée.', 'Foin', '5 kg', 'b0d3f29a-431e-4b8a-99ab-8a2e6c1c8e4f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('En forme', '2024-03-11 11:00:00', 'Très en forme.', 'Légumes', '4 kg', 'b0d3f29a-431e-4b8a-99ab-8a2e6c1c8e4f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En forme', '2024-03-11 11:00:00', 'Très en forme.', 'Légumes', '4 kg', 'b0d3f29a-431e-4b8a-99ab-8a2e6c1c8e4f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('Energique', '2024-05-09 13:00:00', 'Très énergique et joueur.', 'Herbes', '4 kg', 'e60b1a8f-d06b-4d53-9813-0b4b2d6f26b9', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère toux', '2024-04-24 14:00:00', 'Toux légère observée.', 'Foin', '3 kg', 'e60b1a8f-d06b-4d53-9813-0b4b2d6f26b9', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Bonne condition', '2024-03-12 12:00:00', 'En bonne condition générale.', 'Légumes', '3.5 kg', 'e60b1a8f-d06b-4d53-9813-0b4b2d6f26b9', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère toux', '2024-04-24 14:00:00', 'Toux légère observée.', 'Foin', '3 kg', 'e60b1a8f-d06b-4d53-9813-0b4b2d6f26b9', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Bonne condition', '2024-03-12 12:00:00', 'En bonne condition générale.', 'Légumes', '3.5 kg', 'e60b1a8f-d06b-4d53-9813-0b4b2d6f26b9', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('En bonne santé', '2024-05-10 10:30:00', 'Aucun problème de santé.', 'Herbes', '4.5 kg', '97fa8cbb-25a1-4f0c-85c4-d7ef31b0d2c8', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Fatiguée', '2024-04-25 11:30:00', 'Fatigue légère observée.', 'Foin', '3.5 kg', '97fa8cbb-25a1-4f0c-85c4-d7ef31b0d2c8', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-03-13 09:30:00', 'Très active et joueuse.', 'Légumes', '3 kg', '97fa8cbb-25a1-4f0c-85c4-d7ef31b0d2c8', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Active', '2024-03-13 09:30:00', 'Très active et joueuse.', 'Légumes', '3 kg', '97fa8cbb-25a1-4f0c-85c4-d7ef31b0d2c8', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Antilopes Cobe de Lechwe
-('En bonne santé', '2024-05-11 11:30:00', 'Aucun signe de maladie.', 'Herbes', '5 kg', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Fatigué', '2024-04-26 13:30:00', 'Fatigue légère observée.', 'Feuilles', '4 kg', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-03-14 10:00:00', 'Très actif et joueur.', 'Légumes', '3.5 kg', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-11 11:30:00', 'Aucun signe de maladie.', 'Herbes', '5 kg', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Fatigué', '2024-04-26 13:30:00', 'Fatigue légère observée.', 'Feuilles', '4 kg', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Active', '2024-03-14 10:00:00', 'Très actif et joueur.', 'Légumes', '3.5 kg', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('En bonne santé', '2024-05-12 12:00:00', 'Pas de problème de santé.', 'Herbes', '6 kg', 'e94f41e9-4e4b-4211-9ab6-70543fef99e4', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Légère boiterie', '2024-04-27 15:00:00', 'Boiterie légère observée.', 'Feuilles', '5 kg', 'e94f41e9-4e4b-4211-9ab6-70543fef99e4', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('En forme', '2024-03-15 11:00:00', 'Très en forme.', 'Légumes', '4 kg', 'e94f41e9-4e4b-4211-9ab6-70543fef99e4', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 ('Energique', '2024-05-13 13:00:00', 'Très énergique et joueur.', 'Herbes', '4 kg', '64bc243b-2b13-4a56-96f1-37780b564d48', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère toux', '2024-04-28 14:00:00', 'Toux légère observée.', 'Feuilles', '3 kg', '64bc243b-2b13-4a56-96f1-37780b564d48', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Bonne condition', '2024-03-16 12:00:00', 'En bonne condition générale.', 'Légumes', '3.5 kg', '64bc243b-2b13-4a56-96f1-37780b564d48', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère toux', '2024-04-28 14:00:00', 'Toux légère observée.', 'Feuilles', '3 kg', '64bc243b-2b13-4a56-96f1-37780b564d48', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Bonne condition', '2024-03-16 12:00:00', 'En bonne condition générale.', 'Légumes', '3.5 kg', '64bc243b-2b13-4a56-96f1-37780b564d48', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Singes Araignées
-('En bonne santé', '2024-05-14 11:30:00', 'Aucun signe de maladie.', 'Fruits', '2 kg', '8edc7e2d-9ff1-42ae-8b71-92e2f4eb92a1', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-14 11:30:00', 'Aucun signe de maladie.', 'Fruits', '2 kg', '8edc7e2d-9ff1-42ae-8b71-92e2f4eb92a1', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Fatigué', '2024-04-29 13:30:00', 'Fatigue légère observée.', 'Insectes', '1.5 kg', '8edc7e2d-9ff1-42ae-8b71-92e2f4eb92a1', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Active', '2024-03-17 10:00:00', 'Très actif et joueur.', 'Noix', '1 kg', '8edc7e2d-9ff1-42ae-8b71-92e2f4eb92a1', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
-('En bonne santé', '2024-05-15 12:00:00', 'Pas de problème de santé.', 'Fruits', '2.5 kg', 'c2d3baf0-06a1-4e15-9181-9c55c9f5f1e4', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-15 12:00:00', 'Pas de problème de santé.', 'Fruits', '2.5 kg', 'c2d3baf0-06a1-4e15-9181-9c55c9f5f1e4', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Légère boiterie', '2024-04-30 15:00:00', 'Boiterie légère observée.', 'Insectes', '2 kg', 'c2d3baf0-06a1-4e15-9181-9c55c9f5f1e4', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('En forme', '2024-03-18 11:00:00', 'Très en forme.', 'Noix', '1.5 kg', 'c2d3baf0-06a1-4e15-9181-9c55c9f5f1e4', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En forme', '2024-03-18 11:00:00', 'Très en forme.', 'Noix', '1.5 kg', 'c2d3baf0-06a1-4e15-9181-9c55c9f5f1e4', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('Energique', '2024-05-16 13:00:00', 'Très énergique et joueur.', 'Fruits', '2 kg', '9b9c8e5e-5b78-44cf-84d7-1b5c0bdb0a85', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère toux', '2024-04-25 14:00:00', 'Toux légère observée.', 'Insectes', '1.5 kg', '9b9c8e5e-5b78-44cf-84d7-1b5c0bdb0a85', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère toux', '2024-04-25 14:00:00', 'Toux légère observée.', 'Insectes', '1.5 kg', '9b9c8e5e-5b78-44cf-84d7-1b5c0bdb0a85', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Bonne condition', '2024-03-19 12:00:00', 'En bonne condition générale.', 'Noix', '1.8 kg', '9b9c8e5e-5b78-44cf-84d7-1b5c0bdb0a85', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
-('En bonne santé', '2024-05-17 10:30:00', 'Aucun problème de santé.', 'Fruits', '2.2 kg', 'bc8f4e0a-48ed-4ed9-8f9a-0e6b8e6e6efb', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Fatiguée', '2024-04-26 11:30:00', 'Fatigue légère observée.', 'Insectes', '1.7 kg', 'bc8f4e0a-48ed-4ed9-8f9a-0e6b8e6e6efb', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-17 10:30:00', 'Aucun problème de santé.', 'Fruits', '2.2 kg', 'bc8f4e0a-48ed-4ed9-8f9a-0e6b8e6e6efb', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Fatiguée', '2024-04-26 11:30:00', 'Fatigue légère observée.', 'Insectes', '1.7 kg', 'bc8f4e0a-48ed-4ed9-8f9a-0e6b8e6e6efb', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Active', '2024-03-20 09:30:00', 'Très active et joueuse.', 'Noix', '1.4 kg', 'bc8f4e0a-48ed-4ed9-8f9a-0e6b8e6e6efb', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 -- Rapports pour les Perroquets Ara
 ('En bonne santé', '2024-05-18 11:30:00', 'Aucun signe de maladie.', 'Graines', '0.5 kg', 'd7d6f8c3-29e6-4c1e-a6a5-9f1e5b5b7f85', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Fatigué', '2024-04-27 13:30:00', 'Fatigue légère observée.', 'Fruits', '0.4 kg', 'd7d6f8c3-29e6-4c1e-a6a5-9f1e5b5b7f85', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-03-21 10:00:00', 'Très actif et joueur.', 'Légumes', '0.3 kg', 'd7d6f8c3-29e6-4c1e-a6a5-9f1e5b5b7f85', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Active', '2024-03-21 10:00:00', 'Très actif et joueur.', 'Légumes', '0.3 kg', 'd7d6f8c3-29e6-4c1e-a6a5-9f1e5b5b7f85', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
-('En bonne santé', '2024-05-19 12:00:00', 'Pas de problème de santé.', 'Graines', '0.6 kg', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère boiterie', '2024-04-28 15:00:00', 'Boiterie légère observée.', 'Fruits', '0.5 kg', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('En forme', '2024-03-22 11:00:00', 'Très en forme.', 'Légumes', '0.4 kg', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-19 12:00:00', 'Pas de problème de santé.', 'Graines', '0.6 kg', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Légère boiterie', '2024-04-28 15:00:00', 'Boiterie légère observée.', 'Fruits', '0.5 kg', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('En forme', '2024-03-22 11:00:00', 'Très en forme.', 'Légumes', '0.4 kg', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Tigres
 ('En bonne santé', '2024-05-20 11:30:00', 'Aucun signe de maladie.', 'Viande', '10 kg', 'b9f8e7c2-5c4b-4d9e-8d3f-2b8f9e5d5a8b', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
@@ -210,53 +213,53 @@ INSERT INTO `Reports` (`reportState`, `reportDate`, `reportDetails`, `reportFood
 ('Active', '2024-03-23 10:00:00', 'Très active et joueuse.', 'Poisson', '8 kg', 'b9f8e7c2-5c4b-4d9e-8d3f-2b8f9e5d5a8b', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 ('En bonne santé', '2024-05-21 12:00:00', 'Pas de problème de santé.', 'Viande', '11 kg', 'c4d2b3e4-7f6a-4d8c-8d7f-8b2e9d1a6c3b', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère boiterie', '2024-04-30 15:00:00', 'Boiterie légère observée.', 'Poulet', '10 kg', 'c4d2b3e4-7f6a-4d8c-8d7f-8b2e9d1a6c3b', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('En forme', '2024-03-24 11:00:00', 'Très en forme.', 'Poisson', '9 kg', 'c4d2b3e4-7f6a-4d8c-8d7f-8b2e9d1a6c3b', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère boiterie', '2024-04-30 15:00:00', 'Boiterie légère observée.', 'Poulet', '10 kg', 'c4d2b3e4-7f6a-4d8c-8d7f-8b2e9d1a6c3b', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('En forme', '2024-03-24 11:00:00', 'Très en forme.', 'Poisson', '9 kg', 'c4d2b3e4-7f6a-4d8c-8d7f-8b2e9d1a6c3b', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Paresseux
-('En bonne santé', '2024-05-22 11:30:00', 'Aucun signe de maladie.', 'Feuilles', '0.8 kg', 'b2e8f7d9-5a4e-4d8b-8c7e-2f1d8a9c5e7f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-22 11:30:00', 'Aucun signe de maladie.', 'Feuilles', '0.8 kg', 'b2e8f7d9-5a4e-4d8b-8c7e-2f1d8a9c5e7f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Fatigué', '2024-05-01 13:30:00', 'Fatigue légère observée.', 'Fruits', '0.6 kg', 'b2e8f7d9-5a4e-4d8b-8c7e-2f1d8a9c5e7f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Active', '2024-04-25 10:00:00', 'Très actif et joueur.', 'Légumes', '0.4 kg', 'b2e8f7d9-5a4e-4d8b-8c7e-2f1d8a9c5e7f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 -- Rapports pour les Crocodiles du Nil
-('En bonne santé', '2024-05-23 11:30:00', 'Aucun signe de maladie.', 'Poisson', '8 kg', 'f8e6c9b2-7c5a-4e9d-8c2f-5d1f9a8d7b3a', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-23 11:30:00', 'Aucun signe de maladie.', 'Poisson', '8 kg', 'f8e6c9b2-7c5a-4e9d-8c2f-5d1f9a8d7b3a', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Fatigué', '2024-05-02 13:30:00', 'Fatigue légère observée.', 'Viande', '7 kg', 'f8e6c9b2-7c5a-4e9d-8c2f-5d1f9a8d7b3a', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-04-26 10:00:00', 'Très actif et joueur.', 'Poulet', '6 kg', 'f8e6c9b2-7c5a-4e9d-8c2f-5d1f9a8d7b3a', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Active', '2024-04-26 10:00:00', 'Très actif et joueur.', 'Poulet', '6 kg', 'f8e6c9b2-7c5a-4e9d-8c2f-5d1f9a8d7b3a', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('En bonne santé', '2024-05-24 12:00:00', 'Pas de problème de santé.', 'Poisson', '9 kg', 'd3b2f1e7-8e6c-4a7e-8f2d-9b7c6a8b3d2f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère boiterie', '2024-05-03 15:00:00', 'Boiterie légère observée.', 'Viande', '8 kg', 'd3b2f1e7-8e6c-4a7e-8f2d-9b7c6a8b3d2f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère boiterie', '2024-05-03 15:00:00', 'Boiterie légère observée.', 'Viande', '8 kg', 'd3b2f1e7-8e6c-4a7e-8f2d-9b7c6a8b3d2f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('En forme', '2024-04-27 11:00:00', 'Très en forme.', 'Poulet', '7 kg', 'd3b2f1e7-8e6c-4a7e-8f2d-9b7c6a8b3d2f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
-('Energique', '2024-05-25 13:00:00', 'Très énergique et joueur.', 'Poisson', '8 kg', 'e9d1f8c2-6a4f-4d8c-8e7d-2b5f9a8e7d6f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère toux', '2024-05-04 14:00:00', 'Toux légère observée.', 'Viande', '7 kg', 'e9d1f8c2-6a4f-4d8c-8e7d-2b5f9a8e7d6f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Energique', '2024-05-25 13:00:00', 'Très énergique et joueur.', 'Poisson', '8 kg', 'e9d1f8c2-6a4f-4d8c-8e7d-2b5f9a8e7d6f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Légère toux', '2024-05-04 14:00:00', 'Toux légère observée.', 'Viande', '7 kg', 'e9d1f8c2-6a4f-4d8c-8e7d-2b5f9a8e7d6f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Bonne condition', '2024-04-28 12:00:00', 'En bonne condition générale.', 'Poulet', '6.5 kg', 'e9d1f8c2-6a4f-4d8c-8e7d-2b5f9a8e7d6f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 ('En bonne santé', '2024-05-26 10:30:00', 'Aucun problème de santé.', 'Poisson', '7 kg', 'b7e6d9f2-8c5a-4d9b-8e6d-7a5c8b2f1e4d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Fatiguée', '2024-05-05 11:30:00', 'Fatigue légère observée.', 'Viande', '6 kg', 'b7e6d9f2-8c5a-4d9b-8e6d-7a5c8b2f1e4d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-04-29 09:30:00', 'Très active et joueuse.', 'Poulet', '5 kg', 'b7e6d9f2-8c5a-4d9b-8e6d-7a5c8b2f1e4d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Active', '2024-04-29 09:30:00', 'Très active et joueuse.', 'Poulet', '5 kg', 'b7e6d9f2-8c5a-4d9b-8e6d-7a5c8b2f1e4d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Loutres de rivière
-('En bonne santé', '2024-05-27 11:30:00', 'Aucun signe de maladie.', 'Poisson', '2 kg', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Fatigué', '2024-05-06 13:30:00', 'Fatigue légère observée.', 'Crustacés', '1.5 kg', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-04-30 10:00:00', 'Très actif et joueur.', 'Insectes', '1 kg', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-27 11:30:00', 'Aucun signe de maladie.', 'Poisson', '2 kg', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Fatigué', '2024-05-06 13:30:00', 'Fatigue légère observée.', 'Crustacés', '1.5 kg', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Active', '2024-04-30 10:00:00', 'Très actif et joueur.', 'Insectes', '1 kg', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('En bonne santé', '2024-05-28 12:00:00', 'Pas de problème de santé.', 'Poisson', '2.5 kg', 'c3d1b9e6-7a5c-4d9e-8b6d-8f2d7a5e1c3d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Légère boiterie', '2024-05-07 15:00:00', 'Boiterie légère observée.', 'Crustacés', '2 kg', 'c3d1b9e6-7a5c-4d9e-8b6d-8f2d7a5e1c3d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('En forme', '2024-05-01 11:00:00', 'Très en forme.', 'Insectes', '1.5 kg', 'c3d1b9e6-7a5c-4d9e-8b6d-8f2d7a5e1c3d', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 ('Energique', '2024-05-08 13:00:00', 'Très énergique et joueur.', 'Poisson', '2 kg', 'd8e7f9b6-4c5e-4d8b-8c7e-9a6f7b5d3a2e', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Légère toux', '2024-05-02 14:00:00', 'Toux légère observée.', 'Crustacés', '1.5 kg', 'd8e7f9b6-4c5e-4d8b-8c7e-9a6f7b5d3a2e', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Bonne condition', '2024-04-30 12:00:00', 'En bonne condition générale.', 'Insectes', '1.8 kg', 'd8e7f9b6-4c5e-4d8b-8c7e-9a6f7b5d3a2e', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Légère toux', '2024-05-02 14:00:00', 'Toux légère observée.', 'Crustacés', '1.5 kg', 'd8e7f9b6-4c5e-4d8b-8c7e-9a6f7b5d3a2e', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Bonne condition', '2024-04-30 12:00:00', 'En bonne condition générale.', 'Insectes', '1.8 kg', 'd8e7f9b6-4c5e-4d8b-8c7e-9a6f7b5d3a2e', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 ('En bonne santé', '2024-05-09 10:30:00', 'Aucun problème de santé.', 'Poisson', '2.2 kg', 'e2d7f9b6-5a4c-4d8e-8b7f-6c5d8a9f7e4c', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Fatiguée', '2024-05-03 11:30:00', 'Fatigue légère observée.', 'Crustacés', '1.7 kg', 'e2d7f9b6-5a4c-4d8e-8b7f-6c5d8a9f7e4c', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Active', '2024-04-29 09:30:00', 'Très active et joueuse.', 'Insectes', '1.4 kg', 'e2d7f9b6-5a4c-4d8e-8b7f-6c5d8a9f7e4c', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('Active', '2024-04-29 09:30:00', 'Très active et joueuse.', 'Insectes', '1.4 kg', 'e2d7f9b6-5a4c-4d8e-8b7f-6c5d8a9f7e4c', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 
 -- Rapports pour les Hérons cendrés
-('En bonne santé', '2024-05-10 11:30:00', 'Aucun signe de maladie.', 'Poisson', '0.7 kg', 'c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('Fatigué', '2024-05-04 13:30:00', 'Fatigue légère observée.', 'Amphibiens', '0.5 kg', 'c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
+('En bonne santé', '2024-05-10 11:30:00', 'Aucun signe de maladie.', 'Poisson', '0.7 kg', 'c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
+('Fatigué', '2024-05-04 13:30:00', 'Fatigue légère observée.', 'Amphibiens', '0.5 kg', 'c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5'),
 ('Active', '2024-04-30 10:00:00', 'Très actif et joueur.', 'Insectes', '0.4 kg', 'c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 
 ('En bonne santé', '2024-05-11 12:00:00', 'Pas de problème de santé.', 'Poisson', '0.8 kg', 'd1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
 ('Légère boiterie', '2024-05-05 15:00:00', 'Boiterie légère observée.', 'Amphibiens', '0.6 kg', 'd1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a'),
-('En forme', '2024-05-01 11:00:00', 'Très en forme.', 'Insectes', '0.5 kg', 'd1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', '15ee5d2b-c0b7-4c40-8534-4e20ee8b144a');
+('En forme', '2024-05-01 11:00:00', 'Très en forme.', 'Insectes', '0.5 kg', 'd1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', 'b8464391-b7e8-4534-aa7b-fc30f1875cc5');
