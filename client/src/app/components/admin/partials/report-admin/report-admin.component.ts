@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 
@@ -13,11 +13,13 @@ import { AnimalService } from '@app/services/animal.service';
 import { AuthService } from '@app/services/auth.service';
 import { ReportService } from '@app/services/report.service';
 import { toDate } from '@app/utils/utils';
+import { Validators } from '@angular/forms';
+import { SqlFormComponent } from '@app/components/templates/sql-form/sql-form.component';
 
 @Component({
   selector: 'arz-report-admin',
   standalone: true,
-  imports: [SqlDataTableComponent, MatExpansionModule],
+  imports: [SqlDataTableComponent, SqlFormComponent, MatExpansionModule],
   templateUrl: './report-admin.component.html',
   styleUrls: ['./report-admin.component.scss'],
 })
@@ -26,9 +28,13 @@ export class ReportAdminComponent implements OnInit {
   reports: VetReport[] = [];
   reportsConfig: SqlViewDataConfig<Animal> = this.createAnimalConfig();
   reportListConfig: SqlViewDataConfig<VetReport> = this.createReportConfig();
+  reportFormConfig: SqlViewDataConfig<VetReport> = this.createReportFormConfig();
   currentUser: User | null = null;
   showReportList: boolean = false;
   selectedAnimal: Animal | null = null;
+  editingReportId: number | null = null;
+
+  @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<VetReport>;
 
   constructor(
     private animalService: AnimalService,
@@ -123,6 +129,50 @@ export class ReportAdminComponent implements OnInit {
     };
   }
 
+  createReportFormConfig(): SqlViewDataConfig<VetReport> {
+    return {
+      label: 'Ajouter un rapport',
+      data: of([]),
+      primaryKey: 'reportId',
+      formFields: [
+        {
+          label: 'Etat résumé',
+          controlName: 'reportState',
+          type: 'text',
+          validators: [Validators.required, Validators.maxLength(255)],
+          maxLength: 255,
+          placeholder: "Etat de l'animal",
+        },
+        {
+          label: 'Détails',
+          controlName: 'reportDetails',
+          type: 'textarea',
+          validators: [Validators.required, Validators.maxLength(1000)],
+          maxLength: 1000,
+          minRows: 3,
+          maxRows: 10,
+          placeholder: 'Détails du rapport',
+        },
+        {
+          label: 'Nourriture recommandée',
+          controlName: 'reportFoodType',
+          type: 'text',
+          validators: [Validators.required, Validators.maxLength(32)],
+          maxLength: 32,
+          placeholder: 'Nourriture recommandée',
+        },
+        {
+          label: 'Quantité recommandée',
+          controlName: 'reportFoodAmount',
+          type: 'text',
+          validators: [Validators.required, Validators.maxLength(32)],
+          maxLength: 32,
+          placeholder: 'Quantité recommandée',
+        },
+      ],
+    };
+  }
+
   updateReportListConfig(animalId: string): void {
     const reports = this.getAnimalReports(animalId) || [];
     const animal = this.animals.find((a) => a.animalId === animalId);
@@ -175,5 +225,12 @@ export class ReportAdminComponent implements OnInit {
 
   addReport(animalId: string): void {
     console.log("Ajouter un rapport pour l'animal: ", animalId);
+    this.editingReportId = null;
+    this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.initializeForm(null);
+  }
+
+  saveReport(report: VetReport): void {
+    console.log('Sauvegarder le rapport: ', report);
   }
 }
