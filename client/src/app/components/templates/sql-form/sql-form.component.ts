@@ -93,11 +93,11 @@ export class SqlFormComponent<T> implements OnInit {
 
   initializeForm<T extends FormModel>(data: T | null): void {
     if (data) {
-      const dataName = this.extractValueByNameKey(data) || 'enregistrement';
       this.form.patchValue(data, { emitEvent: false });
-      this.formTitle = `Modifier ${dataName}`;
+      this.formTitle =
+        this.formTitle || `Modifier ${this.extractValueByNameKey(data) || 'enregistrement'}`;
     } else {
-      this.formTitle = 'Ajouter un enregistrerment';
+      this.formTitle = this.formTitle || 'Ajouter un enregistrement';
       this.form.reset();
     }
   }

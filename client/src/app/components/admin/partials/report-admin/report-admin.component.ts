@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 
-import { of } from 'rxjs';
+import { catchError, of } from 'rxjs';
 
 import { SqlDataTableComponent } from '@app/components/templates/sql-data-table/sql-data-table.component';
 import { Animal } from '@app/interfaces/animal.interface';
@@ -33,6 +33,7 @@ export class ReportAdminComponent implements OnInit {
   showReportList: boolean = false;
   selectedAnimal: Animal | null = null;
   editingReportId: number | null = null;
+  initialFormValues: Partial<VetReport> = {};
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<VetReport>;
 
@@ -67,6 +68,9 @@ export class ReportAdminComponent implements OnInit {
       next: (reports) => {
         this.reports = reports;
         this.updateAnimalConfig();
+        if (this.selectedAnimal) {
+          this.updateReportListConfig(this.selectedAnimal.animalId); // Update report list after loading reports
+        }
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des données: ', error);
@@ -224,13 +228,112 @@ export class ReportAdminComponent implements OnInit {
   }
 
   addReport(animalId: string): void {
-    console.log("Ajouter un rapport pour l'animal: ", animalId);
+    const newReport: Partial<VetReport> = {
+      animalKey: animalId,
+      veterinaryKey: this.currentUser?.userId || '',
+    };
+    const name = this.getAnimalName(animalId);
     this.editingReportId = null;
+    this.sqlFormComponent.formTitle = `Ajouter un rapport pour ${name}`;
     this.sqlFormComponent.editForm = true;
-    this.sqlFormComponent.initializeForm(null);
+    this.initialFormValues = newReport;
+    this.sqlFormComponent.initializeForm(newReport as VetReport);
+  }
+
+  editReport(reportId: number): void {
+    const report = this.reports.find((r) => r.reportId === reportId);
+    console.log('Editing report', report);
+    if (report) {
+      const reportDate = toDate(report.reportDate).toLocaleDateString();
+      this.sqlFormComponent.formTitle = `Modifier le rapport du ${reportDate} pour ${report.animalName}`;
+      this.editingReportId = reportId;
+      this.sqlFormComponent.editForm = true;
+      this.initialFormValues = report;
+      this.sqlFormComponent.initializeForm(report);
+    }
   }
 
   saveReport(report: VetReport): void {
-    console.log('Sauvegarder le rapport: ', report);
+    const mergedReport = { ...this.initialFormValues, ...report };
+
+    const operation =
+      this.editingReportId === null
+        ? this.reportService.createData(mergedReport)
+        : this.reportService.updateData(this.editingReportId, this.getChangedFields(mergedReport));
+
+    operation
+      .pipe(
+        catchError((error) => {
+          console.error("Erreur lors de l'enregistrement du rapport: ", error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: () => {
+          alert('Rapport enregistré avec succès');
+          this.loadAnimals(); // Reload animals after saving
+          this.loadReports(); // Reload reports after saving
+        },
+        complete: () => {
+          this.editingReportId = null;
+          this.sqlFormComponent.onCancelEdit();
+          if (this.selectedAnimal) {
+            this.updateReportListConfig(this.selectedAnimal.animalId); // Update report list after saving
+          }
+        },
+      });
+  }
+
+  deleteReport(reportId: number): void {
+    const report = this.reports.find((report) => report.reportId === reportId);
+    if (!report) {
+      console.error('Erreur lors de la suppression du rapport: rapport introuvable');
+      return;
+    }
+    const reportDate = toDate(report.reportDate).toLocaleDateString();
+    const message =
+      `Voulez-vous vraiment supprimer le rapport du ${reportDate} pour ${report.animalName} ?` +
+      `\n\nCette action est irréversible !\n\n` +
+      `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
+
+    if (confirm(message)) {
+      console.log(`Suppression du rapport ${reportId}`);
+      this.reportService
+        .deleteData(reportId)
+        .pipe(
+          catchError((error) => {
+            console.error('Erreur lors de la suppression du rapport : ', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: () => {
+            alert('Avis supprimé avec succès');
+            this.loadReports(); // Reload reviews after deletion
+            this.loadAnimals(); // Reload animals after deletion
+            if (this.selectedAnimal) {
+              this.updateReportListConfig(this.selectedAnimal.animalId); // Update report list after deletion
+            }
+          },
+          complete: () => {
+            this.sqlFormComponent.onCancelEdit();
+          },
+        });
+    }
+  }
+
+  getChangedFields(report: VetReport): Partial<VetReport> {
+    const changedFields: any = {};
+    (Object.keys(report) as (keyof VetReport)[]).forEach((key) => {
+      if (report[key] !== this.initialFormValues[key]) {
+        changedFields[key] = report[key] as VetReport[keyof VetReport];
+      }
+    });
+    return changedFields;
+  }
+
+  getAnimalName(animalId: string): string {
+    const animal = this.animals.find((a) => a.animalId === animalId);
+    return animal ? animal.animalName : 'Inconnu';
   }
 }

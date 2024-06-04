@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-6">
   <h1 class="m-6 has-text-centered">Rapports sur les animaux</h1>
 
   <mat-accordion>
@@ -30,6 +30,8 @@
         <arz-sql-data-table
           [config]="reportListConfig"
           (viewData)="viewAnimalReport($event)"
+          (editData)="editReport($event)"
+          (deleteData)="deleteReport($event)"
         ></arz-sql-data-table>
       </div>
       }
