@@ -13,6 +13,7 @@ import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 import { CustomValidators } from '@app/validators/custom.validators';
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'arz-biome-admin',
@@ -30,7 +31,7 @@ export class BiomeAdminComponent implements OnInit {
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Biome>;
 
-  constructor(private biomeService: BiomeService) {
+  constructor(private biomeService: BiomeService, private authService: AuthService) {
     this.biomeConfig = {
       label: 'Habitats',
       data: this.biomeService.getAllData(),
@@ -98,6 +99,10 @@ export class BiomeAdminComponent implements OnInit {
         },
       ],
     };
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.hasRole(['ROLE_ADMIN']);
   }
 
   ngOnInit(): void {

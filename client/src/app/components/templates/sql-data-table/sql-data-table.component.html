@@ -54,7 +54,7 @@
             (click)="emitViewEvent(element)"
             >visibility</mat-icon
           >
-          } @if(config.actions.edit) {
+          } @if(canEdit(element)) {
           <mat-icon
             class="has-text-warning level-item"
             aria-hidden="false"
@@ -64,7 +64,7 @@
             (click)="emitEditEvent(element)"
             >edit_square</mat-icon
           >
-          } @if(config.actions.delete) {
+          } @if(canDelete(element)) {
           <mat-icon
             class="has-text-danger level-item"
             aria-hidden="false"
@@ -73,6 +73,16 @@
             style="cursor: pointer"
             (click)="emitDeleteEvent(element)"
             >delete</mat-icon
+          >
+          } @if(config.actions.newSub) {
+          <mat-icon
+            class="has-text-success level-item"
+            aria-hidden="false"
+            aria-label="New sub icon"
+            fontSet="material-symbols-outlined"
+            style="cursor: pointer"
+            (click)="emitNewSubEvent(element)"
+            >diagnosis</mat-icon
           >
           }
         </div>

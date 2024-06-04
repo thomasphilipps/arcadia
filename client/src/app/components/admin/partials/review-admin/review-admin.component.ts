@@ -150,9 +150,10 @@ export class ReviewAdminComponent implements OnInit {
     if (currentUser) {
       review.reviewApprovedBy = currentUser.userId;
     }
-    console.log(review);
 
     review.reviewRating = +review.reviewRating; // Convertir la note en nombre
+
+    console.table(review);
 
     const operation =
       this.editingReviewId === null

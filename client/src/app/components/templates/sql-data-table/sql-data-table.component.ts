@@ -42,6 +42,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
   @Output() editData = new EventEmitter();
   @Output() deleteData = new EventEmitter();
   @Output() viewData = new EventEmitter();
+  @Output() newSubData = new EventEmitter();
 
   data: T[] = [];
   displayedColumns: string[] = [];
@@ -96,6 +97,10 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
     this.emitEvent(this.deleteData, data);
   }
 
+  emitNewSubEvent(data: T) {
+    this.emitEvent(this.newSubData, data);
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -116,5 +121,17 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  canEdit(element: T): boolean {
+    return typeof this.config.actions?.edit === 'function'
+      ? this.config.actions.edit(element)
+      : !!this.config.actions?.edit;
+  }
+
+  canDelete(element: T): boolean {
+    return typeof this.config.actions?.delete === 'function'
+      ? this.config.actions.delete(element)
+      : !!this.config.actions?.delete;
   }
 }

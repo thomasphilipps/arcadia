@@ -1,4 +1,4 @@
-import { Validator, ValidatorFn, Validators } from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 export interface SqlViewDataConfig<T> {
@@ -9,7 +9,12 @@ export interface SqlViewDataConfig<T> {
     key: string;
     label: string;
   }[];
-  actions?: { view: boolean; edit: boolean; delete: boolean };
+  actions?: {
+    view?: boolean;
+    edit?: boolean | ((item: T) => boolean);
+    delete?: boolean | ((item: T) => boolean);
+    newSub?: boolean;
+  };
   booleanColumns?: string[];
   sortable?: boolean;
   formFields?: FormField[];

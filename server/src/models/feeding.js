@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Feedings', {
+  return sequelize.define('Feeding', {
     feedingId: {
       type: DataTypes.INTEGER,
       primaryKey: true,

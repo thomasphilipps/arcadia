@@ -6,7 +6,7 @@ module.exports = (app) => {
   app.post('/api/biomes/', authenticate(['ROLE_ADMIN']), crud.create);
   app.get('/api/biomes/', crud.readAll);
   app.get('/api/biomes/:id', crud.readById);
-  app.put('/api/biomes/:id', authenticate(['ROLE_ADMIN']), crud.update);
+  app.put('/api/biomes/:id', authenticate(['ROLE_ADMIN', 'ROLE_VETERINARY']), crud.update);
   app.delete('/api/biomes/:id', authenticate(['ROLE_ADMIN']), crud.delete);
 
   // Biome specific routes
