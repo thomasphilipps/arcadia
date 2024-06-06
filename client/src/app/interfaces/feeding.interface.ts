@@ -8,4 +8,6 @@ export interface Feeding {
   animalKey: string;
   feederName: string;
   animalName: string;
+  animalBiome: string;
+  animalSpecie: string;
 }
