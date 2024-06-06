@@ -3,7 +3,7 @@ import { SqlGlobalService } from './sql-global.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment.development';
 import { Observable, catchError } from 'rxjs';
-import { VetReport } from '@app/interfaces/report.interace';
+import { VetReport } from '@app/interfaces/report.interface';
 
 @Injectable({
   providedIn: 'root',
