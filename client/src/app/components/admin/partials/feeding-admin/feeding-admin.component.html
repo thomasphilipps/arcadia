@@ -15,4 +15,26 @@
       ></arz-sql-data-table>
     </mat-expansion-panel>
   </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="showFeedingList" [disabled]="!showFeedingList">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2 class="m-6 has-text-centered">
+            Liste des repas @if(showFeedingList) { pour {{ selectedAnimal?.animalName }} }
+          </h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      @if(showFeedingList){
+      <div>
+        <arz-sql-data-table
+          [config]="feedingListConfig"
+          (viewData)="viewAnimalFeeding($event)"
+          (editData)="editFeeding($event)"
+          (deleteData)="deleteFeeding($event)"
+        ></arz-sql-data-table>
+      </div>
+      }
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

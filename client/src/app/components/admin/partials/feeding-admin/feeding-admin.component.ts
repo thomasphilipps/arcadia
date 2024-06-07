@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 
+import { of } from 'rxjs';
+
 import { SqlDataTableComponent } from '@app/components/templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '@app/components/templates/sql-form/sql-form.component';
 import { Animal } from '@app/interfaces/animal.interface';
@@ -11,8 +13,7 @@ import { User } from '@app/interfaces/user.interface';
 import { AnimalService } from '@app/services/animal.service';
 import { AuthService } from '@app/services/auth.service';
 import { FeedingService } from '@app/services/feeding.service';
-import { of } from 'rxjs';
-import { Action } from 'rxjs/internal/scheduler/Action';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'arz-feeding-admin',
@@ -30,6 +31,7 @@ export class FeedingAdminComponent implements OnInit {
   selectedAnimal: Animal | null = null;
   editingFeedingId: number | null = null;
   initialFormValues: Partial<Feeding> = {};
+  showFeedingList = false;
 
   @ViewChild(SqlFormComponent) sqlFormComponent!: SqlFormComponent<Feeding>;
 
@@ -64,6 +66,7 @@ export class FeedingAdminComponent implements OnInit {
       next: (feedings) => {
         this.feedings = feedings;
         this.updateAnimalConfig();
+        console.log('feedings', feedings);
         if (this.selectedAnimal) {
           this.updateFeedingListConfig(this.selectedAnimal.animalId);
         }
@@ -116,12 +119,11 @@ export class FeedingAdminComponent implements OnInit {
       primaryKey: 'feedingId',
       displayColumns: [
         { key: 'feedingDate', label: 'Date' },
-        { key: 'feedingBy', label: 'Employé' },
+        { key: 'feederName', label: 'Employé' },
         { key: 'feedingType', label: 'Repas' },
         { key: 'feedingAmount', label: 'Quantité' },
       ],
       actions: {
-        view: true,
         edit: (report) => this.currentUser?.userId === report.feedingBy,
         delete: (report) => this.currentUser?.userId === report.feedingBy,
       },
@@ -146,11 +148,74 @@ export class FeedingAdminComponent implements OnInit {
     };
   }
 
+  createFeedingFormFConfig(): SqlViewDataConfig<Feeding> {
+    return {
+      label: 'Ajouter un repas',
+      data: of([]),
+      primaryKey: 'feedingId',
+      formFields: [
+        {
+          label: 'Nourriture donnée',
+          controlName: 'feedingType',
+          type: 'text',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: 'Nourriture donnée',
+        },
+        {
+          label: 'Quantité donnée',
+          controlName: 'feedingAmount',
+          type: 'text',
+          maxLength: 32,
+          validators: [Validators.required, Validators.maxLength(32)],
+          placeholder: 'Quantité donnée',
+        },
+      ],
+    };
+  }
+
   addFeeding(animalId: string): void {
     console.log('addFeeding', animalId);
+    const newFeeding: Partial<Feeding> = {
+      animalKey: animalId,
+      feedingBy: this.currentUser?.userId ?? '',
+    };
+    const name = this.getAnimalName(animalId);
+    this.sqlFormComponent.formTitle = `Ajouter un repas pour ${name}`;
+    this.sqlFormComponent.editForm = true;
+    this.initialFormValues = newFeeding;
+    this.sqlFormComponent.initializeForm(newFeeding as Feeding);
   }
 
   viewFeedings(animalId: string): void {
-    console.log('viewFeedings', animalId);
+    this.showFeedingList = true;
+    this.updateFeedingListConfig(animalId);
+  }
+
+  viewAnimalFeeding(animalId: string): void {
+    console.log('viewAnimalFeedings', animalId);
+  }
+
+  editFeeding(feedingId: number): void {
+    console.log('editFeeding', feedingId);
+  }
+
+  deleteFeeding(feedingId: number): void {
+    console.log('deleteFeeding', feedingId);
+  }
+
+  getChangedFields(feeding: Feeding): Partial<Feeding> {
+    const changedFields: any = {};
+    (Object.keys(feeding) as (keyof Feeding)[]).forEach((key) => {
+      if (feeding[key] !== this.initialFormValues[key]) {
+        changedFields[key] = feeding[key];
+      }
+    });
+    return changedFields;
+  }
+
+  getAnimalName(animalId: string): string {
+    const animal = this.animals.find((a) => a.animalId === animalId);
+    return animal?.animalName ?? 'Animal inconnu';
   }
 }
