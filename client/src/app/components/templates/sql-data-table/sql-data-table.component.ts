@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { truncate, convertIsoDateToLocaleDate } from '@app/utils/utils';
 import { Subscription } from 'rxjs';
@@ -29,6 +30,7 @@ import { Subscription } from 'rxjs';
     MatInputModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    MatTooltipModule,
   ],
   templateUrl: './sql-data-table.component.html',
   styleUrls: ['./sql-data-table.component.scss'],

@@ -46,6 +46,7 @@
         <div class="level">
           @if(config.actions.view) {
           <mat-icon
+            matTooltip="Voir les détails"
             class="has-text-info level-item"
             aria-hidden="false"
             aria-label="View icon"
@@ -56,6 +57,7 @@
           >
           } @if(canEdit(element)) {
           <mat-icon
+            matTooltip="Modifier les informations"
             class="has-text-warning level-item"
             aria-hidden="false"
             aria-label="Edit icon"
@@ -66,6 +68,7 @@
           >
           } @if(canDelete(element)) {
           <mat-icon
+            matTooltip="Supprimer l'élément"
             class="has-text-danger level-item"
             aria-hidden="false"
             aria-label="Delete icon"
@@ -76,6 +79,7 @@
           >
           } @if(config.actions.newSub) {
           <mat-icon
+            matTooltip="Ajouter un élément"
             class="has-text-success level-item"
             aria-hidden="false"
             aria-label="New sub icon"

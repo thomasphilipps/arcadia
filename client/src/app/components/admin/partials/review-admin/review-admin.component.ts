@@ -86,6 +86,7 @@ export class ReviewAdminComponent implements OnInit {
 
     this.editingReviewId = null;
     this.sqlFormComponent.editForm = true;
+    this.sqlFormComponent.formTitle = 'Ajouter un avis';
     this.sqlFormComponent.initializeForm(newReview as Review); // Passer les valeurs initiales au formulaire
   }
 
@@ -110,6 +111,7 @@ export class ReviewAdminComponent implements OnInit {
     if (editingReview) {
       this.editingReviewId = reviewId;
       this.sqlFormComponent.editForm = true;
+      this.sqlFormComponent.formTitle = `Modifier l'avis de ${editingReview.reviewAlias}`;
       this.sqlFormComponent.initializeForm(editingReview);
       this.initialFormValues = this.sqlFormComponent.form.value;
     }
