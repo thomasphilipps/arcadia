@@ -85,6 +85,17 @@
         </mat-icon>
         Visite animal
       </a>
+      } @if(hasRole(['ROLE_EMPLOYEE'])) {
+      <a mat-list-item href="dashboard/feeding">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Consultation icon"
+          fontSet="material-symbols-outlined"
+        >
+          grocery
+        </mat-icon>
+        Nourriture
+      </a>
       }
     </mat-nav-list>
     }

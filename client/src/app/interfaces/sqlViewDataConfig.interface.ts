@@ -13,7 +13,7 @@ export interface SqlViewDataConfig<T> {
     view?: boolean;
     edit?: boolean | ((item: T) => boolean);
     delete?: boolean | ((item: T) => boolean);
-    newSub?: boolean;
+    newSub?: boolean | ((item: T) => boolean);
   };
   booleanColumns?: string[];
   sortable?: boolean;
@@ -36,6 +36,7 @@ export interface FormField {
   radioOptions?: OptionArray[];
   validators?: ValidatorFn[];
   placeholder?: string;
+  active?: boolean;
 }
 
 export interface OptionArray {

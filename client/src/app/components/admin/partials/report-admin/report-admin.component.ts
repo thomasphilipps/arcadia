@@ -6,7 +6,7 @@ import { catchError, of } from 'rxjs';
 
 import { SqlDataTableComponent } from '@app/components/templates/sql-data-table/sql-data-table.component';
 import { Animal } from '@app/interfaces/animal.interface';
-import { VetReport } from '@app/interfaces/report.interace';
+import { VetReport } from '@app/interfaces/report.interface';
 import { SqlViewDataConfig } from '@app/interfaces/sqlViewDataConfig.interface';
 import { User } from '@app/interfaces/user.interface';
 import { AnimalService } from '@app/services/animal.service';
