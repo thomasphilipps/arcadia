@@ -230,7 +230,7 @@ export class ReportAdminComponent implements OnInit {
   addReport(animalId: string): void {
     const newReport: Partial<VetReport> = {
       animalKey: animalId,
-      veterinaryKey: this.currentUser?.userId || '',
+      veterinaryKey: this.currentUser?.userId ?? '',
     };
     const name = this.getAnimalName(animalId);
     this.editingReportId = null;
@@ -326,7 +326,7 @@ export class ReportAdminComponent implements OnInit {
     const changedFields: any = {};
     (Object.keys(report) as (keyof VetReport)[]).forEach((key) => {
       if (report[key] !== this.initialFormValues[key]) {
-        changedFields[key] = report[key] as VetReport[keyof VetReport];
+        changedFields[key] = report[key];
       }
     });
     return changedFields;

@@ -156,7 +156,7 @@ export class ServiceAdminComponent implements OnInit {
 
   deleteService(serviceId: number): void {
     const serviceName =
-      this.services.find((service) => service.serviceId === serviceId)?.serviceName || '';
+      this.services.find((service) => service.serviceId === serviceId)?.serviceName ?? '';
     const message =
       `Voulez-vous vraiment supprimer le service "${serviceName}" ?` +
       `\n\nCette action est irréversible !\n\n` +

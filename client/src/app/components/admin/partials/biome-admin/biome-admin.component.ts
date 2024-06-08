@@ -148,7 +148,7 @@ export class BiomeAdminComponent implements OnInit {
   }
 
   deleteBiome(biomeId: number): void {
-    const biomeName = this.biomes.find((biome) => biome.biomeId === biomeId)?.biomeName || '';
+    const biomeName = this.biomes.find((biome) => biome.biomeId === biomeId)?.biomeName ?? '';
     const message =
       `Voulez-vous vraiment supprimer l'habitat' "${biomeName}" ?` +
       `\n\nCette action est irréversible !\n\n` +

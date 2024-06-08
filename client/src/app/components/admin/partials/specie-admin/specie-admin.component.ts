@@ -185,7 +185,7 @@ export class SpecieAdminComponent implements OnInit {
 
   deleteSpecie(specieId: number) {
     const specieName =
-      this.species.find((specie) => specie.specieId === specieId)?.specieName || '';
+      this.species.find((specie) => specie.specieId === specieId)?.specieName ?? '';
     const message =
       `Voulez-vous vraiment supprimer l'espèce : "${specieName}" ?` +
       `\n\nCette action est irréversible !\n\n` +

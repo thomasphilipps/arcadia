@@ -159,7 +159,7 @@ export class AnimalAdminComponent implements OnInit {
   }
 
   deleteAnimal(animalId: string): void {
-    const animalName = this.animals.find((a) => a.animalId === animalId)?.animalName || '';
+    const animalName = this.animals.find((a) => a.animalId === animalId)?.animalName ?? '';
     const message =
       `Voulez-vous vraiment supprimer l'animal "${animalName}" ?` +
       `\n\nCette action est irréversible !\n\n` +
@@ -254,7 +254,7 @@ export class AnimalAdminComponent implements OnInit {
     const changedFields: any = {};
     (Object.keys(animal) as (keyof Animal)[]).forEach((key) => {
       if (animal[key] !== this.initialFormValues[key]) {
-        changedFields[key] = animal[key] as Animal[keyof Animal];
+        changedFields[key] = animal[key];
       }
     });
     return changedFields;

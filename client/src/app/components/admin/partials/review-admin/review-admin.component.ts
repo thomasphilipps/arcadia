@@ -117,7 +117,7 @@ export class ReviewAdminComponent implements OnInit {
 
   deleteReview(reviewId: number): void {
     const reviewAlias =
-      this.reviews.find((review) => review.reviewId === reviewId)?.reviewAlias || '';
+      this.reviews.find((review) => review.reviewId === reviewId)?.reviewAlias ?? '';
     const message =
       `Voulez-vous vraiment supprimer l'avis de "${reviewAlias}" ?` +
       `\n\nCette action est irréversible !\n\n` +
@@ -184,7 +184,7 @@ export class ReviewAdminComponent implements OnInit {
     const changedFields: any = {};
     (Object.keys(review) as (keyof Review)[]).forEach((key) => {
       if (review[key] !== this.initialFormValues[key]) {
-        changedFields[key] = review[key] as Review[keyof Review];
+        changedFields[key] = review[key];
       }
     });
     return changedFields;

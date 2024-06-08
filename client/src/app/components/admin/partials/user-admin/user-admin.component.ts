@@ -252,7 +252,7 @@ export class UserAdminComponent implements OnInit, AfterViewInit {
     const changedFields: any = {};
     (Object.keys(user) as (keyof User)[]).forEach((key) => {
       if (user[key] !== this.initialFormValues[key]) {
-        changedFields[key] = user[key] as User[keyof User];
+        changedFields[key] = user[key];
       }
     });
     return changedFields;
