@@ -29,7 +29,6 @@
       <div>
         <arz-sql-data-table
           [config]="feedingListConfig"
-          (viewData)="viewAnimalFeeding($event)"
           (editData)="editFeeding($event)"
           (deleteData)="deleteFeeding($event)"
         ></arz-sql-data-table>
@@ -37,4 +36,16 @@
       }
     </mat-expansion-panel>
   </mat-accordion>
+
+  @if(lastReport){
+  <div class="has-text-centered m-5">
+    <p>
+      Repas actuellement conseillé pour {{ lastReport.animalName }} :
+      {{ lastReport.reportFoodAmount }}
+      {{ lastReport.reportFoodType }}
+    </p>
+  </div>
+  }
+
+  <arz-sql-form [config]="feedingFormConfig" (saveData)="saveFeeding($event)"></arz-sql-form>
 </div>

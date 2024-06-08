@@ -11,3 +11,8 @@ export interface Feeding {
   animalBiome: string;
   animalSpecie: string;
 }
+
+export const defaultFeeding: Partial<Feeding> = {
+  feedingType: '',
+  feedingAmount: '',
+};
