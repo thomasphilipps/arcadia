@@ -1,1 +1,16 @@
-<p>image-manager works!</p>
+@for(image of images(); track image.imageId) {
+<div>
+  <img [src]="image.imagePath" style="max-width: 250px" [alt]="image.imageDescription" />
+  <button mat-raised-button (click)="onDeleteImage(image.imageId!)">Delete</button>
+</div>
+}
+
+<button mat-fab (click)="fileinput.click()">
+  <mat-icon fontSet="material-symbols-outlined">add_a_photo</mat-icon>
+
+  <input type="file" (change)="onFileSelected($event)" #fileinput hidden />
+</button>
+@if(selectedFile()) {
+<div>{{ selectedFile()?.name }}</div>
+<button mat-raised-button (click)="onUploadImage()">Upload</button>
+}
