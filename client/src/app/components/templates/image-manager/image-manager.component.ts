@@ -1,30 +1,96 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, Signal, signal } from '@angular/core';
-
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
 import { Image } from '@app/interfaces/image.interface';
+import { ImageManager } from '@app/interfaces/sqlViewDataConfig.interface';
 import { ImageService } from '@app/services/image.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'arz-image-manager',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './image-manager.component.html',
-  styleUrl: './image-manager.component.scss',
+  styleUrls: ['./image-manager.component.scss'],
 })
 export class ImageManagerComponent<T> implements OnInit {
-  selectedFile: Signal<File | null> = signal(null);
-  images: Signal<Image[]> = signal([]);
+  selectedFile: File | null = null;
+  //uploadProgress: number = 0;
+  images: Image[] = [];
+
+  @Output() imageUploaded = new EventEmitter<string>();
+
+  @Input() imageConf?: ImageManager;
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(private imageService: ImageService) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    if (this.imageConf) {
+      this.imageService
+        .getImagesByReferenceId(this.imageConf.referenceId, this.imageConf.referenceType)
+        .subscribe({
+          next: (images) => {
+            this.images = images;
+          },
+          error: (err) => {
+            console.error('Error loading images', err);
+          },
+        });
+    }
+  }
 
-  onFileSelected(event: any): void {}
+  onFileSelected(event: any) {
+    const file = (event.target as HTMLInputElement).files?.[0] || null;
+    this.selectedFile = file;
+  }
 
-  onUploadImage(): void {}
+  onUploadImage() {
+    if (!this.selectedFile || !this.imageConf) {
+      console.error('No file selected or image configuration missing.');
+      return;
+    }
 
-  onDeleteImage(imageId: string): void {}
+    const image = {
+      imageDescription: this.imageConf.imageDescription,
+      referenceId: this.imageConf.referenceId,
+      referenceType: this.imageConf.referenceType,
+    };
+
+    this.imageService.uploadImage(image, this.selectedFile).subscribe({
+      next: (response) => {
+        console.log('Upload successful', response);
+        this.imageUploaded.emit(response.imagePath);
+        this.images.push(response);
+        this.selectedFile = null;
+        if (this.fileInput) {
+          this.fileInput.nativeElement.value = '';
+        }
+      },
+      error: (err) => {
+        console.error('Upload failed', err);
+      },
+    });
+  }
+
+  onDeleteImage(imageId: string) {
+    this.imageService.deleteImage(imageId).subscribe({
+      next: (response) => {
+        console.log('Image deleted', response);
+        this.images = this.images.filter((image) => image.imageId !== imageId);
+      },
+      error: (err) => {
+        console.error('Error deleting image', err);
+      },
+    });
+  }
 }

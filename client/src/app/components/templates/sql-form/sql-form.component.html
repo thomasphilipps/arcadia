@@ -2,7 +2,10 @@
 <h2 class="has-text-centered">{{ formTitle }}</h2>
 
 <div class="columns">
-  <div class="column is-half is-offset-one-quarter has-text-centered">
+  <div
+    class="column has-text-centered is-half"
+    [class]="config.imageManager ? null : 'is-offset-one-quarter'"
+  >
     <form [formGroup]="form">
       @if(form.getError('timeOrder')){
       <mat-error class="mb-3">{{form.errors?.['timeOrder']}}</mat-error>
@@ -221,5 +224,10 @@
       </div>
     </form>
   </div>
+  @if (config.imageManager) {
+  <div class="column is-half has-text-centered">
+    <arz-image-manager [imageConf]="config.imageManager"></arz-image-manager>
+  </div>
+  }
 </div>
 }

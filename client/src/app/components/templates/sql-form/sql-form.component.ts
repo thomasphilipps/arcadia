@@ -20,6 +20,7 @@ import {
   SqlViewDataConfig,
 } from '@app/interfaces/sqlViewDataConfig.interface';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { ImageManagerComponent } from '../image-manager/image-manager.component';
 
 interface FormModel {
   [key: string]: any;
@@ -42,6 +43,7 @@ interface FormModel {
     TextFieldModule,
     CdkTextareaAutosize,
     MatCheckboxModule,
+    ImageManagerComponent,
     StarRatingComponent,
   ],
   templateUrl: './sql-form.component.html',

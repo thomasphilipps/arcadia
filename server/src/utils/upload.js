@@ -7,13 +7,21 @@ const { v4: uuidv4 } = require('uuid');
 // Configuration de l'instance S3
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
+  endpoint: process.env.AWS_ENDPOINT,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
-  endpoint: process.env.AWS_ENDPOINT,
   forcePathStyle: true, // nécessaire pour MinIO
 });
+
+// Fonction pour générer l'URL de l'image avec le port correct
+const generateImageUrl = (key) => {
+  const endpoint = new URL(process.env.AWS_ENDPOINT);
+  // Inclure le port seulement s'il est spécifié
+  const port = endpoint.port ? `:${endpoint.port}` : '';
+  return `${endpoint.protocol}//${endpoint.hostname}${port}/${process.env.AWS_BUCKET_NAME}/${key}`;
+};
 
 // Fonction de filtrage pour vérifier que le fichier est une image
 const fileFilter = (req, file, cb) => {
@@ -26,22 +34,20 @@ const fileFilter = (req, file, cb) => {
 };
 
 // Middleware pour traiter et redimensionner l'image avant l'upload
-const processImage = (req, res, next) => {
+const processImage = async (req, res, next) => {
   if (!req.file) {
     return next();
   }
 
-  sharp(req.file.buffer)
-    .resize({ height: 500, withoutEnlargement: true }) // Redimensionner proportionnellement à max 500px de haut
-    .png() // Convertir en PNG
-    .toBuffer()
-    .then((data) => {
-      req.file.buffer = data;
-      next();
-    })
-    .catch((err) => {
-      next(err);
-    });
+  try {
+    req.file.buffer = await sharp(req.file.buffer)
+      .resize({ height: 500, withoutEnlargement: true }) // Redimensionner proportionnellement à max 500px de haut
+      .png() // Convertir en PNG
+      .toBuffer();
+    next();
+  } catch (err) {
+    next(err);
+  }
 };
 
 // Configuration de multer pour utiliser S3 avec traitement d'image
@@ -62,21 +68,23 @@ const upload = multer({
 
 // Fonction pour supprimer une image du bucket S3
 const deleteImageFromS3 = async (key) => {
-  const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: key,
-  };
-
   try {
-    await s3Client.send(new DeleteObjectCommand(params));
+    const command = new DeleteObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+    });
+    await s3.send(command);
+    console.log(`Image with key ${key} deleted successfully`);
   } catch (err) {
-    throw new Error(`Erreur lors de la suppression de l'image du bucket S3: ${err.message}`);
+    console.error(`Error deleting image with key ${key}:`, err);
+    throw err;
   }
 };
 
 module.exports = {
   upload,
   processImage,
+  generateImageUrl,
   s3Client,
   deleteImageFromS3,
 };

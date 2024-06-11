@@ -1,27 +1,60 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { API_URL } from '@app/app.config';
+import { Image } from '@app/interfaces/image.interface';
 import { environment } from '@environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
-  private apiUrl = `${environment.apiURL}/images`;
+  protected apiURL: string;
 
-  constructor(private http: HttpClient) {}
+  images: Image[] = [];
 
-  uploadImage(image: File): Observable<any> {
+  constructor(protected http: HttpClient, @Inject(API_URL) apiURL: string) {
+    this.apiURL = apiURL;
+  }
+
+  uploadImage(image: Image, file: File): Observable<Image> {
     const formData = new FormData();
-    formData.append('image', image, image.name);
-    return this.http.post(this.apiUrl, formData);
+    formData.append('image', file);
+    formData.append('description', image.imageDescription || '');
+    formData.append('referenceId', image.referenceId);
+    formData.append('referenceType', image.referenceType);
+
+    return this.http.post<Image>(`${this.apiURL}/images`, formData).pipe(
+      tap((response) => this.log(response)),
+      catchError((error) => this.handleError(error, null))
+    );
+  }
+
+  // Get all images for a <T> Id based on the referenceType (Animal, Biome, Specie or Service)
+  getImagesByReferenceId(referenceId: string, referenceType: string): Observable<Image[]> {
+    return this.http.get<Image[]>(`${this.apiURL}/images/${referenceType}/${referenceId}`).pipe(
+      tap((response) => this.log(response)),
+      catchError((error) => this.handleError(error, []))
+    );
   }
 
   deleteImage(imageId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${imageId}`);
+    return this.http.delete<Image>(`${this.apiURL}/images/${imageId}`).pipe(
+      tap((response) => this.log(response)),
+      catchError((error) => this.handleError(error, null))
+    );
   }
 
-  getImagesByReferenceId(referenceId: string, referenceType: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${referenceType}/${referenceId}`);
+  protected log(response: any) {
+    if (!environment.production) {
+      console.table(response);
+    }
+  }
+
+  protected handleError(error: any, errorValue: [] | any) {
+    if (!environment.production) {
+      console.error(error);
+    }
+    return of(errorValue);
   }
 }

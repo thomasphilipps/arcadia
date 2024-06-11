@@ -1,4 +1,4 @@
-@for(image of images(); track image.imageId) {
+@for(image of images; track image.imageId) {
 <div>
   <img [src]="image.imagePath" style="max-width: 250px" [alt]="image.imageDescription" />
   <button mat-raised-button (click)="onDeleteImage(image.imageId!)">Delete</button>
@@ -10,7 +10,7 @@
 
   <input type="file" (change)="onFileSelected($event)" #fileinput hidden />
 </button>
-@if(selectedFile()) {
-<div>{{ selectedFile()?.name }}</div>
+@if(selectedFile) {
+<div>{{ selectedFile.name }}</div>
 <button mat-raised-button (click)="onUploadImage()">Upload</button>
 }

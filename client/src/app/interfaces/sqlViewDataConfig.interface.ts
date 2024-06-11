@@ -21,6 +21,7 @@ export interface SqlViewDataConfig<T> {
   customValidators?: ValidatorFn[];
   noFilter?: boolean;
   noPaginator?: boolean;
+  imageManager?: ImageManager;
 }
 
 export interface FormField {
@@ -42,4 +43,10 @@ export interface FormField {
 export interface OptionArray {
   idValue: string | number;
   label: string;
+}
+
+export interface ImageManager {
+  imageDescription?: string;
+  referenceType: 'Animal' | 'Biome' | 'Specie' | 'Service';
+  referenceId: string;
 }
