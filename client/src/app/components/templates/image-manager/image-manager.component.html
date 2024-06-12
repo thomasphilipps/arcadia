@@ -1,0 +1,19 @@
+<div>
+  <h3>Upload Image</h3>
+  <input type="file" (change)="onFileSelected($event)" />
+  <input type="text" placeholder="Description" [(ngModel)]="description" />
+  <button (click)="uploadImage()">Upload</button>
+</div>
+
+<div>
+  <h3>Existing Images</h3>
+  @if (images$ | async ; as images) {
+  <!-- Prettier ignore -->
+  @for(image of images ; track $index) {
+  <div>
+    <img [src]="image.url" [alt]="image.description" />
+    <p>{{ image.imageDescription }}</p>
+    <button (click)="deleteImage(image.imageId)">Delete</button>
+  </div>
+  } } @else {<ng-template #loading>Loading...</ng-template>}
+</div>
