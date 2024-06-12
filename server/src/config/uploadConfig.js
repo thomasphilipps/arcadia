@@ -1,17 +1,36 @@
-// src/config/uploadConfig.js
 const multer = require('multer');
-const multerS3 = require('multer-s3');
-const { S3Client } = require('@aws-sdk/client-s3');
+const sharp = require('sharp');
+const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const s3Client = require('./s3Client');
+const path = require('path');
+
+const storage = multer.memoryStorage();
+
+const fileFilter = (req, file, cb) => {
+  const filetypes = /jpeg|jpg|png/;
+  const mimetype = filetypes.test(file.mimetype);
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb('Erreur : Seuls les fichiers de type jpeg et png sont autorisés');
+  }
+};
 
 const upload = multer({
-  storage: multerS3({
-    s3: s3Client,
-    bucket: process.env.AWS_BUCKET_NAME,
-    key: (req, file, cb) => {
-      cb(null, `${Date.now().toString()}_${file.originalname}`);
-    },
-  }),
+  storage,
+  fileFilter,
 });
 
-module.exports = upload;
+const uploadToS3 = async (buffer, key, mimetype) => {
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: key,
+    Body: buffer,
+    ContentType: mimetype,
+  });
+  await s3Client.send(command);
+};
+
+module.exports = { upload, uploadToS3, sharp };
