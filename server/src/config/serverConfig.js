@@ -18,7 +18,7 @@ const corsOptions = {
 const app = express();
 
 // Middlewares
-app.use(bodyParser.json()).use(cors(corsOptions)).use(apiLimiter);
+app.use(cors(corsOptions)).use(bodyParser.json()).use(apiLimiter);
 
 // Main route to test the server
 app.get('/', (req, res) => {
