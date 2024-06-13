@@ -3,6 +3,7 @@ import { LoginComponent } from '@app/components/admin/pages/login/login.componen
 import { AnimalAdminComponent } from '@app/components/admin/partials/animal-admin/animal-admin.component';
 import { BiomeAdminComponent } from '@app/components/admin/partials/biome-admin/biome-admin.component';
 import { FeedingAdminComponent } from '@app/components/admin/partials/feeding-admin/feeding-admin.component';
+import { ImageAdminComponent } from '@app/components/admin/partials/image-admin/image-admin.component';
 import { ReportAdminComponent } from '@app/components/admin/partials/report-admin/report-admin.component';
 import { ReviewAdminComponent } from '@app/components/admin/partials/review-admin/review-admin.component';
 import { ServiceAdminComponent } from '@app/components/admin/partials/service-admin/service-admin.component';
@@ -96,6 +97,13 @@ export default [
         component: FeedingAdminComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_EMPLOYEE'] },
+      },
+      {
+        path: 'image',
+        title: 'Images | Arcadia admin',
+        component: ImageAdminComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ROLE_ADMIN', 'ROLE_EMPLOYEE'] },
       },
       {
         path: 'unauthorized',

@@ -76,25 +76,24 @@
       </a>
       } @if(hasRole(['ROLE_VETERINARY'])) {
       <a mat-list-item href="dashboard/vet-report">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Consultation icon"
-          fontSet="material-symbols-outlined"
-        >
+        <mat-icon aria-hidden="false" aria-label="Report icon" fontSet="material-symbols-outlined">
           medical_services
         </mat-icon>
         Visite animal
       </a>
       } @if(hasRole(['ROLE_EMPLOYEE'])) {
       <a mat-list-item href="dashboard/feeding">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Consultation icon"
-          fontSet="material-symbols-outlined"
-        >
+        <mat-icon aria-hidden="false" aria-label="Feeding icon" fontSet="material-symbols-outlined">
           grocery
         </mat-icon>
         Nourriture
+      </a>
+      } @if(hasRole(['ROLE_ADMIN', 'ROLE_EMPLOYEE'])) {
+      <a mat-list-item href="dashboard/image">
+        <mat-icon aria-hidden="false" aria-label="Image icon" fontSet="material-symbols-outlined">
+          image
+        </mat-icon>
+        Images
       </a>
       }
     </mat-nav-list>

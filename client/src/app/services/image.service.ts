@@ -17,6 +17,16 @@ export class ImageService {
     referenceType: string,
     description?: string
   ): Observable<any> {
+    const httpOptions = {
+      headers: {
+        'Content-Type': 'application/json',
+        //prettier-ignore
+        'Accept': 'application/json',
+        //prettier-ignore
+
+        'Origin': 'http://localhost:3000',
+      },
+    };
     const formData: FormData = new FormData();
     formData.append('image', image);
     formData.append('referenceId', referenceId);
@@ -24,7 +34,7 @@ export class ImageService {
     if (description) {
       formData.append('description', description);
     }
-    return this.http.post(`${this.apiUrl}/upload`, formData);
+    return this.http.post(`${this.apiUrl}/upload`, formData, httpOptions);
   }
 
   getImages(referenceType: string, referenceId: string): Observable<any[]> {
