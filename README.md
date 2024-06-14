@@ -91,7 +91,7 @@ nano .env
 <br>
 
 Vous devez ensuite compléter les différentes variables renseignées entre les chevrons ``< >`` 
-``:warning: SAUF LES VARIABLES CONCERNANT AWS.``  
+>:warning: SAUF LES VARIABLES CONCERNANT AWS.  
 
 Si vous souhaitez créer une clé sécurisée aléatoire pour ``AUTH_PRIVATE_KEY``, vous pouvez lancer dans votre console la 
 commande suivante :  
