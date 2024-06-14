@@ -1,47 +1,52 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
+import { API_URL } from '@app/app.config';
+import { Image } from '@app/interfaces/image.interface';
 import { environment } from '@environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
-  private apiUrl = environment.apiURL + '/image';
+  protected apiUrl: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(protected http: HttpClient, @Inject(API_URL) apiURL: string) {
+    this.apiUrl = apiURL;
+  }
 
-  uploadImage(
-    image: File,
-    referenceId: string,
-    referenceType: string,
-    description?: string
-  ): Observable<any> {
-    const httpOptions = {
-      headers: {
-        'Content-Type': 'application/json',
-        //prettier-ignore
-        'Accept': 'application/json',
-        //prettier-ignore
-
-        'Origin': 'http://localhost:3000',
-      },
-    };
+  uploadImage(image: Image, file: File): Observable<Image> {
+    console.log('uploadImage', image, file);
     const formData: FormData = new FormData();
-    formData.append('image', image);
-    formData.append('referenceId', referenceId);
-    formData.append('referenceType', referenceType);
-    if (description) {
-      formData.append('description', description);
-    }
-    return this.http.post(`${this.apiUrl}/upload`, formData, httpOptions);
+    formData.append('image', file);
+    formData.append('referenceId', image.referenceId);
+    formData.append('referenceType', image.referenceType);
+    formData.append('description', image.imageDescription || '');
+    console.log('formData', formData);
+    return this.http.post<Image>(`${this.apiUrl}/image/upload`, formData).pipe(
+      tap((response) => this.log(response)),
+      catchError((error) => this.handleError(error, []))
+    );
   }
 
   getImages(referenceType: string, referenceId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/type/${referenceType}/id/${referenceId}`);
+    return this.http.get<any[]>(`${this.apiUrl}/image/type/${referenceType}/id/${referenceId}`);
   }
 
   deleteImage(imageId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${imageId}`);
+    return this.http.delete(`${this.apiUrl}/image/${imageId}`);
+  }
+
+  protected log(response: any) {
+    if (!environment.production) {
+      console.table(response);
+    }
+  }
+
+  protected handleError(error: any, errorValue: [] | any) {
+    if (!environment.production) {
+      console.error(error);
+    }
+    return of(errorValue);
   }
 }

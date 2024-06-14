@@ -1,4 +1,3 @@
-<!-- src/app/components/image-manager/image-manager.component.html -->
 <mat-card>
   <h3>Upload Image</h3>
   <form [formGroup]="uploadForm" (ngSubmit)="uploadImage()">
@@ -6,21 +5,21 @@
     <mat-form-field>
       <input matInput placeholder="Description" formControlName="description" />
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading()">Upload</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Upload</button>
   </form>
 </mat-card>
 
 <mat-card>
   <h3>Existing Images</h3>
-  @if (images()) { @for (image of images(); track $index) {
+  @if (images.length > 0) { @for (image of images; track $index) {
   <div>
     <img [src]="image.imagePath" [alt]="image.imageDescription" />
     <p>{{ image.imageDescription }}</p>
     <button
       mat-raised-button
       color="warn"
-      (click)="deleteImage(image.imageId)"
-      [disabled]="loading()"
+      (click)="deleteImage(image.imageId!)"
+      [disabled]="loading"
     >
       Delete
     </button>

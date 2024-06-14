@@ -1,5 +1,4 @@
-// src/app/components/image-manager/image-manager.component.ts
-import { Component, Input, OnChanges, SimpleChanges, signal } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -40,10 +39,10 @@ export class ImageManagerComponent implements OnChanges {
   referenceType!: string;
   referenceId!: string;
 
-  images = signal<any[]>([]);
+  images: Image[] = [];
   uploadForm: FormGroup;
   selectedFile: File | null = null;
-  loading = signal(false);
+  loading = false;
 
   constructor(private imageService: ImageService, private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
@@ -52,7 +51,7 @@ export class ImageManagerComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['imageConfig'] && this._imageConfig) {
+    if (changes['referenceType'] || changes['referenceId']) {
       this.loadImages();
     }
   }
@@ -60,46 +59,52 @@ export class ImageManagerComponent implements OnChanges {
   loadImages(): void {
     if (this.referenceType && this.referenceId) {
       this.imageService.getImages(this.referenceType, this.referenceId).subscribe((images) => {
-        this.images.set(images);
+        this.images = images;
       });
     }
   }
 
   onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+    const file = (event.target as HTMLInputElement).files?.[0] || null;
+    this.selectedFile = file;
   }
 
   uploadImage(): void {
     if (this.selectedFile) {
       const description = this.uploadForm.get('description')?.value || '';
-      this.loading.set(true);
-      console.log(this.selectedFile);
-      this.imageService
-        .uploadImage(this.selectedFile, this.referenceId, this.referenceType, description)
-        .subscribe(
-          () => {
-            this.loadImages();
-            this.selectedFile = null;
-            this.uploadForm.reset();
-            this.loading.set(false);
-          },
-          () => {
-            this.loading.set(false);
-          }
-        );
+      this.loading = true;
+      console.log('Uploading file:', this.selectedFile);
+      const image = {
+        referenceId: this.referenceId,
+        referenceType: this.referenceType,
+        imageDescription: description,
+      } as Image;
+
+      this.imageService.uploadImage(image, this.selectedFile).subscribe({
+        next: (response) => {
+          this.loadImages();
+          this.selectedFile = null;
+          this.uploadForm.reset();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.log('Upload failed', err);
+          this.loading = false;
+        },
+      });
     }
   }
 
   deleteImage(imageId: string): void {
-    this.loading.set(true);
-    this.imageService.deleteImage(imageId).subscribe(
-      () => {
+    this.loading = true;
+    this.imageService.deleteImage(imageId).subscribe({
+      next: () => {
         this.loadImages();
-        this.loading.set(false);
+        this.loading = false;
       },
-      () => {
-        this.loading.set(false);
-      }
-    );
+      error: () => {
+        this.loading = false;
+      },
+    });
   }
 }
