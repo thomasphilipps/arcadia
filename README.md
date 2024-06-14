@@ -91,7 +91,7 @@ nano .env
 <br>
 
 Vous devez ensuite compléter les différentes variables renseignées entre les chevrons ``< >`` 
-``:warning: SAUF LES VARIABLES CONCERNANT AWS.``  
+> :warning: SAUF LES VARIABLES CONCERNANT AWS.  
 
 Si vous souhaitez créer une clé sécurisée aléatoire pour ``AUTH_PRIVATE_KEY``, vous pouvez lancer dans votre console la 
 commande suivante :  
@@ -160,8 +160,8 @@ docker compose up -d
 ```
 
 Ceci va lancer plusieurs services :
-- **MySql** et **PhpMyAdmin** : SGBD SQL et une interface web pour la gestion
-- **MongoDb** : SGBD NoSQL
+- **MySql** et **PhpMyAdmin** : SGBD SQL et son interface web
+- **MongoDb** et **Mongo-Express** : SGBD NoSQL et son interface web
 - **MailDev** : simulation de boîte mail
 - **MinIo** : simulation de conteneur S3 d'Amazon Web Services (AWS)
   
