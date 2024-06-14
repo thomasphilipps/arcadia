@@ -19,8 +19,8 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage,
-  fileFilter,
+  storage: storage,
+  fileFilter: fileFilter,
 });
 
 const uploadToS3 = async (buffer, key, mimetype) => {
@@ -30,7 +30,13 @@ const uploadToS3 = async (buffer, key, mimetype) => {
     Body: buffer,
     ContentType: mimetype,
   });
-  await s3Client.send(command);
+
+  try {
+    const response = await s3Client.send(command);
+    console.log(response);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 module.exports = { upload, uploadToS3, sharp };
