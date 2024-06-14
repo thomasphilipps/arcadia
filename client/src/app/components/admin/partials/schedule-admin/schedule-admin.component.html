@@ -1,0 +1,10 @@
+<div class="container">
+  <h1 class="m-6 has-text-centered">Horaires</h1>
+
+  <arz-sql-data-table
+    [config]="scheduleConfig"
+    (editData)="editSchedule($event)"
+  ></arz-sql-data-table>
+
+  <arz-sql-form [config]="scheduleConfig" (saveData)="saveSchedule($event)"></arz-sql-form>
+</div>

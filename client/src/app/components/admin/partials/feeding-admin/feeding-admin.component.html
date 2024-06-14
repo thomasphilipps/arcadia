@@ -1,0 +1,51 @@
+<div class="container mb-6">
+  <h1 class="m-6 has-text-centered">Repas des animaux</h1>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2 class="m-6 has-text-centered">Liste des animaux</h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <arz-sql-data-table
+        [config]="feedingsConfig"
+        (viewData)="viewFeedings($event)"
+        (newSubData)="addFeeding($event)"
+      ></arz-sql-data-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="showFeedingList" [disabled]="!showFeedingList">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2 class="m-6 has-text-centered">
+            Liste des repas @if(showFeedingList) { pour {{ selectedAnimal?.animalName }} }
+          </h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      @if(showFeedingList){
+      <div>
+        <arz-sql-data-table
+          [config]="feedingListConfig"
+          (editData)="editFeeding($event)"
+          (deleteData)="deleteFeeding($event)"
+        ></arz-sql-data-table>
+      </div>
+      }
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  @if(lastReport){
+  <div class="has-text-centered m-5">
+    <p>
+      Repas actuellement conseillé pour {{ lastReport.animalName }} :
+      {{ lastReport.reportFoodAmount }}
+      {{ lastReport.reportFoodType }}
+    </p>
+  </div>
+  }
+
+  <arz-sql-form [config]="feedingFormConfig" (saveData)="saveFeeding($event)"></arz-sql-form>
+</div>

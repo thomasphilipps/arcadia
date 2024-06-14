@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Feedings', {
+  return sequelize.define('Feeding', {
     feedingId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -40,6 +40,14 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Reports',
         key: 'reportId',
+      },
+    },
+    animalKey: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Animals',
+        key: 'animalId',
       },
     },
   });

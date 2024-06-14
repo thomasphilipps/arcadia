@@ -37,6 +37,7 @@ require('../routes/user.routes')(app);
 require('../routes/animal.routes')(app);
 require('../routes/feeding.routes')(app);
 require('../routes/reports.routes')(app);
+require('../routes/mailing.routes')(app);
 
 // Middleware to handle 404 errors
 app.use((req, res) => {
