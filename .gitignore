@@ -128,3 +128,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# prettier
+.prettierrc
+.prettierignore
+
+# tools
+tools/
+
+# angular
+.angular/

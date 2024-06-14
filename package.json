@@ -4,6 +4,7 @@
   "description": "Arcadia Zoo webapp, ECF for TP DWWM",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently -c \"yellow.bold\" -n \"Server\" \"npm run dev --prefix server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
