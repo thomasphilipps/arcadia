@@ -1,7 +1,5 @@
--- TODO: supprimer l'insertion de l'admin avant la mise en ligne
 -- Insertion des utilisateurs
 INSERT INTO `Users` (`userId`, `userEmail`, `userName`, `userPassword`, `userRole`) VALUES
-('48ac9728-0000-11ef-8213-00155d07f9b8', 'admin@zoo-arcadia.com', 'José', '$2b$10$S0xZ3yjY00B1sv924I73guqbUqnCCwRmqBlHCS5YpzTfRHQD1IwCC', 'ROLE_ADMIN'),
 ('095e7eef-b25e-427e-9c4e-7c603bb76487', 'paul@zoo-arcadia.com', 'Paul', '$2b$10$NFo2YBcgotmm0JPX2YWsT.qrNS26zYEfu2D5pk1HDDYCHGyXLwtSe', 'ROLE_EMPLOYEE'),
 ('15ee5d2b-c0b7-4c40-8534-4e20ee8b144a', 'henri@zoo-arcadia.com', 'Henri', '$2b$10$P33QAsOnTa2k9Jc4hFbyTO3mBfbsEcv.f3/wjdbdZ2otftbmEk9qm', 'ROLE_VETERINARY'),
 ('321d9219-3dcd-4cc3-9431-c52981ad7452', 'carine@zoo-arcadia.com', 'Carine', '$2b$10$lWMW8KHYnlVOGhV5nvKMr.LvtzGXw4PDQAGcYzYIAxF6Q0de/WLuK', 'ROLE_EMPLOYEE'),
