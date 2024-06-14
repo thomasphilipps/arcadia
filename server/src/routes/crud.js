@@ -18,31 +18,59 @@ module.exports = (sequelize, modelName, tableName) => {
       try {
         // Model validation
         const newRecord = sequelize.model(modelName).build(req.body);
-        let userData = req.body;
+        let recordData = req.body;
 
         // Handle User model specific fields
         if (modelName === 'User') {
-          userData.userId = userData.userId || uuidv4();
-          if (userData.userPassword) {
-            userData.userPassword = await hashPassword(userData.userPassword);
+          if (!recordData.userId) {
+            recordData.userId = uuidv4();
+          }
+          if (recordData.userPassword) {
+            recordData.userPassword = await hashPassword(recordData.userPassword);
+          }
+        }
+
+        // TODO: Generalize this for all models
+        // Generate UUID if not provided
+        if (modelName === 'Animal') {
+          if (!recordData.animalId) {
+            recordData.animalId = uuidv4();
           }
         }
 
         await newRecord.validate();
 
         // Create record if validation passed
-        const keys = Object.keys(req.body);
-        const values = keys.map((key) => req.body[key]);
+        const keys = Object.keys(recordData);
+        const values = keys.map((key) => recordData[key]);
         const sql = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${keys
           .map(() => '?')
           .join(', ')})`;
 
-        await sequelize.query(sql, {
+        const result = await sequelize.query(sql, {
           replacements: values,
           type: sequelize.QueryTypes.INSERT,
         });
 
-        res.status(201).json({ message: `${modelName} créé avec succès` });
+        // Fetching the newly created record by ID
+        const primaryKeyField = sequelize.model(modelName).primaryKeyAttribute;
+        const lastId = recordData[primaryKeyField]
+          ? recordData[primaryKeyField]
+          : result[0].toString();
+
+        let fetchSql =
+          getReadByIdQuery(modelName, lastId) ||
+          `SELECT * FROM ${tableName} WHERE ${primaryKeyField} = ?`;
+
+        const [lastRecord] = await sequelize.query(fetchSql, {
+          replacements: [lastId],
+          type: sequelize.QueryTypes.SELECT,
+        });
+
+        if (lastRecord.length === 0) {
+          return res.status(404).json({ error: `${modelName} avec id: ${lastId} introuvable` });
+        }
+        res.status(200).json(lastRecord);
       } catch (error) {
         // Error handling
         if (

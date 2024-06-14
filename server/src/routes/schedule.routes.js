@@ -5,5 +5,5 @@ const crud = require('./crud')(sequelize, 'Schedule', 'Schedules');
 module.exports = (app) => {
   app.get('/api/schedules', crud.readAll);
   app.get('/api/schedules/:id', crud.readById);
-  app.put('/api/schedules/:id', crud.update);
+  app.put('/api/schedules/:id', authenticate(['ROLE_ADMIN']), crud.update);
 };

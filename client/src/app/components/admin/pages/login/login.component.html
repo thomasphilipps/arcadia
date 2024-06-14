@@ -1,0 +1,52 @@
+<div class="hero is-fullheight">
+  <div class="hero-body has-text-centered">
+    <div class="container">
+      <div class="box">
+        <h2 class="has-text-centered mb-5">ZOO ARCADIA - LOGIN</h2>
+
+        <div class="columns">
+          <div class="column is-half is-offset-one-quarter has-text-centered">
+            <form [formGroup]="loginForm">
+              <div>
+                <mat-form-field class="full-width">
+                  <mat-label>Email</mat-label>
+                  <input type="text" matInput formControlName="userEmail" />
+                  @if (loginForm.get('userEmail')?.hasError('required')) {
+                  <mat-error>Ce champ est requis</mat-error>
+                  } @if (loginForm.get('userEmail')?.hasError('email')) {
+                  <mat-error>Adresse email invalide</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field class="full-width">
+                  <mat-label>Mot de passe</mat-label>
+                  <input
+                    type="password"
+                    matInput
+                    formControlName="userPassword"
+                    [type]="hidePassword ? 'password' : 'text'"
+                  />
+                  <mat-icon
+                    matSuffix
+                    aria-hidden="false"
+                    aria-label="Reset icon"
+                    fontSet="material-symbols-outlined"
+                    (click)="hidePassword = !hidePassword"
+                    >{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
+                  >
+                  @if (loginForm.get('userPassword')?.hasError('required')) {
+                  <mat-error>Ce champ est requis</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-raised-button color="primary" (click)="login()">Se connecter</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

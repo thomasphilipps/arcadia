@@ -3,11 +3,11 @@ const { sequelize } = require('../config/database');
 const crud = require('./crud')(sequelize, 'Report', 'Reports');
 const { isValidId } = require('../utils/validation.utils');
 module.exports = (app) => {
-  app.post('/api/reports/', crud.create);
+  app.post('/api/reports/', authenticate(['ROLE_VETERINARY']), crud.create);
   app.get('/api/reports', crud.readAll);
   app.get('/api/reports/:id', crud.readById);
-  app.put('/api/reports/:id', crud.update);
-  app.delete('/api/reports/:id', crud.delete);
+  app.put('/api/reports/:id', authenticate(['ROLE_VETERINARY']), crud.update);
+  app.delete('/api/reports/:id', authenticate(['ROLE_VETERINARY']), crud.delete);
 
   // Reports specific routes
 
@@ -22,10 +22,13 @@ module.exports = (app) => {
 
       const sql = `
        SELECT
-          Reports.*,
-          Users.userName as reportedBy
-          FROM Reports
-          LEFT JOIN Users ON Reports.veterinaryKey = Users.userId WHERE animalKey = ?`;
+        Reports.*,
+        Users.userName as reportedBy,
+        Animals.animalName as animalName
+      FROM Reports
+      LEFT JOIN Users ON Reports.veterinaryKey = Users.userId
+      LEFT JOIN Animals ON Reports.animalKey = Animals.animalId
+      WHERE animalKey = ?`;
 
       const [reports] = await sequelize.query(sql, {
         replacements: [animalId],

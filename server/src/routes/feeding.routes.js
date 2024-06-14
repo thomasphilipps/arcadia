@@ -4,11 +4,11 @@ const crud = require('./crud')(sequelize, 'Feeding', 'Feedings');
 const { isValidId } = require('../utils/validation.utils');
 
 module.exports = (app) => {
-  app.post('/api/feedings/', crud.create);
+  app.post('/api/feedings/', authenticate(['ROLE_EMPLOYEE']), crud.create);
   app.get('/api/feedings', crud.readAll);
   app.get('/api/feedings/:id', crud.readById);
-  app.put('/api/feedings/:id', crud.update);
-  app.delete('/api/feedings/:id', crud.delete);
+  app.put('/api/feedings/:id', authenticate(['ROLE_EMPLOYEE']), crud.update);
+  app.delete('/api/feedings/:id', authenticate(['ROLE_EMPLOYEE']), crud.delete);
 
   // Feedings specific routes
 
@@ -24,9 +24,12 @@ module.exports = (app) => {
       const sql = `
      SELECT
         Feedings.*,
-        Users.userName as feedingBy
-        FROM Feedings
-        LEFT JOIN Users ON Feedings.feedingBy = Users.userId WHERE animalKey = ?`;
+        Users.userName as feedingBy,
+        Animals.animalName as animalName
+      FROM Feedings
+      LEFT JOIN Users ON Feedings.feedingBy = Users.userId
+      LEFT JOIN Animals ON Feedings.animalKey = Animals.animalId
+      WHERE animalKey = ?`;
 
       const [feedings] = await sequelize.query(sql, {
         replacements: [animalId],

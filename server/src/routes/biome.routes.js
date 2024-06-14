@@ -3,11 +3,11 @@ const { sequelize } = require('../config/database');
 const crud = require('./crud')(sequelize, 'Biome', 'Biomes');
 
 module.exports = (app) => {
-  app.post('/api/biomes/', crud.create);
+  app.post('/api/biomes/', authenticate(['ROLE_ADMIN']), crud.create);
   app.get('/api/biomes/', crud.readAll);
   app.get('/api/biomes/:id', crud.readById);
-  app.put('/api/biomes/:id', crud.update);
-  app.delete('/api/biomes/:id', crud.delete);
+  app.put('/api/biomes/:id', authenticate(['ROLE_ADMIN', 'ROLE_VETERINARY']), crud.update);
+  app.delete('/api/biomes/:id', authenticate(['ROLE_ADMIN']), crud.delete);
 
   // Biome specific routes
   app.get('/api/biomes/:id/species', async (req, res) => {
