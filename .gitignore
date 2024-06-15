@@ -138,3 +138,6 @@ tools/
 
 # angular
 .angular/
+
+# init mongodb
+init-mongo.js
