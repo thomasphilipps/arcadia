@@ -1,8 +1,20 @@
 <mat-toolbar color="primary">
-  <span>User Management</span>
-  <a mat-button>Home</a>
-  <a mat-button>About</a>
-  <a mat-button>Contact</a>
+  <img class="svg-logo" src="/assets/images/svg/arcadia_logo.svg" [height]="50" alt="" />
+  <span class="example-spacer"></span>
+  <span>ZOO ARCADIA</span>
+  <span class="example-spacer"></span>
+  <button
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+  >
+    <mat-icon aria-hidden="false" aria-label="Schedule icon" fontSet="material-symbols-outlined"
+      >favorite</mat-icon
+    >
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button>
 </mat-toolbar>
 <div class="container">
   <router-outlet></router-outlet>

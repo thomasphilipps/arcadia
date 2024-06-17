@@ -86,6 +86,26 @@ $arcadia-accent-palette: (
   ),
 );
 
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined';
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500&display=swap');
+
+$fontConfig: (
+  display-4: mat.define-typography-level(112px, 112px, 300, 'Bricolage Grotesque', -0.0134em),
+  display-3: mat.define-typography-level(56px, 56px, 400, 'Bricolage Grotesque', -0.0089em),
+  display-2: mat.define-typography-level(45px, 48px, 400, 'Bricolage Grotesque', 0em),
+  display-1: mat.define-typography-level(34px, 40px, 400, 'Bricolage Grotesque', 0.0074em),
+  headline: mat.define-typography-level(24px, 32px, 400, 'Bricolage Grotesque', 0em),
+  title: mat.define-typography-level(20px, 32px, 500, 'Bricolage Grotesque', 0.0075em),
+  subheading-2: mat.define-typography-level(16px, 28px, 400, 'Noto Sans', 0.0094em),
+  subheading-1: mat.define-typography-level(15px, 24px, 500, 'Noto Sans', 0.0067em),
+  body-2: mat.define-typography-level(14px, 24px, 500, 'Noto Sans', 0.0179em),
+  body-1: mat.define-typography-level(14px, 20px, 400, 'Noto Sans', 0.0179em),
+  button: mat.define-typography-level(14px, 14px, 500, 'Noto Sans', 0.0893em),
+  caption: mat.define-typography-level(12px, 20px, 400, 'Noto Sans', 0.0333em),
+  input: mat.define-typography-level(inherit, 1.125, 400, 'Noto Sans', 1.5px),
+);
+
 $arcadia-primary: mat.define-palette($arcadia-primary-palette);
 $arcadia-accent: mat.define-palette($arcadia-accent-palette);
 $arcadia-warn: mat.define-palette(mat.$red-palette);
@@ -97,7 +117,16 @@ $arcadia-theme: mat.define-light-theme(
       accent: $arcadia-accent,
       warn: $arcadia-warn,
     ),
+    typography: $fontConfig,
   )
 );
 
 @include mat.all-component-themes($arcadia-theme);
+
+.material-icons {
+  font-size: 24px;
+  font-family: 'Material Icons Outlined', 'Material Icons';
+  .mat-badge-content {
+    font-family: 'Noto Sans';
+  }
+}
