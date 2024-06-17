@@ -16,3 +16,88 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+$dark-primary-text: mat.get-color-from-palette(mat.$grey-palette, 900);
+$light-primary-text: mat.get-color-from-palette(mat.$grey-palette, 50);
+
+$arcadia-primary-palette: (
+  50: #e2ede5,
+  100: #b6d1bd,
+  200: #85b391,
+  300: #549465,
+  400: #307d44,
+  500: #0b6623,
+  600: #0a5e1f,
+  700: #08531a,
+  800: #064915,
+  900: #03380c,
+  A100: #6eff7d,
+  A200: #3bff4f,
+  A400: #08ff21,
+  A700: #00ee18,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$arcadia-accent-palette: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe782,
+  300: #ffdd51,
+  400: #ffd42b,
+  500: #ffc107,
+  600: #ffbb06,
+  700: #ffb305,
+  800: #ffac04,
+  900: #ffa103,
+  A100: #ffffff,
+  A200: #fff8e1,
+  A400: #ffecb3,
+  A700: #ffe2a3,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$arcadia-primary: mat.define-palette($arcadia-primary-palette);
+$arcadia-accent: mat.define-palette($arcadia-accent-palette);
+$arcadia-warn: mat.define-palette(mat.$red-palette);
+
+$arcadia-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $arcadia-primary,
+      accent: $arcadia-accent,
+      warn: $arcadia-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($arcadia-theme);
