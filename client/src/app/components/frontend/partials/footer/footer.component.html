@@ -1,0 +1,27 @@
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-half">Contact</div>
+      <div class="column is-half">
+        <div>
+          <div class="mb-4 schedule-title"><span>Horaires :</span></div>
+          <div class="container" id="schedule">
+            <div class="row">
+              <ul>
+                @for (schedule of schedules; track schedule.dayId) {
+                <li class="is-flex footer-li" [class.today]="schedule.dayId === today">
+                  <span class="is-flex-grow-1">{{ schedule.dayName }}</span
+                  ><span
+                    >{{ schedule.amSchedule }}@if (schedule.pmSchedule) {&nbsp;/
+                    {{ schedule.pmSchedule }}}</span
+                  >
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

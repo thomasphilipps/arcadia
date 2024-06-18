@@ -1,0 +1,35 @@
+.footer {
+  font-weight: 300;
+  font-size: small;
+  color: white;
+  background-color: #0077b6;
+
+  &-li {
+    margin-bottom: 0.5em;
+    margin-right: 40px;
+    border-bottom: 1px solid grey;
+  }
+
+  &-img {
+    height: 5rem;
+
+    img {
+      max-height: 100%;
+    }
+  }
+
+  .today {
+    color: #ffc107;
+    font-weight: 700;
+  }
+
+  .schedule-title {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .legal-mentions span:hover {
+    font-weight: 700;
+    cursor: pointer;
+  }
+}

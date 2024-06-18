@@ -4,4 +4,12 @@
 
 .svg-logo {
   height: 50px;
+
+  &-svg-path {
+    fill: #0077b6;
+  }
+}
+
+main {
+  min-height: 100vh;
 }
