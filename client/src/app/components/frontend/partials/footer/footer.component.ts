@@ -34,7 +34,7 @@ export class FooterComponent implements OnInit {
       return 'Fermé';
     }
 
-    const closeTime = day.closeAm || day.closePm || '';
+    const closeTime = day.closeAm ?? day.closePm ?? '';
 
     return closeTime ? this.formatTime(day.openAm) + ' - ' + this.formatTime(closeTime) : 'Fermé';
   }
