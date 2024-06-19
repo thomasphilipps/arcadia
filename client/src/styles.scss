@@ -8,15 +8,6 @@
 
 @include mat.core();
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
 $dark-primary-text: mat.get-color-from-palette(mat.$grey-palette, 900);
 $light-primary-text: mat.get-color-from-palette(mat.$grey-palette, 50);
 
@@ -110,6 +101,65 @@ $arcadia-primary: mat.define-palette($arcadia-primary-palette);
 $arcadia-accent: mat.define-palette($arcadia-accent-palette);
 $arcadia-warn: mat.define-palette(mat.$red-palette);
 
+// Foreground Elements
+
+// Light Theme Text
+$dark-text: #111111;
+$dark-primary-text: rgba($dark-text, 0.87);
+$dark-accent-text: rgba($dark-primary-text, 0.54);
+$dark-disabled-text: rgba($dark-primary-text, 0.38);
+$dark-dividers: rgba($dark-primary-text, 0.12);
+$dark-focused: rgba($dark-primary-text, 0.12);
+
+$mat-light-theme-foreground: (
+  base: black,
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: rgba($dark-text, 0.26),
+  disabled-text: $dark-disabled-text,
+  elevation: black,
+  secondary-text: $dark-accent-text,
+  hint-text: $dark-disabled-text,
+  accent-text: $dark-accent-text,
+  icon: $dark-accent-text,
+  icons: $dark-accent-text,
+  text: $dark-primary-text,
+  slider-min: $dark-primary-text,
+  slider-off: rgba($dark-text, 0.26),
+  slider-off-active: $dark-disabled-text,
+);
+
+// Background config
+// Light bg
+$light-background: #f4f1de;
+$light-bg-darker-5: darken($light-background, 5%);
+$light-bg-darker-10: darken($light-background, 10%);
+$light-bg-darker-20: darken($light-background, 20%);
+$light-bg-darker-30: darken($light-background, 30%);
+$light-bg-lighter-5: lighten($light-background, 5%);
+$dark-bg-tooltip: lighten(#2c2c2c, 20%);
+$dark-bg-alpha-4: rgba(#2c2c2c, 0.04);
+$dark-bg-alpha-12: rgba(#2c2c2c, 0.12);
+
+$mat-light-theme-background: (
+  background: $light-background,
+  status-bar: $light-bg-darker-20,
+  app-bar: $light-bg-darker-5,
+  hover: $dark-bg-alpha-4,
+  card: $light-bg-lighter-5,
+  dialog: $light-bg-lighter-5,
+  tooltip: $dark-bg-tooltip,
+  disabled-button: $dark-bg-alpha-12,
+  raised-button: $light-bg-lighter-5,
+  focused-button: $dark-focused,
+  selected-button: $light-bg-darker-20,
+  selected-disabled-button: $light-bg-darker-30,
+  disabled-button-toggle: $light-bg-darker-10,
+  unselected-chip: $light-bg-darker-10,
+  disabled-list-option: $light-bg-darker-10,
+);
+
 $arcadia-theme: mat.define-light-theme(
   (
     color: (
@@ -123,10 +173,34 @@ $arcadia-theme: mat.define-light-theme(
 
 @include mat.all-component-themes($arcadia-theme);
 
+html,
+body {
+  height: 100%;
+  background-color: $light-background;
+}
+body {
+  margin: 0;
+  font-family: Noto Sans, sans-serif;
+}
+
+.mat-raised-button,
+.mat-stroked-button,
+.mat-flat-button {
+  padding: 0 1.15em;
+  margin: 0 0.65em;
+  min-width: 3em;
+  line-height: 36.4px;
+}
+
+.mat-standard-chip {
+  padding: 0.5em 0.85em;
+  min-height: 2.5em;
+}
+
 .material-icons {
   font-size: 24px;
   font-family: 'Material Icons Outlined', 'Material Icons';
   .mat-badge-content {
-    font-family: 'Noto Sans';
+    font-family: 'Roboto';
   }
 }
