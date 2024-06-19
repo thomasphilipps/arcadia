@@ -1,10 +1,24 @@
 <footer class="footer">
-  <div class="container">
-    <div class="columns">
-      <div class="column is-half">Contact</div>
-      <div class="column is-half">
+  <div class="container footer-info">
+    <div class="columns is-vcentered">
+      <div class="column is-half has-text-centered">
+        <div class="footer-logo mb-5">
+          <img src="/assets/images/svg/arcadia_logo.svg" alt="Logo" [height]="100" />
+        </div>
+        <div class="footer-info">
+          <p>
+            Val sans retour <br />
+            56430 Mauron
+          </p>
+          <a href="tel:+33000000000">02 03 04 05 06</a>
+          <p><a href="/contact">Contact</a></p>
+        </div>
+      </div>
+      <div class="column is-half is-justify-content-center">
         <div>
-          <div class="mb-4 schedule-title"><span>Horaires :</span></div>
+          <div class="mb-4 schedule-title">
+            <span><h2>Horaires :</h2></span>
+          </div>
           <div class="container" id="schedule">
             <div class="row">
               <ul>
@@ -25,3 +39,7 @@
     </div>
   </div>
 </footer>
+<div class="legal-info">
+  <strong>Zoo Arcadia © 2024</strong> - <a href="/rgpd">Données personnelles</a> -
+  <a href="/legal">Mentions légales</a>
+</div>
