@@ -9,14 +9,19 @@
       <a routerLink="/contact" mat-button matTooltip="Contactez-nous">Contact</a>
     </div>
     <span class="toolbar-spacer"></span>
-    <a mat-icon-button aria-label="Login button" matTooltip="Connexion" routerLink="/dashboard">
+    <a
+      mat-icon-button
+      aria-label="Login button"
+      matTooltip="Connexion utilisateur"
+      routerLink="/dashboard"
+    >
       <mat-icon aria-hidden="false" aria-label="Schedule icon" fontSet="material-icons-outlined"
         >login</mat-icon
       >
     </a>
   </mat-toolbar>
 </header>
-<main>
+<main class="arcadia-theme-typography">
   <router-outlet></router-outlet>
 </main>
 <arz-footer></arz-footer>

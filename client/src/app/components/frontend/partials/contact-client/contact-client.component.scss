@@ -1,0 +1,8 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
+.social-logo {
+  height: 32px;
+  width: 32px;
+  margin: 0 10px;
+}

@@ -44,6 +44,39 @@ $arcadia-primary-palette: (
   ),
 );
 
+$arcadia-secondary-palette: (
+  50: #e0eff6,
+  100: #b3d6e9,
+  200: #80bbdb,
+  300: #4da0cc,
+  400: #268bc1,
+  500: #0077b6,
+  600: #006faf,
+  700: #0064a6,
+  800: #005a9e,
+  900: #00478e,
+  A100: #bad8ff,
+  A200: #87baff,
+  A400: #549dff,
+  A700: #3b8eff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 $arcadia-accent-palette: (
   50: #fff8e1,
   100: #ffecb3,
@@ -98,6 +131,7 @@ $fontConfig: (
 );
 
 $arcadia-primary: mat.define-palette($arcadia-primary-palette);
+$arcadia-secondary: mat.define-palette($arcadia-secondary-palette);
 $arcadia-accent: mat.define-palette($arcadia-accent-palette);
 $arcadia-warn: mat.define-palette(mat.$red-palette);
 
@@ -164,6 +198,7 @@ $arcadia-theme: mat.define-light-theme(
   (
     color: (
       primary: $arcadia-primary,
+      secondary: $arcadia-secondary,
       accent: $arcadia-accent,
       warn: $arcadia-warn,
     ),
@@ -172,6 +207,42 @@ $arcadia-theme: mat.define-light-theme(
 );
 
 @include mat.all-component-themes($arcadia-theme);
+
+@mixin apply-typography($font-size, $line-height, $font-weight, $font-family, $letter-spacing) {
+  font-size: $font-size;
+  line-height: $line-height;
+  font-weight: $font-weight;
+  font-family: $font-family;
+  letter-spacing: $letter-spacing;
+}
+
+// Appliquer la typographie aux titres
+h1 {
+  @include apply-typography(72px, 72px, 500, 'Bricolage Grotesque', -0.0134em);
+  color: mat.get-color-from-palette($arcadia-secondary, 500);
+}
+
+h2 {
+  @include apply-typography(56px, 56px, 400, 'Bricolage Grotesque', -0.0089em);
+  color: mat.get-color-from-palette($arcadia-secondary, 500);
+}
+
+h3 {
+  @include apply-typography(45px, 48px, 400, 'Bricolage Grotesque', 0em);
+  color: mat.get-color-from-palette($arcadia-secondary, 500);
+}
+
+h4 {
+  @include apply-typography(34px, 40px, 400, 'Bricolage Grotesque', 0.0074em);
+}
+
+h5 {
+  @include apply-typography(24px, 32px, 400, 'Bricolage Grotesque', 0em);
+}
+
+h6 {
+  @include apply-typography(20px, 32px, 500, 'Bricolage Grotesque', 0.0075em);
+}
 
 html,
 body {
