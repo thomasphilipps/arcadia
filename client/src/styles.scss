@@ -180,7 +180,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Noto Sans, sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .mat-raised-button,
@@ -201,6 +201,6 @@ body {
   font-size: 24px;
   font-family: 'Material Icons Outlined', 'Material Icons';
   .mat-badge-content {
-    font-family: 'Roboto';
+    font-family: 'Noto Sans', sans-serif;
   }
 }
