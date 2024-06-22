@@ -13,7 +13,9 @@ export class FooterComponent implements OnInit {
   schedules: Schedule[] = [];
   today: number = new Date().getDay();
 
-  constructor(private scheduleService: ScheduleService) {}
+  constructor(private scheduleService: ScheduleService) {
+    this.today = this.today === 0 ? 7 : this.today;
+  }
 
   ngOnInit(): void {
     this.scheduleService.loadData();
