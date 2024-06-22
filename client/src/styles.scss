@@ -275,3 +275,11 @@ body {
     font-family: 'Noto Sans', sans-serif;
   }
 }
+
+.page-header {
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.8) contrast(1.2);
+}

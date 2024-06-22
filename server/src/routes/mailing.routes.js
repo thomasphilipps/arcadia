@@ -14,11 +14,11 @@ module.exports = (app) => {
     },
   });
 
-  app.post('/api/send-email', authenticate(['ROLE_ADMIN']), (req, res) => {
-    const { to, subject, text, html } = req.body;
+  app.post('/api/send-email', (req, res) => {
+    const { from, to, subject, text, html } = req.body;
 
     const mailOptions = {
-      from: process.env.SMTP_USER,
+      from: from || process.env.SMTP_USER,
       to,
       subject,
       text,
