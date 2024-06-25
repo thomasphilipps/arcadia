@@ -1,1 +1,25 @@
-<p>service-client works!</p>
+<div class="page-header is-flex is-align-items-center mb-6">
+  <h1 class="mat-display-3 container has-text-centered">Les Services d'Arcadia</h1>
+</div>
+<div class="container mb-6">
+  <div class="page-intro">
+    Découvrez les services que le zoo d'Arcadia vous propose pour rendre votre visite inoubliable.
+  </div>
+  <div class="page-content">
+    @for(service of services; track $index) {
+    <h3 class="content-title">
+      {{ service.serviceName }}
+    </h3>
+    <div class="columns">
+      <div class="column">
+        <p class="content-description">
+          {{ service.serviceLongDescr }}
+        </p>
+      </div>
+      <div class="column">
+        <img class="service-image" alt="{{ service.serviceName }}" />
+      </div>
+    </div>
+    }
+  </div>
+</div>
