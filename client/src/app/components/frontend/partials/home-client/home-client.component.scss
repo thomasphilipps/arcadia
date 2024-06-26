@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
+@import '@mainAdminStyle';
+
+$arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
+
+.service-section {
+  background-color: $arcadia-accent-500;
+}
+
+.service-card {
+  max-width: 400px;
+}
+
+.accent-button {
+  background-color: $arcadia-accent-500;
+}
