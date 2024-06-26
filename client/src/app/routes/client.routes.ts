@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
+import { ContactClientComponent } from '@app/components/frontend/partials/contact-client/contact-client.component';
 import { HomeClientComponent } from '@app/components/frontend/partials/home-client/home-client.component';
+import { ServiceClientComponent } from '@app/components/frontend/partials/service-client/service-client.component';
 
 export default [
   {
@@ -15,15 +17,19 @@ export default [
         title: 'Accueil | Zoo Arcadia',
         component: HomeClientComponent,
       },
-      /* {
+      {
         path: 'services',
-      },
+        title: 'Services | Zoo Arcadia',
+        component: ServiceClientComponent,
+      } /* 
       {
         path: 'biomes',
-      },
+      },*/,
       {
         path: 'contact',
-      }, */
+        title: 'Contact | Zoo Arcadia',
+        component: ContactClientComponent,
+      },
     ],
   },
 ] as Routes;
