@@ -1,15 +1,58 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
 .toolbar-spacer {
   flex: 1 1 auto;
 }
 
-.svg-logo {
-  height: 50px;
+nav {
+  position: sticky;
+  top: 0;
+}
 
-  &-svg-path {
-    fill: #0077b6;
+nav.nav-scrolled {
+  background-color: mat.get-color-from-palette($arcadia-primary, 500);
+  transition: background-color 0.5s ease;
+}
+
+mat-toolbar {
+  transition: background-color 0.5s ease;
+}
+
+.logo {
+  margin-top: 50px;
+  height: 100px;
+  transition: all 0.5s ease;
+}
+
+.logo-scrolled {
+  height: 50px;
+  transition: all 0.5s ease;
+}
+
+.desktop-menu {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
   }
 }
 
 main {
   min-height: calc(100vh - 100px);
+}
+
+.mat-toolbar.mat-transparent {
+  background: transparent;
 }
