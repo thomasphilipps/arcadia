@@ -1,13 +1,17 @@
 @use '@angular/material' as mat;
 @use 'src/styles.scss' as *;
 
+$arcadia-accent-200: mat.get-color-from-palette($arcadia-accent, 200);
+
 .toolbar-spacer {
   flex: 1 1 auto;
 }
 
 nav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 nav.nav-scrolled {
@@ -33,6 +37,20 @@ mat-toolbar {
 .desktop-menu {
   display: flex;
   align-items: center;
+  color: white;
+
+  a {
+    color: white;
+    margin: 0 10px;
+    font-weight: 500;
+    padding: auto;
+    transition: all 0.5s ease;
+    text-decoration: none;
+
+    &:hover {
+      color: $arcadia-accent-200;
+    }
+  }
 }
 
 .mobile-menu {
