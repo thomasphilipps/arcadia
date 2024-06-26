@@ -10,15 +10,24 @@
     <h3 class="content-title">
       {{ service.serviceName }}
     </h3>
-    <div class="columns">
-      <div class="column">
+    <div class="columns is-vcentered container">
+      <div class="column is-half-desktop">
         <p class="content-description">
           {{ service.serviceLongDescr }}
         </p>
+        <a class="accent-button" routerLink="/contact" mat-button matTooltip="Contactez-nous"
+          >Contact</a
+        >
       </div>
+      @if(service.images) {
       <div class="column">
-        <img class="service-image" alt="{{ service.serviceName }}" />
+        <img
+          class="service-image"
+          src="{{ service.images[0].imagePath }}"
+          alt="{{ service.images[0].imageDescription }}"
+        />
       </div>
+      }
     </div>
     }
   </div>

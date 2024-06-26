@@ -5,6 +5,7 @@
 
 $arcadia-primary-500: mat.get-color-from-palette($arcadia-primary-palette, 500);
 $arcadia-secondary-500: mat.get-color-from-palette($arcadia-secondary-palette, 500);
+$arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
 
 .page-header {
   background-image: url('../../../../../assets/images/service-hero.png');
@@ -16,8 +17,18 @@ $arcadia-secondary-500: mat.get-color-from-palette($arcadia-secondary-palette, 5
 .content-title {
   color: $arcadia-secondary-500;
   font-weight: 500;
-  border-top: 2px solid $arcadia-secondary-500;
-  padding-top: 0.5em;
-  border-bottom: 2px solid $arcadia-secondary-500;
-  padding-bottom: 0.5em;
+  border-top: 2px solid $arcadia-primary-500;
+  padding-top: 0.3em;
+  border-bottom: 2px solid $arcadia-primary-500;
+  padding-bottom: 0.3em;
+  padding-left: 1em;
+}
+
+.service-image {
+  width: 100%;
+  height: auto;
+}
+
+.accent-button {
+  background-color: $arcadia-accent-500;
 }
