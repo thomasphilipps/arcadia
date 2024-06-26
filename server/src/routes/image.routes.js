@@ -3,7 +3,7 @@ const { sequelize } = require('../config/database');
 const { upload, deleteImage, processImage, generateImageUrl } = require('../utils/upload');
 
 module.exports = (app) => {
-  app.post('/api/images/', upload.single('image'), async (req, res) => {
+  app.post('/api/image/upload', upload.single('image'), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({
         message: 'Invalid file type, only JPEG, PNG and GIF are allowed!',
@@ -34,7 +34,7 @@ module.exports = (app) => {
     }
   });
 
-  app.delete('/api/images/:id', async (req, res) => {
+  app.delete('/api/image/:id', async (req, res) => {
     const imageId = req.params.id;
 
     try {
@@ -72,7 +72,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get('/api/images/:referenceType/:referenceId', async (req, res) => {
+  app.get('/api/image/type/:referenceType/id/:referenceId', async (req, res) => {
     const { referenceType, referenceId } = req.params;
 
     try {
@@ -82,6 +82,28 @@ module.exports = (app) => {
         WHERE referenceType = ? AND referenceId = ?`;
       const [images] = await sequelize.query(sql, {
         replacements: [referenceType, referenceId],
+      });
+
+      if (images.length === 0) {
+        return res.status(404).json({ error: 'Aucune image trouvée' });
+      }
+
+      res.status(200).json(images);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get('/api/image/type/:referenceType', async (req, res) => {
+    const { referenceType } = req.params;
+
+    try {
+      const sql = `
+        SELECT imageId, imagePath, imageDescription
+        FROM Images
+        WHERE referenceType = ?`;
+      const [images] = await sequelize.query(sql, {
+        replacements: [referenceType],
       });
 
       if (images.length === 0) {
