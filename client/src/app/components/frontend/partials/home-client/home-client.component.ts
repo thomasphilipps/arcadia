@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
+import { CarouselComponent } from '@app/components/templates/carousel/carousel.component';
 import { Animal } from '@app/interfaces/animal.interface';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Service } from '@app/interfaces/service.interface';
@@ -14,7 +15,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'arz-home-client',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, RouterLink],
+  imports: [MatCardModule, MatButtonModule, RouterLink, CarouselComponent],
   templateUrl: './home-client.component.html',
   styleUrl: './home-client.component.scss',
 })

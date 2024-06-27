@@ -1,0 +1,28 @@
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+mat-card {
+  max-width: 100%;
+  width: 100%;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 600px) {
+  .carousel {
+    height: 400px;
+  }
+}

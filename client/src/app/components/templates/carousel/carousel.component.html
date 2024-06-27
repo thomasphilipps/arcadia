@@ -1,0 +1,16 @@
+<div class="carousel">
+  <mat-card>
+    <img mat-card-image [src]="images[currentIndex].path" alt="{{ images[currentIndex].text }}" />
+    <mat-card-content>
+      <p>{{ images[currentIndex].text }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-icon-button (click)="previous()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="next()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
