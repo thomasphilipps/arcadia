@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { Service } from '@app/interfaces/service.interface';
-import { ImageService } from '@app/services/image.service';
+import { DataService } from '@app/services/data.service';
 import { ServiceService } from '@app/services/service.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'arz-service-client',
@@ -16,51 +15,21 @@ import { firstValueFrom } from 'rxjs';
 export class ServiceClientComponent implements OnInit {
   services: Service[] = [];
 
-  constructor(private serviceService: ServiceService, private imageService: ImageService) {}
+  constructor(private dataService: DataService, private serviceService: ServiceService) {}
 
   ngOnInit(): void {
     this.loadServices();
   }
 
   loadServices(): void {
-    this.serviceService.loadData();
-    this.serviceService.getAllData().subscribe({
-      next: (services) => {
-        this.services = services;
-        this.loadImages();
+    this.dataService.loadData(this.serviceService).subscribe({
+      next: (data) => {
+        this.services = data;
+        this.dataService.loadImages('Service', this.services, 'serviceId');
       },
       error: (error) => {
-        console.error('Erreur lors du chargement des données:', error);
+        console.error('Erreur lors du chargement des services:', error);
       },
     });
-  }
-
-  loadImages() {
-    this.services.forEach(async (service) => {
-      try {
-        const images = await this.fetchImagesForService(service.serviceId);
-        service.images = images || [];
-      } catch (error) {
-        console.error(
-          `Erreur lors du chargement des images pour le service avec ID: ${service.serviceId}`,
-          error
-        );
-        service.images = []; // Set to empty array to avoid display issues
-      }
-    });
-  }
-
-  // Effectue la requête pour charger les images d'un service
-
-  async fetchImagesForService(serviceId: number | string) {
-    try {
-      const response = await firstValueFrom(
-        this.imageService.getImageByReferenceTypeAndId('Service', serviceId.toString())
-      );
-      return response;
-    } catch (error) {
-      // Handle the error, maybe log it and return an empty array or rethrow the error
-      throw new Error('Erreur lors de la récupération des images');
-    }
   }
 }
