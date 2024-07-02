@@ -13,9 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class CarouselComponent {
   images = [
-    { path: 'src/assets/images/1.jpg', text: 'Image 1' },
-    { path: 'src/assets/images/2.jpg', text: 'Image 2' },
-    { path: 'src/assets/images/3.jpg', text: 'Image 3' },
+    { path: 'assets/images/carousel1.jpg', text: 'Image 1' },
+    { path: 'src/assets/images/carousel2.jpg', text: 'Image 2' },
+    { path: 'src/assets/images/carousel3.jpg', text: 'Image 3' },
   ];
 
   currentIndex = 0;

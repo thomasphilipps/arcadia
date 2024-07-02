@@ -1,23 +1,75 @@
-<section class="service-section">
+<section class="biome-section py-5">
   <div class="container">
-    <div class="is-flex is-flex-wrap-wrap is-justify-content-space-evenly">
-      @for(service of services; track $index){
-      <mat-card class="service-card m-5 pb-3" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ service.serviceName }}</mat-card-title>
-          <mat-card-subtitle>{{ service.serviceShortDescr }}</mat-card-subtitle>
-        </mat-card-header>
-        @if(service.images){
-        <img
-          mat-card-image
-          src="{{ service.images[0].imagePath }}"
-          alt="{{ service.images[0].imageDescription }}"
-        />}
+    <h2 class="section-title has-text-centered">Venez rencontrer nos pensionnaires</h2>
+    <div class="is-flex is-flex-wrap-wrap is-justify-content-center">
+      @for(biome of biomes; track $index){
+      <mat-card
+        class="home-card m-5 pb-3 is-flex is-justify-content-space-between"
+        appearance="outlined"
+      >
+        <mat-card-content>
+          @if(biome.images && biome.images.length > 0){
+          <div class="square-image">
+            <img
+              mat-card-image
+              src="{{ biome.images[0].imagePath }}"
+              alt="{{ biome.images[0].imageDescription }}"
+            />
+          </div>
+          } @else {
+          <p>Aucune image disponible pour ce service.</p>
+          }
+          <h4 class="has-text-centered">{{ biome.biomeName }}</h4>
+          <mat-card-subtitle class="has-text-centered">{{
+            biome.biomeShortDescr
+          }}</mat-card-subtitle>
+          <div class="m-3 has-text-centered">
+            @for (specie of biome.species; track $index) {
+            {{ specie.specieName }}@if (!$last) {, } }
+          </div>
+        </mat-card-content>
 
-        <mat-card-actions>
-          <a class="accent-button" routerLink="/contact" mat-button matTooltip="Voir les détails"
+        <mat-card-actions class="is-justify-content-center">
+          <a class="accent-button" routerLink="#" mat-button matTooltip="Voir les détails"
             >Détails</a
           >
+        </mat-card-actions>
+      </mat-card>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="service-section py-5">
+  <div class="container">
+    <h3 class="section-title has-text-centered">Agrémentez votre visite</h3>
+    <div class="is-flex is-flex-wrap-wrap is-justify-content-center">
+      @for(service of services; track $index){
+      <mat-card
+        class="home-card m-5 pb-3 is-flex is-justify-content-space-between"
+        appearance="outlined"
+      >
+        <mat-card-content class="mb-3">
+          @if(service.images && service.images.length > 0){
+          <div class="circular-image">
+            <img
+              mat-card-image
+              src="{{ service.images[0].imagePath }}"
+              alt="{{ service.images[0].imageDescription }}"
+            />
+          </div>
+          } @else {
+          <p>Aucune image disponible pour ce service.</p>
+          }
+          <h4 class="has-text-centered">{{ service.serviceName }}</h4>
+
+          <mat-card-subtitle class="has-text-centered">{{
+            service.serviceShortDescr
+          }}</mat-card-subtitle>
+        </mat-card-content>
+
+        <mat-card-actions class="is-justify-content-center">
+          <a class="accent-button" routerLink="/services" mat-button>Détails</a>
         </mat-card-actions>
       </mat-card>
       }

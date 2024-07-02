@@ -1,4 +1,5 @@
 import { Image } from './image.interface';
+import { Specie } from './specie.interface';
 
 export interface Biome {
   biomeId: number;
@@ -7,4 +8,5 @@ export interface Biome {
   biomeLongDescr: string;
   biomeStatus: string | null;
   images?: Image[];
+  species?: Specie[];
 }
