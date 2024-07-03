@@ -1,0 +1,48 @@
+<div class="my-6">
+  <h3 class="text-center pt-4 mb-6">Ils parlent de nous</h3>
+  <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      @for(review of reviews; track review.reviewId) {
+      <div #carouselItem class="carousel-item flex-fill" [class.active]="$first">
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="card h-100 shadow" style="width: auto">
+            <div class="card-body" style="min-height: 10rem">
+              <h5 class="card-title">{{ review.reviewAlias }}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">
+                <arz-star-rating [score]="review.reviewRating"></arz-star-rating><br />
+              </h6>
+              <p class="card-text">
+                {{ review.reviewContent }}
+              </p>
+              <div class="text-end">
+                <h6 class="card-subtitle text-body-secondary">
+                  Le {{ review.reviewPostedOn | date : 'dd/MM/yyyy' }}
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#reviewCarousel"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#reviewCarousel"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div></div>
+</div>

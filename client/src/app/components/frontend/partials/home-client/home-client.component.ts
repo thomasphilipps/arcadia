@@ -10,11 +10,12 @@ import { Service } from '@app/interfaces/service.interface';
 import { BiomeService } from '@app/services/biome.service';
 import { DataService } from '@app/services/data.service';
 import { ServiceService } from '@app/services/service.service';
+import { ReviewClientComponent } from '../review-client/review-client.component';
 
 @Component({
   selector: 'arz-home-client',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, RouterLink, MatTooltipModule],
+  imports: [ReviewClientComponent, MatCardModule, MatButtonModule, RouterLink, MatTooltipModule],
   templateUrl: './home-client.component.html',
   styleUrls: ['./home-client.component.scss'],
 })
