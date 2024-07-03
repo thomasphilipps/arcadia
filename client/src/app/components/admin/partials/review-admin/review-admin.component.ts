@@ -155,8 +155,6 @@ export class ReviewAdminComponent implements OnInit {
 
     review.reviewRating = +review.reviewRating; // Convertir la note en nombre
 
-    console.table(review);
-
     const operation =
       this.editingReviewId === null
         ? this.reviewService.createData(review)

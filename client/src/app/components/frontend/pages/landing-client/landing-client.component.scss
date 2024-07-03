@@ -1,0 +1,77 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
+$arcadia-accent-200: mat.get-color-from-palette($arcadia-accent, 200);
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+}
+
+nav.nav-scrolled {
+  background-color: mat.get-color-from-palette($arcadia-primary, 500);
+  transition: background-color 0.5s ease;
+}
+
+mat-toolbar {
+  transition: background-color 0.5s ease;
+}
+
+.logo {
+  margin-top: 50px;
+  height: 100px;
+  transition: all 0.5s ease;
+}
+
+.logo-scrolled {
+  height: 50px;
+  transition: all 0.5s ease;
+}
+
+.desktop-menu {
+  display: flex;
+  align-items: center;
+  color: white;
+
+  a {
+    color: white;
+    margin: 0 10px;
+    font-weight: 500;
+    padding: auto;
+    transition: all 0.5s ease;
+    text-decoration: none;
+
+    &:hover {
+      color: $arcadia-accent-200;
+    }
+  }
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+
+main {
+  min-height: calc(100vh - 100px);
+}
+
+.mat-toolbar.mat-transparent {
+  background: transparent;
+}

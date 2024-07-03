@@ -1,0 +1,50 @@
+<nav>
+  <mat-toolbar [color]="scrolled ? 'primary' : 'transparent'">
+    <div class="container is-flex is-flex-direction-row">
+      <img
+        [class]="scrolled ? 'logo-scrolled' : 'logo'"
+        routerLink="/home"
+        src="/assets/images/svg/arcadia_logo.svg"
+        alt="Logo Zoo Arcadia"
+        style="cursor: pointer"
+      />
+      <span class="toolbar-spacer"></span>
+      <div class="desktop-menu">
+        <a routerLink="/home" matTooltip="Page d'accueil">Accueil</a>
+        <a routerLink="/services" matTooltip="Découvrez nos services">Services</a>
+        <a routerLink="/biomes" matTooltip="Visitez nos zones d'habitation">Habitats</a>
+        <a routerLink="/contact" matTooltip="Contactez-nous">Contact</a>
+      </div>
+      <span class="toolbar-spacer"></span>
+      <div class="desktop-menu">
+        <a
+          mat-icon-button
+          aria-label="Login button"
+          matTooltip="Connexion employé"
+          routerLink="/dashboard"
+        >
+          <mat-icon aria-hidden="false" aria-label="Schedule icon" fontSet="material-icons-outlined"
+            >login</mat-icon
+          >
+        </a>
+      </div>
+    </div>
+
+    <div class="mobile-menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/home">Accueil</button>
+        <button mat-menu-item routerLink="/services">Services</button>
+        <button mat-menu-item routerLink="/biomes">Habitats</button>
+        <button mat-menu-item routerLink="/contact">Contact</button>
+        <button mat-menu-item routerLink="/dashboard">Connexion</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</nav>
+<main class="arcadia-theme-typography">
+  <router-outlet></router-outlet>
+</main>
+<arz-footer></arz-footer>

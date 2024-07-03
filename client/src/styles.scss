@@ -8,11 +8,278 @@
 
 @include mat.core();
 
+$dark-primary-text: mat.get-color-from-palette(mat.$grey-palette, 900);
+$light-primary-text: mat.get-color-from-palette(mat.$grey-palette, 50);
+
+$arcadia-primary-palette: (
+  50: #e2ede5,
+  100: #b6d1bd,
+  200: #85b391,
+  300: #549465,
+  400: #307d44,
+  500: #0b6623,
+  600: #0a5e1f,
+  700: #08531a,
+  800: #064915,
+  900: #03380c,
+  A100: #6eff7d,
+  A200: #3bff4f,
+  A400: #08ff21,
+  A700: #00ee18,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$arcadia-secondary-palette: (
+  50: #e0eff6,
+  100: #b3d6e9,
+  200: #80bbdb,
+  300: #4da0cc,
+  400: #268bc1,
+  500: #0077b6,
+  600: #006faf,
+  700: #0064a6,
+  800: #005a9e,
+  900: #00478e,
+  A100: #bad8ff,
+  A200: #87baff,
+  A400: #549dff,
+  A700: #3b8eff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$arcadia-accent-palette: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe782,
+  300: #ffdd51,
+  400: #ffd42b,
+  500: #ffc107,
+  600: #ffbb06,
+  700: #ffb305,
+  800: #ffac04,
+  900: #ffa103,
+  A100: #ffffff,
+  A200: #fff8e1,
+  A400: #ffecb3,
+  A700: #ffe2a3,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined';
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500&display=swap');
+
+$fontConfig: (
+  display-4: mat.define-typography-level(112px, 112px, 300, 'Bricolage Grotesque', -0.0134em),
+  display-3: mat.define-typography-level(56px, 56px, 400, 'Bricolage Grotesque', -0.0089em),
+  display-2: mat.define-typography-level(45px, 48px, 400, 'Bricolage Grotesque', 0em),
+  display-1: mat.define-typography-level(34px, 40px, 400, 'Bricolage Grotesque', 0.0074em),
+  headline: mat.define-typography-level(24px, 32px, 400, 'Bricolage Grotesque', 0em),
+  title: mat.define-typography-level(20px, 32px, 500, 'Bricolage Grotesque', 0.0075em),
+  subheading-2: mat.define-typography-level(16px, 28px, 400, 'Noto Sans', 0.0094em),
+  subheading-1: mat.define-typography-level(15px, 24px, 500, 'Noto Sans', 0.0067em),
+  body-2: mat.define-typography-level(14px, 24px, 500, 'Noto Sans', 0.0179em),
+  body-1: mat.define-typography-level(14px, 20px, 400, 'Noto Sans', 0.0179em),
+  button: mat.define-typography-level(14px, 14px, 500, 'Noto Sans', 0.0893em),
+  caption: mat.define-typography-level(12px, 20px, 400, 'Noto Sans', 0.0333em),
+  input: mat.define-typography-level(inherit, 1.125, 400, 'Noto Sans', 1.5px),
+);
+
+$arcadia-primary: mat.define-palette($arcadia-primary-palette);
+$arcadia-secondary: mat.define-palette($arcadia-secondary-palette);
+$arcadia-accent: mat.define-palette($arcadia-accent-palette);
+$arcadia-warn: mat.define-palette(mat.$red-palette);
+
+// Foreground Elements
+
+// Light Theme Text
+$dark-text: #111111;
+$dark-primary-text: rgba($dark-text, 0.87);
+$dark-accent-text: rgba($dark-primary-text, 0.54);
+$dark-disabled-text: rgba($dark-primary-text, 0.38);
+$dark-dividers: rgba($dark-primary-text, 0.12);
+$dark-focused: rgba($dark-primary-text, 0.12);
+
+$mat-light-theme-foreground: (
+  base: black,
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: rgba($dark-text, 0.26),
+  disabled-text: $dark-disabled-text,
+  elevation: black,
+  secondary-text: $dark-accent-text,
+  hint-text: $dark-disabled-text,
+  accent-text: $dark-accent-text,
+  icon: $dark-accent-text,
+  icons: $dark-accent-text,
+  text: $dark-primary-text,
+  slider-min: $dark-primary-text,
+  slider-off: rgba($dark-text, 0.26),
+  slider-off-active: $dark-disabled-text,
+);
+
+// Background config
+// Light bg
+$light-background: #f4f1de;
+$light-bg-darker-5: darken($light-background, 5%);
+$light-bg-darker-10: darken($light-background, 10%);
+$light-bg-darker-20: darken($light-background, 20%);
+$light-bg-darker-30: darken($light-background, 30%);
+$light-bg-lighter-5: lighten($light-background, 5%);
+$dark-bg-tooltip: lighten(#2c2c2c, 20%);
+$dark-bg-alpha-4: rgba(#2c2c2c, 0.04);
+$dark-bg-alpha-12: rgba(#2c2c2c, 0.12);
+
+$mat-light-theme-background: (
+  background: $light-background,
+  status-bar: $light-bg-darker-20,
+  app-bar: $light-bg-darker-5,
+  hover: $dark-bg-alpha-4,
+  card: $light-bg-lighter-5,
+  dialog: $light-bg-lighter-5,
+  tooltip: $dark-bg-tooltip,
+  disabled-button: $dark-bg-alpha-12,
+  raised-button: $light-bg-lighter-5,
+  focused-button: $dark-focused,
+  selected-button: $light-bg-darker-20,
+  selected-disabled-button: $light-bg-darker-30,
+  disabled-button-toggle: $light-bg-darker-10,
+  unselected-chip: $light-bg-darker-10,
+  disabled-list-option: $light-bg-darker-10,
+);
+
+$arcadia-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $arcadia-primary,
+      secondary: $arcadia-secondary,
+      accent: $arcadia-accent,
+      warn: $arcadia-warn,
+    ),
+    typography: $fontConfig,
+  )
+);
+
+@include mat.all-component-themes($arcadia-theme);
+
+@mixin apply-typography($font-size, $line-height, $font-weight, $font-family, $letter-spacing) {
+  font-size: $font-size;
+  line-height: $line-height;
+  font-weight: $font-weight;
+  font-family: $font-family;
+  letter-spacing: $letter-spacing;
+}
+
+// Appliquer la typographie aux titres
+h1 {
+  @include apply-typography(72px, 72px, 500, 'Bricolage Grotesque', -0.0134em);
+  color: mat.get-color-from-palette($arcadia-secondary, 500);
+}
+
+h2 {
+  @include apply-typography(56px, 56px, 400, 'Bricolage Grotesque', -0.0089em);
+  color: mat.get-color-from-palette($arcadia-secondary, 500);
+}
+
+h3 {
+  @include apply-typography(45px, 48px, 400, 'Bricolage Grotesque', 0em);
+  color: mat.get-color-from-palette($arcadia-secondary, 500);
+}
+
+h4 {
+  @include apply-typography(34px, 40px, 400, 'Bricolage Grotesque', 0.0074em);
+}
+
+h5 {
+  @include apply-typography(24px, 32px, 400, 'Bricolage Grotesque', 0em);
+}
+
+h6 {
+  @include apply-typography(20px, 32px, 500, 'Bricolage Grotesque', 0.0075em);
+}
+
 html,
 body {
   height: 100%;
+  background-color: $light-background;
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.mat-raised-button,
+.mat-stroked-button,
+.mat-flat-button {
+  padding: 0 1.15em;
+  margin: 0 0.65em;
+  min-width: 3em;
+  line-height: 36.4px;
+}
+
+.mat-standard-chip {
+  padding: 0.5em 0.85em;
+  min-height: 2.5em;
+}
+
+.material-icons {
+  font-size: 24px;
+  font-family: 'Material Icons Outlined', 'Material Icons';
+  .mat-badge-content {
+    font-family: 'Noto Sans', sans-serif;
+  }
+}
+
+.page-header {
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.8) contrast(1.2);
 }

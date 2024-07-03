@@ -21,7 +21,12 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+<<<<<<< HEAD
+    "@coreui/angular": "~5.1",
+    "bulma": "^1.0.0",
+=======
     "bulma": "^1.0.1",
+>>>>>>> origin/master
     "jwt-decode": "^4.0.0",
     "luxon": "^3.4.4",
     "ngx-cookie-service": "^17.1.0",

@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
+@import '@mainAdminStyle';
+
+$arcadia-primary-500: mat.get-color-from-palette($arcadia-primary-palette, 500);
+
+.accent-button {
+  background-color: $arcadia-primary-500;
+  color: white !important;
+}
