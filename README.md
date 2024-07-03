@@ -83,25 +83,11 @@ npm run install-all
 ----
 
 Il va ensuite falloir initialiser les variables d'environnement.  
-A la racine du projet, vous trouverez un  fichier **'.env'**  
-Vous pouvez l'ouvrir dans votre éditeur de texte favori, ici on va utiliser l'editeur nano :  
-```SH
-nano .env
-```
-<br>
+A la racine du projet, créez un  fichier **'.env'**  
+Ouvrez-le ensuite dans votre éditeur de texte favori.  
 
-Vous devez ensuite compléter les différentes variables renseignées entre les chevrons ``< >`` 
-> :warning: SAUF LES VARIABLES CONCERNANT AWS.  
+Copiez et collez le document suivant :  
 
-Si vous souhaitez créer une clé sécurisée aléatoire pour ``AUTH_PRIVATE_KEY``, vous pouvez lancer dans votre console la 
-commande suivante :  
-```BASH
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
-
-<br>
-
-Vous devriez obtenir un fichier ressemblant à ceci :
 ```BASH
 NODE_ENV=development
 
@@ -110,21 +96,21 @@ PORT=3000
 HOST="http://localhost"
 
 # TOKEN KEY
-AUTH_PRIVATE_KEY="ma_cle_securisee"
+AUTH_PRIVATE_KEY=<ma_cle_securisee>
 
 # MYSQL VARS
 BDD_HOST="localhost"
 BDD_NAME="db_arcadia_zoo"
-BDD_ROOT_PASSWORD="mon_mdp_root_securise"
-BDD_USER="mon_login_utilisateur_mysql"
-BDD_PASSWORD="mon_mdp_utilisateur_securise"
+BDD_ROOT_PASSWORD=<mon_mdp_root_securise>
+BDD_USER=<mon_login_utilisateur_mysql>
+BDD_PASSWORD=<mon_mdp_utilisateur_securise>
 
 # MONGO VARS
 MONGO_ROOT_USER="root"
-MONGO_ROOT_PASSWORD="mon_autre_mdp_root_securise"
+MONGO_ROOT_PASSWORD=<mon_autre_mdp_root_securise>
 MONGO_DATABASE="arcadia_zoo"
-MONGOEXPRESS_LOGIN="mon_login_utilisateur_mongodb"
-MONGOEXPRESS_PASSWORD="mon_mdp_utilisateur_securise"
+MONGOEXPRESS_LOGIN=<mon_login_utilisateur_mongodb>
+MONGOEXPRESS_PASSWORD=<mon_mdp_utilisateur_securise>
 
 
 # MAILING VARS
@@ -143,12 +129,24 @@ AWS_BUCKET_NAME='arcadia-zoo'
 AWS_ENDPOINT='http://localhost:9000'
 
 #MINIO VARS
-MINIO_ROOT_USER="mon_login_minio"
-MINIO_ROOT_PASSWORD="mon_mdp_securise"
+MINIO_ROOT_USER=<mon_login_minio>
+MINIO_ROOT_PASSWORD=<mon_mdp_securise>
 ```
+
 <br>
 
-Sauvegardez avec la commande ``[Ctrl]+X`` puis tapez sur ``[Entree]``
+Vous devez ensuite compléter les différentes variables renseignées entre les chevrons ``< >`` 
+> :warning: SAUF LES VARIABLES ``YOUR_ACCESS_KEY`` et ``YOUR_SECRET_ACCESS_KEY`` (elles seront renseignées plus tard)
+
+Si vous souhaitez créer une clé sécurisée aléatoire pour ``AUTH_PRIVATE_KEY``, vous pouvez lancer dans votre console la 
+commande suivante :  
+```BASH
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+<br>
+
+Sauvegardez le fichier.
 
 <br>
 
@@ -171,5 +169,26 @@ Ainsi que 3 volumes pour la conservation des données :
 - **mysqldbdata** pour la base de données SQL
 - **mongodbdata** pour la base de données NoSQL
 - **minio-data** pour la sauvegarde des images
-
+  
 <br>
+
+### 4. Initialisation des variables AWS
+----
+Ouvrez l'interface MiniO l'adresse suivante : http://localhost:8900  
+Connectez-vous avec les identifiants que vous avez renseigné dans le fichier ``.env`` sous la rubrique ``# MINIO VARS``  
+
+Dans le menu de gauche, allez dans : ``Administrator > Buckets`` et créez un bucket appelé ``arcadia-zoo``  
+
+Puis dans ``Users > Access Keys`` créez un couple clé d'accès / clé d'authentification secrète
+
+> :warning: ENREGISTREZ BIEN CES DEUX CLES, VOUS N'AUREZ PLUS ACCES A LA CLE SECRETE ENSUITE
+
+Renseignez ensuite ces deux clés dans le fichier ``.env``
+  
+<br>
+
+### 5. Initialisation de la base de données et création de l'administrateur du site
+----
+
+
+

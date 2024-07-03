@@ -78,7 +78,7 @@ const upload = multer({
     },
   }),
   fileFilter: fileFilter, // Ajout du file filter
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limite de taille de fichier à 5MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // Limite de taille de fichier à 10MB
 });
 
 module.exports = {
