@@ -1,3 +1,5 @@
+import { Image } from './image.interface';
+
 export interface Animal {
   animalId: string;
   animalName: string;
@@ -8,4 +10,5 @@ export interface Animal {
   specieKey: number;
   animalSpecie: string;
   animalBiome: string;
+  images?: Image[];
 }

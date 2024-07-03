@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
@@ -31,8 +31,11 @@ export class DashboardMainComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Tablet).pipe(
-    map((result) => result.matches),
+  isHandset$: Observable<boolean> = combineLatest([
+    this.breakpointObserver.observe(Breakpoints.Handset),
+    this.breakpointObserver.observe(Breakpoints.Tablet),
+  ]).pipe(
+    map(([handset, tablet]) => handset.matches || tablet.matches),
     shareReplay()
   );
 
