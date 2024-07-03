@@ -23,35 +23,35 @@ export class HomeClientComponent implements OnInit {
   services: Service[] = [];
   biomes: Biome[] = [];
 
-  slides: any[] = new Array(3).fill({ id: -1, src: '', title: '', subtitle: '' });
+  slides: any[] = new Array(3).fill({ id: -1, imagePath: '', title: '', caption: '' });
 
   constructor(
     private dataService: DataService,
     private serviceService: ServiceService,
     private biomeService: BiomeService
-  ) {}
-
-  ngOnInit(): void {
-    this.loadElements();
-
+  ) {
     this.slides[0] = {
       id: 0,
-      src: './assets/images/carousel1.png',
-      title: 'First slide',
-      subtitle: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
+      imagePath: 'assets/images/carousel1.jpeg',
+      title: 'jungle slide',
+      caption: "Explorez la Majestueuse Jungle d'Arcadia",
     };
     this.slides[1] = {
       id: 1,
-      src: './assets/img/react.jpg',
-      title: 'Second slide',
-      subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      imagePath: 'assets/images/carousel2.jpeg',
+      title: 'swamp slide',
+      caption: 'Découvrez les Secrets du Marais',
     };
     this.slides[2] = {
       id: 2,
-      src: './assets/img/vue.jpg',
-      title: 'Third slide',
-      subtitle: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.',
+      imagePath: 'assets/images/carousel3.jpeg',
+      title: 'savanah slide',
+      caption: 'Voyagez dans les Etendues de la Savane',
     };
+  }
+
+  ngOnInit(): void {
+    this.loadElements();
   }
 
   loadElements(): void {
