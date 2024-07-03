@@ -90,7 +90,9 @@ module.exports = (app) => {
 
       res.status(200).json(images);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      // Log the error for debugging purposes, but don't expose details to the client
+      console.error('Erreur lors de la récupération des images:', error.message);
+      res.status(500).json({ error: 'Erreur interne du serveur. Veuillez réessayer plus tard.' });
     }
   });
 

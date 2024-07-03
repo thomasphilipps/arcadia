@@ -1,1 +1,113 @@
-<p>home-client works!</p>
+<section class="hero-section pb-5">
+  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      @for(slide of slides; track slide.id){
+      <div class="carousel-item" [class.active]="$first">
+        <img [src]="slide.imagePath" class="d-block w-100" alt="{{ slide.title }}" />
+        <div class="carousel-caption d-none d-md-block">
+          <h1>{{ slide.caption }}</h1>
+        </div>
+      </div>
+      }
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#heroCarousel"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#heroCarousel"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+
+<section class="biome-section pty-5 my-5">
+  <div class="container">
+    <h2 class="section-title has-text-centered">Venez rencontrer nos pensionnaires</h2>
+    <div class="is-flex is-flex-wrap-wrap is-justify-content-center">
+      @for(biome of biomes; track $index){
+      <a [routerLink]="['/biomes']" class="mat-card-link"
+        ><mat-card
+          class="home-card m-5 pb-3 is-flex is-justify-content-space-between"
+          appearance="outlined"
+        >
+          <mat-card-content>
+            @if(biome.images && biome.images.length > 0){
+            <div class="square-image">
+              <img
+                mat-card-image
+                src="{{ biome.images[0].imagePath }}"
+                alt="{{ biome.images[0].imageDescription }}"
+              />
+            </div>
+            } @else {
+            <p>Aucune image disponible pour ce service.</p>
+            }
+            <h4 class="has-text-centered">{{ biome.biomeName }}</h4>
+            <mat-card-subtitle class="has-text-centered">{{
+              biome.biomeShortDescr
+            }}</mat-card-subtitle>
+            <div class="m-3 has-text-centered">
+              @for (specie of biome.species; track $index) {
+              {{ specie.specieName }}@if (!$last) {, } }
+            </div>
+          </mat-card-content>
+        </mat-card></a
+      >
+
+      }
+    </div>
+  </div>
+</section>
+
+<section class="service-section py-6">
+  <div class="container">
+    <h3 class="section-title has-text-centered">Agrémentez votre visite</h3>
+    <div class="is-flex is-flex-wrap-wrap is-justify-content-center">
+      @for(service of services; track $index){
+      <a [routerLink]="['/services']" class="mat-card-link">
+        <mat-card
+          class="home-card m-5 pb-3 is-flex is-justify-content-space-between"
+          appearance="outlined"
+        >
+          <mat-card-content class="mb-3">
+            @if(service.images && service.images.length > 0){
+            <div class="circular-image">
+              <img
+                mat-card-image
+                src="{{ service.images[0].imagePath }}"
+                alt="{{ service.images[0].imageDescription }}"
+              />
+            </div>
+            } @else {
+            <p>Aucune image disponible pour ce service.</p>
+            }
+            <h4 class="has-text-centered">{{ service.serviceName }}</h4>
+
+            <mat-card-subtitle class="has-text-centered">{{
+              service.serviceShortDescr
+            }}</mat-card-subtitle>
+          </mat-card-content>
+        </mat-card>
+      </a>
+
+      }
+    </div>
+  </div>
+</section>
+
+<section class="review-section py-5">
+  <div class="container">
+    <arz-review-client></arz-review-client>
+  </div>
+</section>

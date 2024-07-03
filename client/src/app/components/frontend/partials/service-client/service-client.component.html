@@ -2,7 +2,7 @@
   <h1 class="mat-display-3 container has-text-centered">Les Services d'Arcadia</h1>
 </div>
 <div class="container mb-6">
-  <div class="page-intro">
+  <div class="my-6 page-intro">
     Découvrez les services que le zoo d'Arcadia vous propose pour rendre votre visite inoubliable.
   </div>
   <div class="page-content">
@@ -15,17 +15,21 @@
         <p class="content-description">
           {{ service.serviceLongDescr }}
         </p>
-        <a class="accent-button" routerLink="/contact" mat-button matTooltip="Contactez-nous"
-          >Contact</a
-        >
+        <a class="accent-button" routerLink="/contact" mat-button matTooltip="Contactez-nous">
+          Contact
+        </a>
       </div>
-      @if(service.images) {
+      @if(service.images && service.images.length > 0) {
       <div class="column">
         <img
           class="service-image"
           src="{{ service.images[0].imagePath }}"
           alt="{{ service.images[0].imageDescription }}"
         />
+      </div>
+      } @else {
+      <div class="column">
+        <p>Aucune image disponible pour ce service.</p>
       </div>
       }
     </div>
