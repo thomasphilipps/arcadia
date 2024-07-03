@@ -106,8 +106,8 @@ Vous devriez obtenir un fichier ressemblant à ceci :
 NODE_ENV=development
 
 # API VARS
-API_PORT=3000
-API_HOST="http://localhost"
+PORT=3000
+HOST="http://localhost"
 
 # TOKEN KEY
 AUTH_PRIVATE_KEY="ma_cle_securisee"
