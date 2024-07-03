@@ -10,7 +10,6 @@ const apiLimiter = rateLimit({
 });
 
 const corsOptions = {
-  origin: ['http://127.0.0.1:4200', 'http://localhost:4200'],
   methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -22,7 +21,7 @@ app.use(bodyParser.json()).use(cors(corsOptions)).use(apiLimiter);
 
 // Main route to test the server
 app.get('/', (req, res) => {
-  res.send('Hello Arcadia ! 😈');
+  res.json('Hello Arcadia ! 😈');
 });
 
 // API routes
