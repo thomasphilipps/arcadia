@@ -116,8 +116,8 @@ INSERT INTO `Reviews` (`reviewAlias`, `reviewContent`, `reviewRating`, `reviewPo
 ('EmmaT', 'Les crocodiles du Nil étaient impressionnants. On apprend beaucoup de choses.', 4, '2024-04-25 18:45:00', 0, NULL),
 ('NathalieG', 'Belle journée au zoo, mais il manque des endroits pour se reposer à l\'ombre.', 3, '2024-04-20 10:05:00', 0, NULL),
 ('PaulH', 'Les perroquets Ara sont magnifiques, surtout lors des spectacles.', 5, '2024-04-15 16:25:00', 0, NULL),
-('AliceF', 'Les girafes sont majestueuses. Super expérience pour les enfants.', 5, '2024-05-22 12:30:00', 1, '48ac9728-0000-11ef-8213-00155d07f9b8'),
-('BrunoG', 'La visite en train est agréable, mais un peu courte.', 4, '2024-05-21 11:50:00', 1, '48ac9728-0000-11ef-8213-00155d07f9b8'),
+('AliceF', 'Les girafes sont majestueuses. Super expérience pour les enfants.', 5, '2024-05-22 12:30:00', 1, '321d9219-3dcd-4cc3-9431-c52981ad7452'),
+('BrunoG', 'La visite en train est agréable, mais un peu courte.', 4, '2024-05-21 11:50:00', 1, '321d9219-3dcd-4cc3-9431-c52981ad7452'),
 ('CelineH', 'Le marais est fascinant, surtout les crocodiles.', 5, '2024-05-19 14:00:00', 1, '095e7eef-b25e-427e-9c4e-7c603bb76487'),
 ('DavidK', 'Les zèbres et les gnous étaient très actifs. Moment agréable.', 4, '2024-05-17 10:30:00', 1, '095e7eef-b25e-427e-9c4e-7c603bb76487'),
 ('EliseL', 'Bonne ambiance générale, mais il manque des toilettes.', 3, '2024-05-16 16:00:00', 1, '095e7eef-b25e-427e-9c4e-7c603bb76487');
