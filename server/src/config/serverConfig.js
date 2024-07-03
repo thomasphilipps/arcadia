@@ -7,6 +7,7 @@ const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000,
   message: 'Trop de requêtes, veuillez patienter !',
+  validate: { xForwardedForHeader: false },
 });
 
 const corsOptions = {
