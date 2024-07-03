@@ -44,5 +44,12 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  <div></div>
+  <div class="has-text-centered my-6 mr-5">
+    <a class="accent-button" (click)="addReview()" mat-button matTooltip="Donner votre avis"
+      >Donner votre avis</a
+    >
+  </div>
+  <div>
+    <arz-sql-form [config]="reviewConfig" (saveData)="saveReview($event)"></arz-sql-form>
+  </div>
 </div>
