@@ -70,19 +70,6 @@ CREATE TABLE IF NOT EXISTS
   );
 
 CREATE TABLE IF NOT EXISTS
-  Messages (
-    messageId INT AUTO_INCREMENT PRIMARY KEY,
-    messageTitle VARCHAR(32) NOT NULL,
-    messageContent TEXT NOT NULL,
-    messageEmail VARCHAR(255) NOT NULL,
-    messageDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    messageProcessed TINYINT(1) NOT NULL DEFAULT 0,
-    messageProcessedBy VARCHAR(36),
-    messageProcessedOn TIMESTAMP,
-    FOREIGN KEY (messageProcessedBy) REFERENCES Users (userId) ON DELETE SET NULL
-  );
-
-CREATE TABLE IF NOT EXISTS
   Reports (
     reportId INT AUTO_INCREMENT PRIMARY KEY,
     reportState TEXT NOT NULL,
