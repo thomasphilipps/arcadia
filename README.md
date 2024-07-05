@@ -165,7 +165,7 @@ docker compose up -d
 
 Ceci va lancer plusieurs services:
 - **MySql** et **PhpMyAdmin**: SGBD SQL et son interface web
-- **MongoDb** et **Mongo-Express**: SGBD NoSQL et son interface web
+- **MongoDb**: SGBD NoSQL
 - **MailDev**: simulation de boîte mail
 - **MinIo**: simulation de conteneur S3 d'Amazon Web Services (AWS)
   
@@ -355,6 +355,19 @@ Enfin, créer l'administrateur de cette base de données, n'oubliez pas de rempl
 ```mongodb
 db.createUser({user: <MONGO_USER>, pwd: <MONGO_PASSWORD>, roles: [{role: "readWrite", db: "arcadia_zoo"}]});
 ```
+Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``  
+<br>
+
+> Vous pouvez maintenant vous connecter à mongosh avec les identifiants administrateur:
+> ```BASH
+> docker compose exec mongodb mongosh -u <MONGO_USER> -p --authenticationDatabase arcadia_zoo
+> ```
+><br>
+
+> Si vous préférez travailler sur MongoDB avec une interface graphique, vous pouvez télécharger le client [**MongoDB Compass**](https://www.mongodb.com/products/tools/compass)  
+> <br>
+
+<br>
 
 ### 9. Fixtures (optionnel)
 ----

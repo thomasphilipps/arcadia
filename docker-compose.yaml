@@ -14,6 +14,8 @@ services:
       - "3306:3306"
     volumes:
       - mysqldbdata:/var/lib/mysql
+    networks:
+      - arcadia_nertwork
 
   phpmyadmin:
     image: phpmyadmin:5.2.1
@@ -27,19 +29,22 @@ services:
     restart: always
     ports:
       - 8080:80
+    networks:
+      - arcadia_nertwork
 
   mongodb:
     image: mongo:7.0
-    container_name: mongodb
+    container_name: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
     ports:
       - "27017:27017"
     volumes:
       - mongodbdata:/data/db
+    networks:
+      - arcadia_nertwork
 
   maildev:
     image: maildev/maildev:2.1.0
@@ -47,6 +52,8 @@ services:
     ports:
       - "1080:1080"   # Web UI
       - "1025:1025"   # SMTP server
+    networks:
+      - arcadia_nertwork
 
   minio:
     image: minio/minio:latest
@@ -60,9 +67,15 @@ services:
     command: 'minio server /data/minio --console-address ":8900"'
     volumes:
       - minio-data:/data/minio
+    networks:
+      - arcadia_nertwork
 
 volumes:
   mysqldbdata:
   mongodbdata:
   minio-data:
     driver: local
+
+networks:
+  arcadia_nertwork:
+    driver: bridge
