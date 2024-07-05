@@ -363,7 +363,7 @@ Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``
 > docker compose exec mongodb mongosh -u <MONGO_USER> -p --authenticationDatabase arcadia_zoo
 > ```
 ><br>
-
+>
 > Si vous préférez travailler sur MongoDB avec une interface graphique, vous pouvez télécharger le client [**MongoDB Compass**](https://www.mongodb.com/products/tools/compass)  
 > <br>
 
@@ -384,7 +384,7 @@ Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``
    Vous pouvez ensuite copier/coller les informations qui vous intéressent situées dans le fichier ``server/scripts/database_populate.sql``  
 
    <br>
-2. Base de données MongoDB
+2. Base de données MongoDB  
    (WIP)
    
    <br>
