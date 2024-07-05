@@ -259,7 +259,7 @@ Si vous avez le message : ``Script SQL effectué avec succès``, bonne nouvelle,
 <br>
 
 Si vous préférez l'installer manuellement, relancez l'invite de commande MySQL.  
-Connectez-vous avec l'utilisateur précédemment, puis naviguez vers la base de données en tapant :
+Connectez-vous avec le compte administrateur précédemment créé, puis naviguez vers la base de données en tapant :
 ```SQL
 USE db_arcadia_zoo;
 ```
@@ -307,7 +307,7 @@ Puis entrez toutes les commandes qui vous intéressent du fichier.
 <br>
 
 2. Manuellement  
-   > :warning: Utilisez le pour le hashage du mot de passe, afin de ne pas avoir d'incompatibilité entre les modules d'encryption
+   > :warning: Utilisez le script fourni pour le hashage du mot de passe, afin de ne pas avoir d'incompatibilité entre les modules d'encryption
    - Générez et sauvegardez un UUID pour l'id du user
      ```BASH
      node ./server/scripts/create_uuid.js
@@ -356,6 +356,7 @@ Puis entrez toutes les commandes qui vous intéressent du fichier.
 
    <br>
 2. Base de données MongoDB
+   (WIP)
    
    <br>
 3. Images du site
