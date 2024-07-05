@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 });
 
 // Lisez le contenu du fichier SQL
-const sqlScriptPath = './server/scripts/database-init.sql';
+const sqlScriptPath = './server/scripts/database_init.sql';
 const sqlScript = fs.readFileSync(sqlScriptPath, 'utf8');
 
 // Établissez la connexion à la base de données
