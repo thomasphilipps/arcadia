@@ -99,6 +99,9 @@ NODE_ENV=development
 PORT=3000
 HOST="http://localhost"
 
+# FRONTEND URL(s)
+FRONTEND_URL="http://localhost:4200, http://127.0.0.1"
+
 # TOKEN KEY
 AUTH_PRIVATE_KEY=<ma_cle_securisee>
 
@@ -112,10 +115,7 @@ BDD_PASSWORD=<mon_mdp_utilisateur_securise>
 # MONGO VARS
 MONGO_ROOT_USER="root"
 MONGO_ROOT_PASSWORD=<mon_autre_mdp_root_securise>
-MONGO_DATABASE="arcadia_zoo"
-MONGOEXPRESS_LOGIN=<mon_login_utilisateur_mongodb>
-MONGOEXPRESS_PASSWORD=<mon_mdp_utilisateur_securise>
-
+MONGO_DB_NAME="arcadia_zoo"
 
 # MAILING VARS
 SMTP_HOST="localhost"
@@ -125,12 +125,12 @@ SMTP_USER=# LEAVE BLANK IN DEV MODE
 SMTP_PASS=# LEAVE BLANK IN DEV MODE
 
 #AWS S3 VARS
-AWS_REGION="eu-west-3"
-AWS_USE_PATH_STYLE_ENDPOINT="true"
+AWS_REGION='eu-west-3'
+AWS_USE_PATH_STYLE_ENDPOINT='true'
 AWS_ACCESS_KEY_ID=<YOUR_ACCESS_KEY>
 AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
-AWS_BUCKET_NAME="arcadia-zoo"
-AWS_ENDPOINT="http://localhost:9000"
+AWS_BUCKET_NAME='arcadia-zoo'
+AWS_ENDPOINT='http://localhost:9000'
 
 #MINIO VARS
 MINIO_ROOT_USER=<mon_login_minio>
