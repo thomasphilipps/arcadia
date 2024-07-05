@@ -49,6 +49,10 @@ qui a été choisi par Josette afin de réaliser l’application.
 >Un environnement de travail sous Linux est fortement conseillé.  
 >Cette application a été développée dans un environnement [WSL2](https://learn.microsoft.com/fr-fr/windows/wsl/), sous Ubuntu 22.04.4 LTS.  
 ><br>
+>### Remarques générales
+>- Bien qu'il s'agisse d'un projet local, gardez pour bonne pratique d'utiliser des mots de passe suffisament forts.  
+Cet aspect est contrôlé par l'application elle-même pour les utilisateurs, par contre les variables d'environnement abordées au point 2. ne le sont pas.  
+><br>
 
 <br>
 
@@ -83,7 +87,7 @@ npm run install-all
 ----
 
 Il va ensuite falloir initialiser les variables d'environnement.  
-A la racine du projet, créez un  fichier **'.env'**  
+A la racine du projet, créez un  fichier ``.env``  
 Ouvrez-le ensuite dans votre éditeur de texte favori.  
 
 Copiez et collez le document suivant :  
@@ -121,12 +125,12 @@ SMTP_USER=# LEAVE BLANK IN DEV MODE
 SMTP_PASS=# LEAVE BLANK IN DEV MODE
 
 #AWS S3 VARS
-AWS_REGION='eu-west-3'
-AWS_USE_PATH_STYLE_ENDPOINT='true'
+AWS_REGION="eu-west-3"
+AWS_USE_PATH_STYLE_ENDPOINT="true"
 AWS_ACCESS_KEY_ID=<YOUR_ACCESS_KEY>
 AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
-AWS_BUCKET_NAME='arcadia-zoo'
-AWS_ENDPOINT='http://localhost:9000'
+AWS_BUCKET_NAME="arcadia-zoo"
+AWS_ENDPOINT="http://localhost:9000"
 
 #MINIO VARS
 MINIO_ROOT_USER=<mon_login_minio>
@@ -135,11 +139,10 @@ MINIO_ROOT_PASSWORD=<mon_mdp_securise>
 
 <br>
 
-Vous devez ensuite compléter les différentes variables renseignées entre les chevrons ``< >`` 
+Vous devez ensuite compléter les différentes variables renseignées entre les chevrons ``< >``, n'oubliez pas de les encadrer de guillemets (simples ou doubles).
 > :warning: SAUF LES VARIABLES ``YOUR_ACCESS_KEY`` et ``YOUR_SECRET_ACCESS_KEY`` (elles seront renseignées plus tard)
 
-Si vous souhaitez créer une clé sécurisée aléatoire pour ``AUTH_PRIVATE_KEY``, vous pouvez lancer dans votre console la 
-commande suivante :  
+Si vous souhaitez créer une clé sécurisée aléatoire pour ``AUTH_PRIVATE_KEY``, vous pouvez lancer dans votre terminal la commande suivante :  
 ```BASH
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
@@ -187,8 +190,211 @@ Renseignez ensuite ces deux clés dans le fichier ``.env``
   
 <br>
 
-### 5. Initialisation de la base de données et création de l'administrateur du site
+### 5. Créaton de la base de données MySQL et de son andministrateur
 ----
+Lancez Mysql en local avec la commande :
+```BASH
+docker exec -it mysqldb mysql -u root -p
+```
+Le password est celui que vous avez renseigné dans ``.env`` sous ``BDD_ROOT_PASSWORD``  
+Vous obtiendrez l'invite de commandes de MySql
+
+Pour créer la base de données et son administrateur, entrer les commandes suivantes : 
+> Remplacez les valeurs de ``utilisateur`` et de ``password`` par les valeurs déclarées dans ``.env`` sous ``BDD_USER``  et ``BDD_PASSWORD``, en laissant les guillemets.
+```SQL
+-- Crée une nouvelle base de données appelée db_arcadia_zoo
+CREATE DATABASE db_arcadia_zoo;
+
+-- Crée un nouvel utilisateur MySQL
+CREATE USER 'utilisateur'@'%' IDENTIFIED BY 'password';
+
+-- Accorde tous les privilèges sur la base de données db_arcadia_zoo à l'utilisateur
+GRANT ALL PRIVILEGES ON db_arcadia_zoo.* TO 'utilisateur'@'%';
+
+-- Applique les modifications de privilèges
+FLUSH PRIVILEGES;
+```
+
+Vous pouvez ensuite sortir en tapant la commande 
+```SQL
+EXIT;
+```
+  
+<br>
+
+### 6. Initialisation des tables de la base de données MySQL
+----  
+Le fichier situé dans le dossier ``server/scripts/database_init.sql`` contient toutes les commandes pour initialiser la base de données. Elles sont à éxécuter dans l'ordre et permettent de créer :  
+- Les tables de la base :
+  - **Users** : L'administrateur, les employés et les vétérinaires du zoo
+  - **Biomes** : Les zones d'habitats
+  - **Species** : Les espèces du zoo
+  - **Animals** : Les animaux du zoo
+  - **Services** : Les services du zoo
+  - **Schedules** : Les horaires d'ouverture du zoo
+  - **Reviews** : Les avis laissés par les visiteurs du site
+  - **Reports** : Les rapports des vétérinaires
+  - **Feedings** : L'alimentation des animaux
+  - **Images** : Les liens vers les images du site  
+  
+- Les triggers :
+  - **PreventMultipleAdmins** : ne permet pas l'ajout d'un nouvel administrateur du site (sécurité supplémentaire contre les scripts malveillants)
+  - **PreventAdminDeletion** : ne permet pas la suppression d'un administrateur
+  - **AfterAnimalDelete** : Nettoyage des données de la base lors de la suppression d'un animal
+  - **AfterBiomeDelete** : Nettoyage de des données de la base lors de la suppression d'un habitat
+  - **AfterServiceDelete** : Nettoyage de des données de la base lors de la suppression d'un service
+  - **AfterSpecieDelete** : Nettoyage de des données de la base lors de la suppression d'une espèce
+    
+- Enfin, une commande ``INSERT`` permettra d'initialiser les jours de la base des horaires.  
+
+<br>
+
+Vous pouvez tout installer en une seule commande :  
+```BASH
+node ./server/scripts/db_initialize.js
+```
+
+Si vous avez le message : ``Script SQL effectué avec succès``, bonne nouvelle, tout s'est bien passé et vos tables sont correctement initialisées.
+
+<br>
+
+Si vous préférez l'installer manuellement, relancez l'invite de commande MySQL.  
+Connectez-vous avec l'utilisateur précédemment, puis naviguez vers la base de données en tapant :
+```SQL
+USE db_arcadia_zoo;
+```
+
+Puis entrez toutes les commandes qui vous intéressent du fichier.  
+> Pour les triggers, veillez à modifier le délimiteur afin que les ``;`` intermédiaires ne soient pas considérés comme des fins d'instruction.
+> Exemple : 
+> ```SQL
+> --  changer le délimiteur
+> delimiter //
+>
+> -- instruction
+> DROP TRIGGER IF EXISTS PreventMultipleAdmins;
+> CREATE TRIGGER PreventMultipleAdmins BEFORE INSERT ON Users
+> FOR EACH ROW
+> BEGIN
+>   DECLARE admin_count INT DEFAULT 0;
+>   IF NEW.userRole = 'ROLE_ADMIN' THEN
+>     SELECT COUNT(*) INTO admin_count FROM Users WHERE userRole = 'ROLE_ADMIN';
+>     IF admin_count >= 1 THEN
+>       SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossible de créer un autre administrateur';
+>     END IF;
+>   END IF;
+> END// -- changer le dernier ; par le nouveau délimiteur
+>
+> -- assigner à nouveau le délimiteur standard
+> delimiter ;
+> ```
+
+<br>
+
+### 7. Ajout de l'administrateur du site
+----
+1. Avec un script automatisé  
+   Lancez le script suivant :
+   ```BASH
+   node ./server/scripts/create_admin.js
+   ```
+   Il vous sera demandé l'email, le nom ainsi que le mot de passe de l'administrateur.
+
+   > Les données entrées sont vérifiées par le script pour être cohérentes.
+
+   > Bien que ce soit en mode local, le mot de passe doit faire minimum 12 caractères et contenir au moins 3 parmi : majuscule, minuscule, chiffre, caractère spécial.  
+
+<br>
+
+2. Manuellement  
+   > :warning: Utilisez le pour le hashage du mot de passe, afin de ne pas avoir d'incompatibilité entre les modules d'encryption
+   - Générez et sauvegardez un UUID pour l'id du user
+     ```BASH
+     node ./server/scripts/create_uuid.js
+     ```
+   - Hashez le mot de passe pour ne pas permettre sa lecture dans le stockage :
+     ```BASH
+     node ./server/scripts/hash_password.js
+     ```
+   - Lancez MySQL à partir de docker avec l'utilisateur que vous avez crée précédemment :
+     ```BASH
+     docker exec -it mysqldb mysql -u <mon_utilisateur> -p
+     ```
+   - Ajoutez l'administrateur du site :
+     ```SQL
+     -- Aller à la base de données
+     USE db_arcadia_zoo;
+
+     -- Ajouter l'utilisateur - NE PAS OUBLIER LES GUILLEMETS ENCADRANT LES VALEURS INSEREES
+     INSERT INTO Users (userId, userEmail, userName, userPassword, userRole) VALUES ('<UUID générée>', '<email administrateur>', '<nom administrateur>', '<mot de passe hashé>', 'ROLE_ADMIN');
+
+     -- Si tout s'est bien passé, sortir de MySQL
+     EXIT;
+     ```
+
+
+<br>
+
+### 8. Création de la base MongoDB
+----
+(WIP)
+<br>
+
+### 9. Fixtures (optionnel)
+----
+1. Base de données MySQL  
+    La commande suivante initialisera toutes les données dans la base :
+   ```BASH
+   node ./server/scripts/db_populate.js
+   ```
+   <br>
+   Si vous préférez l'insertion manuelle dans les tables, ré-ouvrez l'invite de commandes à partir de Docker :
+   ```BASH
+   docker exec -it mysqldb mysql -u root -p
+   ```
+   Vous pouvez ensuite copier/coller les informations qui vous intéressent situées dans le fichier ``server/scripts/database_populate.sql``  
+
+   <br>
+2. Base de données MongoDB
+   
+   <br>
+3. Images du site
+   - Vérifiez la présence de ``/docs/minio_backup.tar``
+   - Executez la commande suivante pour restaurer les images dans Minio :
+     ```BASH
+     docker run --rm --volumes-from minio -v $(pwd)/docs:/backup ubuntu bash -c \
+     "cd /data/minio && \
+     tar xvf /backup/minio_backup.tar --strip 1"
+
+     # Explication de chaque partie de la commande :
+     # docker run --rm : Exécute un conteneur et le supprime une fois terminé
+     # --volumes-from minio : Monte les volumes depuis le conteneur 'minio'
+     # -v $(pwd)/docs:/backup : Monte le répertoire local 'docs' du répertoire courant vers '/backup' dans le conteneur
+     # ubuntu : Utilise l'image Ubuntu comme base pour le conteneur
+     # bash -c : Utilise bash pour exécuter la commande suivante
+     # "cd /data/minio && tar xvf /backup/minio_backup.tar --strip 1" :
+     #   cd /data/minio : Change le répertoire courant pour '/data/minio' dans le conteneur
+     #   tar xvf /backup/minio_backup.tar --strip 1 : Extrait les fichiers de l'archive 'minio_backup.tar' située dans '/backup' tout en supprimant le premier niveau de répertoires dans l'archive     
+     ```
+
+<br>
+
+### 10. Lancement de l'application
+----
+Vous pouvez maintenant lancer l'application avec la commande :
+```BASH
+npm run dev
+```
+
+Et en visualiser le résultat à l'adresse :
+```
+http://localhost:4200
+```
+
+#### Si vous n'avez pas utilisé les fixtures, vous allez alors devoir utiliser la console d'administration pour initialiser toutes les données.
+
+
+
 
 
 
