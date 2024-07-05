@@ -351,6 +351,8 @@ Exécutez dans mongosh les commandes suivantes :
 use arcadia_zoo;
 db.createCollection('animal_visits');
 ```
+<br>
+
 Enfin, créer l'administrateur de cette base de données, n'oubliez pas de remplacer les valeurs <MONGO_USER> et <MONGO_PASSWORD> par celles présentes dans votre ``.env``, entre guillemets pour chacune.
 ```mongodb
 db.createUser({user: <MONGO_USER>, pwd: <MONGO_PASSWORD>, roles: [{role: "readWrite", db: "arcadia_zoo"}]});
@@ -377,6 +379,7 @@ Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``
    node ./server/scripts/db_populate.js
    ```
    <br>
+
    Si vous préférez l'insertion manuelle dans les tables, ré-ouvrez l'invite de commandes à partir de Docker:
    ```BASH
    docker exec -it mysqldb mysql -u root -p
@@ -417,9 +420,9 @@ npm run dev
 ```
 
 Et en visualiser le résultat à l'adresse:
-```
-http://localhost:4200
-```
+
+[**http://localhost:4200**](http://localhost:4200)
+
 
 #### Si vous n'avez pas utilisé les fixtures, vous allez alors devoir utiliser la console d'administration pour initialiser toutes les données.
 
