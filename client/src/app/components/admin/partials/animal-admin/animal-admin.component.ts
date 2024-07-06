@@ -229,9 +229,9 @@ export class AnimalAdminComponent implements OnInit {
       });
   }
 
-  getSpecieByBiomeId(biomeId: number) {
+  getSpeciesByBiomeId(biomeId: number) {
     this.animalService
-      .getSpecieByBiomeId(biomeId)
+      .getSpeciesByBiomeId(biomeId)
       .pipe(
         catchError((error) => {
           console.error('Erreur lors de la récupération des espèces: ', error);

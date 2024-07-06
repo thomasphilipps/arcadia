@@ -79,7 +79,7 @@ export class HomeClientComponent implements OnInit {
 
   loadSpeciesForBiomes(): void {
     this.biomes.forEach((biome) => {
-      this.biomeService.getSpecieByBiomeId(biome.biomeId).subscribe({
+      this.biomeService.getSpeciesByBiomeId(biome.biomeId).subscribe({
         next: (species) => {
           biome.species = species;
         },
