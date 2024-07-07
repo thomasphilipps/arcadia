@@ -14,7 +14,7 @@ export class BiomeService extends SqlGlobalService<Biome> {
     super(http, environment.apiURL + '/biomes');
   }
 
-  getSpecieByBiomeId(biomeId: number): Observable<Specie[]> {
+  getSpeciesByBiomeId(biomeId: number): Observable<Specie[]> {
     return this.http.get<Specie[]>(`${environment.apiURL}/biomes/${biomeId}/species`).pipe(
       tap((response) => this.log(response)),
       catchError((error) => this.handleError(error, null))

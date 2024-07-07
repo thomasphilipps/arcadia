@@ -33,6 +33,7 @@ $arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
 .service-image {
   width: 100%;
   height: auto;
+  border-radius: 1em;
 }
 
 .accent-button {

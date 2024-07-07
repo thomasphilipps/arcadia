@@ -6,6 +6,7 @@ import { SqlGlobalService } from './sql-global.service';
 import { Observable, catchError, map } from 'rxjs';
 import { Biome } from '@app/interfaces/biome.interface';
 import { OptionArray } from '@app/interfaces/sqlViewDataConfig.interface';
+import { Animal } from '@app/interfaces/animal.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,15 @@ export class SpecieService extends SqlGlobalService<Specie> {
         return response.map((biome) => {
           return { idValue: biome.biomeId, label: biome.biomeName };
         });
+      }),
+      catchError((error) => this.handleError(error, []))
+    );
+  }
+
+  getAnimalsBySpecieId(specieId: number): Observable<Animal[]> {
+    return this.http.get<Animal[]>(`${environment.apiURL}/species/${specieId}/animals`).pipe(
+      map((response) => {
+        return response;
       }),
       catchError((error) => this.handleError(error, []))
     );

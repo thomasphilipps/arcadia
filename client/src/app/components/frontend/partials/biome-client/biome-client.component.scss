@@ -1,0 +1,128 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
+@import '@mainAdminStyle';
+
+$arcadia-primary-500: mat.get-color-from-palette($arcadia-primary-palette, 500);
+$arcadia-secondary-500: mat.get-color-from-palette($arcadia-secondary-palette, 500);
+$arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
+
+.page-header {
+  background-image: url('../../../../../assets/images/biome-hero.png');
+
+  .mat-display-3 {
+    color: white;
+  }
+}
+
+.page-intro {
+  font-family: 'Bricolage Grotesque';
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.content-title {
+  color: $arcadia-secondary-500;
+  font-weight: 500;
+  border-top: 2px solid $arcadia-secondary-500;
+  border-bottom: 2px solid $arcadia-secondary-500;
+  padding: 0.3em 0 0.3em 1em;
+}
+
+.biome-image {
+  width: 100%;
+  height: auto;
+  border-radius: 1em;
+}
+
+.accent-button {
+  background-color: $arcadia-accent-500;
+}
+
+.image-list {
+  width: 250px;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.biome-status {
+  padding: 1em;
+  background-color: $arcadia-secondary-500;
+  color: white;
+  border-radius: 1em;
+}
+
+.specie-list {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    flex: 1 1 280px;
+    margin: 10px;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+}
+
+mat-card {
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 100%;
+
+  mat-card-title {
+    color: $arcadia-secondary-500;
+    font-size: 1.3em;
+  }
+
+  mat-card-header {
+    border-bottom: 3px solid $arcadia-secondary-500;
+  }
+
+  mat-card-footer {
+    margin-top: auto;
+  }
+}
+
+.animal-image {
+  width: 75px;
+  height: 75px;
+  border: 3px solid $arcadia-secondary-500;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.3em;
+  &:hover {
+    border-color: $arcadia-accent-500;
+    transition: all 0.3s ease-in-out;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.animal-card {
+  cursor: pointer;
+}

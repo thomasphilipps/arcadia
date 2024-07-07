@@ -29,7 +29,7 @@ export class AnimalService extends SqlGlobalService<Animal> {
     );
   }
 
-  getSpecieByBiomeId(biomeId: number): Observable<OptionArray[]> {
+  getSpeciesByBiomeId(biomeId: number): Observable<OptionArray[]> {
     return this.http.get<Specie[]>(`${environment.apiURL}/biomes/${biomeId}/species`).pipe(
       map((response) => {
         return response.map((specie) => {
