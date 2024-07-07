@@ -100,7 +100,7 @@ PORT=3000
 HOST="http://localhost"
 
 # FRONTEND URL(s)
-FRONTEND_URL="http://localhost:4200, http://127.0.0.1"
+FRONTEND_URL="http://localhost:4200, http://127.0.0.1:4200"
 
 # TOKEN KEY
 AUTH_PRIVATE_KEY=<ma_cle_securisee>
