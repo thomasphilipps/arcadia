@@ -9,6 +9,7 @@ $arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
 
 .page-header {
   background-image: url('../../../../../assets/images/biome-hero.png');
+
   .mat-display-3 {
     color: white;
   }
@@ -24,15 +25,14 @@ $arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
   color: $arcadia-secondary-500;
   font-weight: 500;
   border-top: 2px solid $arcadia-secondary-500;
-  padding-top: 0.3em;
   border-bottom: 2px solid $arcadia-secondary-500;
-  padding-bottom: 0.3em;
-  padding-left: 1em;
+  padding: 0.3em 0 0.3em 1em;
 }
 
 .biome-image {
   width: 100%;
   height: auto;
+  border-radius: 1em;
 }
 
 .accent-button {
@@ -57,8 +57,9 @@ $arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
 
 .biome-status {
   padding: 1em;
-  background-color: $arcadia-primary-500;
+  background-color: $arcadia-secondary-500;
   color: white;
+  border-radius: 1em;
 }
 
 .specie-list {
@@ -69,26 +70,59 @@ $arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
     list-style-type: none;
     padding: 0;
   }
+
   li {
-    min-width: 280px;
+    display: flex;
+    flex: 1 1 280px;
+    margin: 10px;
     max-width: 300px;
+    box-sizing: border-box;
+  }
+}
+
+mat-card {
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 100%;
+
+  mat-card-title {
+    color: $arcadia-secondary-500;
+    font-size: 1.3em;
+  }
+
+  mat-card-header {
+    border-bottom: 3px solid $arcadia-secondary-500;
+  }
+
+  mat-card-footer {
+    margin-top: auto;
   }
 }
 
 .animal-image {
-  width: 80px;
-  height: 80px;
-  border: 3px solid $arcadia-accent-500;
+  width: 75px;
+  height: 75px;
+  border: 3px solid $arcadia-secondary-500;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
+  margin: 0.3em;
+  &:hover {
+    border-color: $arcadia-accent-500;
+    transition: all 0.3s ease-in-out;
+  }
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+}
+
+.animal-card {
+  cursor: pointer;
 }

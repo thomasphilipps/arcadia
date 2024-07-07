@@ -7,76 +7,98 @@
   </div>
   <div class="page-content">
     @for(biome of biomes; track $index){
-    <h3 class="content-title">
-      {{ biome.biomeName }}
-    </h3>
-    <div class="columns is-vcentered container">
-      <div class="column is-half-desktop">
-        <p class="content-description">
-          {{ biome.biomeLongDescr }}
-        </p>
-        <p class="biome-status">
-          <strong>État du Territoire:</strong> <br />
-          @if(biome.biomeStatus !== null){
-          {{ biome.biomeStatus }}
-          } @else { Tout va bien dans ce territoire. }
-        </p>
-      </div>
-      @if(biome.images && biome.images.length > 0){
-      <div class="column">
-        <img
-          class="biome-image"
-          src="{{ biome.images[0].imagePath }}"
-          alt="{{ biome.images[0].imageDescription }}"
-        />
-      </div>
-      } @else {
-      <div class="column">
-        <p>Aucune image disponible pour ce territoire.</p>
-      </div>
-      }
-    </div>
-    @if(biome.images && biome.images.length > 1){
-    <div class="image-list">
-      @for(image of biome.images.slice(1); track $index){
-      <img class="biome-image" src="{{ image.imagePath }}" alt="{{ image.imageDescription }}" />
-      }
-    </div>
-    }
-    <h4>Les pensionnaires</h4>
-    <div class="container specie-list">
-      <ul class="is-justify-content-space-evenly">
-        @for(specie of biome.species; track $index){
-        <li class="has-text-centered">
-          <h5>{{ specie.specieName }}</h5>
-          <br />
-          <div class="is-flex is-flex-wrap-wrap is-justify-content-space-evenly">
-            @for(animal of specie.animals; track $index){
-
-            <div class="animal-card is-flex is-flex-direction-column">
-              <div class="animal-miniature">
-                @if(animal.images && animal.images.length > 0){
-
-                <img
-                  class="animal-image"
-                  src="{{ animal.images[0].imagePath }}"
-                  alt="{{ animal.images[0].imageDescription }}"
-                />
-
-                } @else {
-                <img src="assets/images/blank-image.png" alt="No picture" class="animal-image" />
-                }
-              </div>
-
-              {{ animal.animalName }}
-            </div>
-
-            }
-          </div>
-        </li>
+    <div class="py-6">
+      <h3 class="content-title">
+        {{ biome.biomeName }}
+      </h3>
+      <div class="columns is-vcentered container">
+        <div class="column is-half-desktop">
+          <p class="content-description">
+            {{ biome.biomeLongDescr }}
+          </p>
+          <p class="biome-status">
+            <strong>État du Territoire:</strong> <br />
+            @if(biome.biomeStatus !== null){
+            {{ biome.biomeStatus }}
+            } @else { Tout va bien dans ce territoire. }
+          </p>
+        </div>
+        @if(biome.images && biome.images.length > 0){
+        <div class="column">
+          <img
+            class="biome-image"
+            src="{{ biome.images[0].imagePath }}"
+            alt="{{ biome.images[0].imageDescription }}"
+          />
+        </div>
+        } @else {
+        <div class="column">
+          <p>Aucune image disponible pour ce territoire.</p>
+        </div>
         }
-      </ul>
+      </div>
+      @if(biome.images && biome.images.length > 1){
+      <div class="image-list">
+        @for(image of biome.images.slice(1); track $index){
+        <img class="biome-image" src="{{ image.imagePath }}" alt="{{ image.imageDescription }}" />
+        }
+      </div>
+      }
+      <h4 class="has-text-centered py-6">Les pensionnaires</h4>
+      <div class="container specie-list">
+        <ul class="is-justify-content-space-evenly">
+          @for(specie of biome.species; track $index){
+          <li>
+            <mat-card>
+              <mat-card-header class="is-flex flex-1 mb-3" apparence="outlined">
+                <mat-card-title>{{ specie.specieName }}</mat-card-title
+                ><br />
+                <mat-card-subtitle>{{ specie.specieTaxon }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content class="mb-4">
+                <p>{{ specie.specieDescr }}</p>
+              </mat-card-content>
+              <mat-card-footer>
+                <div class="is-flex is-flex-wrap-wrap-reverse is-justify-content-space-evenly">
+                  @for(animal of specie.animals; track $index){
+
+                  <div
+                    class="animal-card is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                    (click)="goToAnimalPage(animal.animalId)"
+                  >
+                    <div class="animal-miniature is-align-items-end">
+                      @if(animal.images && animal.images.length > 0){
+
+                      <img
+                        class="animal-image"
+                        src="{{ animal.images[0].imagePath }}"
+                        alt="{{ animal.images[0].imageDescription }}"
+                      />
+
+                      } @else {
+                      <img
+                        src="assets/images/blank-image.png"
+                        alt="No picture"
+                        class="animal-image"
+                      />
+                      }
+                    </div>
+
+                    {{ animal.animalName }}
+                  </div>
+
+                  }
+                </div>
+              </mat-card-footer>
+            </mat-card>
+
+            <br />
+          </li>
+          }
+        </ul>
+      </div>
     </div>
+
     }
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Specie } from '@app/interfaces/specie.interface';
 import { BiomeService } from '@app/services/biome.service';
@@ -9,7 +9,7 @@ import { SpecieService } from '@app/services/specie.service';
 @Component({
   selector: 'arz-biome-client',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatCardModule],
   templateUrl: './biome-client.component.html',
   styleUrl: './biome-client.component.scss',
 })
@@ -43,6 +43,7 @@ export class BiomeClientComponent implements OnInit {
     this.biomes.forEach((biome) => {
       this.biomeService.getSpeciesByBiomeId(biome.biomeId).subscribe({
         next: (species) => {
+          this.specieService.getAllData();
           this.loadAnimalsForSpecies(species);
           biome.species = species;
         },
@@ -60,6 +61,7 @@ export class BiomeClientComponent implements OnInit {
     species.forEach((specie) => {
       this.specieService.getAnimalsBySpecieId(specie.specieId).subscribe({
         next: (animals) => {
+          this.dataService.loadImages('Animal', animals, 'animalId');
           specie.animals = animals;
         },
         error: (error) => {
@@ -70,5 +72,9 @@ export class BiomeClientComponent implements OnInit {
         },
       });
     });
+  }
+
+  goToAnimalPage(animalId: string): void {
+    console.log('Navigating to animal page with id:', animalId);
   }
 }
