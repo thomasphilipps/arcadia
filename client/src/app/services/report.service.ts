@@ -13,9 +13,9 @@ export class ReportService extends SqlGlobalService<VetReport> {
     super(http, environment.apiURL + '/reports');
   }
 
-  getAnimalReports(animalId: string): Observable<VetReport> {
+  getAnimalReports(animalId: string): Observable<VetReport[]> {
     return this.http
-      .get<VetReport>(`${this.apiURL}/animals/${animalId}`)
+      .get<VetReport>(`${this.apiURL}/animal/${animalId}`)
       .pipe(catchError((error) => this.handleError(error, null)));
   }
 }

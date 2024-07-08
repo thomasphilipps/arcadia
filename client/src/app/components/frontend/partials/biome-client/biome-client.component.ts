@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Specie } from '@app/interfaces/specie.interface';
 import { BiomeService } from '@app/services/biome.service';
@@ -19,7 +20,8 @@ export class BiomeClientComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private biomeService: BiomeService,
-    private specieService: SpecieService
+    private specieService: SpecieService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +77,6 @@ export class BiomeClientComponent implements OnInit {
   }
 
   goToAnimalPage(animalId: string): void {
-    console.log('Navigating to animal page with id:', animalId);
+    this.router.navigate(['/animal', animalId]);
   }
 }

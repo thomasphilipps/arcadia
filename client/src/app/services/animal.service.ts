@@ -39,4 +39,10 @@ export class AnimalService extends SqlGlobalService<Animal> {
       catchError((error) => this.handleError(error, []))
     );
   }
+
+  getAnimalById(animalId: string): Observable<Animal> {
+    return this.http
+      .get<Animal>(`${environment.apiURL}/animals/${animalId}`)
+      .pipe(catchError((error) => this.handleError(error, null)));
+  }
 }
