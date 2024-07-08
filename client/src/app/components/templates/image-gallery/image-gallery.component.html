@@ -1,0 +1,15 @@
+<div class="gallery">
+  <div class="columns is-multiline">
+    @for(image of images; track $index){
+    <div class="column is-one-quarter">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-4by3 thumbnail">
+            <img [src]="image.imagePath" alt="Image thumbnail" />
+          </figure>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

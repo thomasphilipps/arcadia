@@ -28,3 +28,27 @@ $arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
   border-bottom: 2px solid $arcadia-secondary-500;
   padding: 0.3em 0 0.3em 1em;
 }
+
+.identity-picture {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 0.3em solid $arcadia-secondary-500;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Cela garantit que l'image s'adapte bien dans le cercle
+  }
+}
+
+.vet-report {
+  color: white;
+  background-color: $arcadia-secondary-500;
+  border-radius: 1em;
+}

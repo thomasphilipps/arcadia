@@ -7,11 +7,12 @@ import { DataService } from '@app/services/data.service';
 import { ReportService } from '@app/services/report.service';
 import { VetReport } from '@app/interfaces/report.interface';
 import { DatePipe } from '@angular/common';
+import { ImageGalleryComponent } from '@app/components/templates/image-gallery/image-gallery.component';
 
 @Component({
   selector: 'arz-animal-client',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, ImageGalleryComponent],
   templateUrl: './animal-client.component.html',
   styleUrls: ['./animal-client.component.scss'],
 })
