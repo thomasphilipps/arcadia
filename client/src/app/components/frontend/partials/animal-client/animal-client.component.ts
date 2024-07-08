@@ -5,11 +5,13 @@ import { AnimalService } from '@app/services/animal.service';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
 import { ReportService } from '@app/services/report.service';
+import { VetReport } from '@app/interfaces/report.interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'arz-animal-client',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './animal-client.component.html',
   styleUrls: ['./animal-client.component.scss'],
 })
@@ -63,5 +65,36 @@ export class AnimalClientComponent implements OnInit {
         console.error("Erreur lors du chargement des rapports pour l'animal:", error);
       },
     });
+  }
+
+  calculateAge(birthDate: any): string {
+    if (!(birthDate instanceof Date)) {
+      birthDate = new Date(birthDate);
+    }
+
+    const today = new Date();
+
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    let ageStr = '';
+
+    if (years > 0) {
+      ageStr += `${years} an${years > 1 ? 's' : ''}`;
+    }
+
+    if (months > 0) {
+      if (ageStr) {
+        ageStr += ' et ';
+      }
+      ageStr += `${months} mois`;
+    }
+
+    return ageStr || '0 mois';
   }
 }

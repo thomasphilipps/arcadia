@@ -1,1 +1,35 @@
-<p>animal-client works!</p>
+<div class="page-header is-flex is-align-items-center mb6">
+  <h1 class="mat-display-3 container has-text-centered">Carte d'identité</h1>
+</div>
+<div class="container mb-6">
+  <div class="identity columns">
+    <div class="identity-picture column is-one-third">
+      @if(animal.images && animal.images.length > 0){
+
+      <img
+        class="animal-image"
+        src="{{ animal.images[0].imagePath }}"
+        alt="{{ animal.images[0].imageDescription }}"
+      />
+
+      } @else {
+      <img src="assets/images/blank-image.png" alt="No picture" class="animal-image" />
+      }
+    </div>
+    <div class="identity-text column">
+      <h3>{{ animal.animalName }}</h3>
+      <h4>{{ animal.animalSpecie }} {{ animal.animalGender }}</h4>
+      <h4>{{ calculateAge(animal.animalBirth) }}</h4>
+      <h5>{{ animal.animalDescr }}</h5>
+      @if(animal.reports && animal.reports.length > 0){
+      <div class="vet-report">
+        <h5>Rapport vétérinaire</h5>
+        <p>{{ animal.reports[0].reportDate | date : 'dd/MM/yyyy' }}</p>
+        <p>{{ animal.reports[0].reportState }}</p>
+        <p>{{ animal.reports[0].reportDetails }}</p>
+      </div>
+      }
+    </div>
+  </div>
+  <div class="pictures"></div>
+</div>
