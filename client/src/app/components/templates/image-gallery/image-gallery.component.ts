@@ -24,10 +24,24 @@ export class ImageGalleryComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openImage(image: string): void {
-    const dialogRef = this.dialog.open(ImageDialogComponent, {
+  openImage(image: string | undefined): void {
+    if (!image) {
+      return;
+    }
+    this.dialog.open(ImageDialogComponent, {
       data: { image },
     });
+  }
+
+  getThumbnailName(path: string | undefined): string {
+    if (!path) {
+      return 'assets/images/blank-image.png'; // Ou une URL par défaut de l'image de miniature
+    }
+    const parts = path.split('/');
+    const filename = parts.pop();
+    const thumbnailFilename = `thumbnail-${filename}`;
+    parts.push(thumbnailFilename);
+    return parts.join('/');
   }
 }
 

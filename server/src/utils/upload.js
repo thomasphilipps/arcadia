@@ -45,13 +45,13 @@ const processImage = async (req, res, next) => {
 
     // Redimensionner l'image principale
     const imageBuffer = await sharp(req.file.buffer)
-      .resize({ height: 500, withoutEnlargement: true }) // Redimensionner proportionnellement à max 500px de haut
+      .resize({ height: 800, withoutEnlargement: true }) // Redimensionner proportionnellement à max 500px de haut
       .png() // Convertir en PNG
       .toBuffer();
 
     // Créer un thumbnail
     const thumbnailBuffer = await sharp(req.file.buffer)
-      .resize({ height: 100, withoutEnlargement: true }) // Redimensionner proportionnellement à max 100px de haut
+      .resize({ height: 200, withoutEnlargement: true }) // Redimensionner proportionnellement à max 100px de haut
       .png() // Convertir en PNG
       .toBuffer();
 

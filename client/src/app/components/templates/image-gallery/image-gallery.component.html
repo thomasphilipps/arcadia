@@ -1,11 +1,15 @@
 <div class="gallery">
-  <div class="columns is-multiline">
+  <div class="columns is-multiline is-centered is-mobile">
     @for(image of images; track $index){
-    <div class="column is-one-quarter">
+    <div class="column is-one-quarter-desktop is-narrow is-half-mobile">
       <div class="card">
         <div class="card-image">
           <figure class="image is-4by3 thumbnail">
-            <img [src]="image.imagePath" alt="Image thumbnail" />
+            <img
+              [src]="getThumbnailName(image.imagePath)"
+              (click)="openImage(image.imagePath)"
+              alt="Image thumbnail"
+            />
           </figure>
         </div>
       </div>
