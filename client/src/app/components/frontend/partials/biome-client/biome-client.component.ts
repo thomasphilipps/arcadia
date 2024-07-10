@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
+import { ImageGalleryComponent } from '@app/components/templates/image-gallery/image-gallery.component';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Specie } from '@app/interfaces/specie.interface';
 import { BiomeService } from '@app/services/biome.service';
@@ -10,7 +11,7 @@ import { SpecieService } from '@app/services/specie.service';
 @Component({
   selector: 'arz-biome-client',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, ImageGalleryComponent],
   templateUrl: './biome-client.component.html',
   styleUrl: './biome-client.component.scss',
 })

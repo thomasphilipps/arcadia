@@ -37,12 +37,8 @@
         </div>
         }
       </div>
-      @if(biome.images && biome.images.length > 1){
-      <div class="image-list">
-        @for(image of biome.images.slice(1); track $index){
-        <img class="biome-image" src="{{ image.imagePath }}" alt="{{ image.imageDescription }}" />
-        }
-      </div>
+      @if(biome.images && biome.images.length > 0){
+      <arz-image-gallery [images]="biome.images"></arz-image-gallery>
       }
       <h4 class="has-text-centered py-6">Les pensionnaires</h4>
       <div class="container specie-list">
