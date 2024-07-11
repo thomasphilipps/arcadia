@@ -17,5 +17,5 @@ module.exports = (app) => {
   // Ajouter les nouvelles routes
   app.post('/api/animals/:animalId/click', recordClick);
   app.delete('/api/animals/:animalId/records', deleteAnimalRecords);
-  app.get('/api/animals/clicks/statistics', authenticate(['ROLE_ADMIN']), getClickStatistics); // Route pour les statistiques
+  app.get('/api/animals/clicks/statistics', getClickStatistics);
 };

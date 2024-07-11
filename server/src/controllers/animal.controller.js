@@ -1,11 +1,28 @@
 const mongoose = require('mongoose');
-const Click = require('../models/click.model'); // Assurez-vous d'avoir un modèle Click
+const Click = require('../models/click.model');
+const { sequelize } = require('../config/database'); // Importer la connexion Sequelize
+const { animalReadByIdQuery } = require('../models/sql/animal.queries'); // Importer les requêtes personnalisées
 
 // Enregistrer un clic sur un animal
 exports.recordClick = async (req, res) => {
   try {
     const { animalId } = req.params;
-    const newClick = new Click({ animalId, clickedAt: new Date() });
+
+    // Exécuter la requête SQL personnalisée pour récupérer les informations de l'animal
+    const [results, metadata] = await sequelize.query(animalReadByIdQuery(animalId));
+    const animal = results[0];
+
+    if (!animal) {
+      return res.status(404).json({ error: 'Animal non trouvé' });
+    }
+
+    const newClick = new Click({
+      animalId,
+      animalName: animal.animalName,
+      animalSpecie: animal.animalSpecie,
+      animalBiome: animal.animalBiome,
+      clickedAt: new Date(),
+    });
     await newClick.save();
     res.status(200).json({ message: 'Click enregistré avec succès' });
   } catch (error) {
@@ -30,7 +47,12 @@ exports.getClickStatistics = async (req, res) => {
     const statistics = await Click.aggregate([
       {
         $group: {
-          _id: '$animalId',
+          _id: {
+            animalId: '$animalId',
+            animalName: '$animalName',
+            animalSpecie: '$animalSpecie',
+            animalBiome: '$animalBiome',
+          },
           count: { $sum: 1 },
         },
       },
