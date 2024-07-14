@@ -1,4 +1,5 @@
 import { Image } from './image.interface';
+import { VetReport } from './report.interface';
 
 export interface Animal {
   animalId: string;
@@ -11,4 +12,5 @@ export interface Animal {
   animalSpecie: string;
   animalBiome: string;
   images?: Image[];
+  reports?: VetReport[];
 }

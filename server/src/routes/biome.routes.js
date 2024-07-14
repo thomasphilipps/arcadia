@@ -14,7 +14,7 @@ module.exports = (app) => {
     try {
       const biomeId = req.params.id;
       const sql = `
-        SELECT specieId, specieName, specieDescr
+        SELECT *
         FROM Species
         WHERE biomeKey = ?`;
       const [species] = await sequelize.query(sql, {
@@ -36,7 +36,7 @@ module.exports = (app) => {
     try {
       const biomeId = req.params.id;
       const sql = `
-        SELECT animalId, animalName, animalDescr, animalBirth, animalGender
+        SELECT *
         FROM Animals
         WHERE biomeKey = ?`;
       const [animals] = await sequelize.query(sql, {

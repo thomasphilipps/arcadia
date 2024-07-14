@@ -29,7 +29,7 @@ export class AnimalService extends SqlGlobalService<Animal> {
     );
   }
 
-  getSpecieByBiomeId(biomeId: number): Observable<OptionArray[]> {
+  getSpeciesByBiomeId(biomeId: number): Observable<OptionArray[]> {
     return this.http.get<Specie[]>(`${environment.apiURL}/biomes/${biomeId}/species`).pipe(
       map((response) => {
         return response.map((specie) => {
@@ -38,5 +38,23 @@ export class AnimalService extends SqlGlobalService<Animal> {
       }),
       catchError((error) => this.handleError(error, []))
     );
+  }
+
+  getAnimalById(animalId: string): Observable<Animal> {
+    return this.http
+      .get<Animal>(`${environment.apiURL}/animals/${animalId}`)
+      .pipe(catchError((error) => this.handleError(error, null)));
+  }
+
+  recordClick(animalId: string): Observable<any> {
+    return this.http
+      .post(`${environment.apiURL}/animals/${animalId}/click`, null)
+      .pipe(catchError((error) => this.handleError(error, null)));
+  }
+
+  getClickStatistics(): Observable<any> {
+    return this.http
+      .get(`${environment.apiURL}/animals/clicks/statistics`)
+      .pipe(catchError((error) => this.handleError(error, null)));
   }
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, firstValueFrom } from 'rxjs';
 import { ImageService } from '@app/services/image.service';
+import { ReportService } from '@app/services/report.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService, private reportService: ReportService) {}
 
   loadData<T>(service: {
     loadData: () => void;
@@ -31,7 +32,7 @@ export class DataService {
     });
   }
 
-  private async fetchImagesForEntity(entityType: string, entityId: number | string) {
+  async fetchImagesForEntity(entityType: string, entityId: number | string) {
     try {
       const response = await firstValueFrom(
         this.imageService.getImageByReferenceTypeAndId(entityType, entityId.toString())

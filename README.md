@@ -100,7 +100,7 @@ PORT=3000
 HOST="http://localhost"
 
 # FRONTEND URL(s)
-FRONTEND_URL="http://localhost:4200, http://127.0.0.1"
+FRONTEND_URL="http://localhost:4200, http://127.0.0.1:4200"
 
 # TOKEN KEY
 AUTH_PRIVATE_KEY=<ma_cle_securisee>
@@ -396,7 +396,7 @@ Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``
    - Executez la commande suivante pour restaurer les images dans Minio:
      ```BASH
      docker run --rm --volumes-from minio -v $(pwd)/docs:/backup ubuntu bash -c \
-     "cd /data/minio && \
+     "cd /data/ && \
      tar xvf /backup/minio_backup.tar --strip 1"
 
      # Explication de chaque partie de la commande:
@@ -405,10 +405,17 @@ Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``
      # -v $(pwd)/docs:/backup: Monte le répertoire local 'docs' du répertoire courant vers '/backup' dans le conteneur
      # ubuntu: Utilise l'image Ubuntu comme base pour le conteneur
      # bash -c: Utilise bash pour exécuter la commande suivante
-     # "cd /data/minio && tar xvf /backup/minio_backup.tar --strip 1":
-     #   cd /data/minio: Change le répertoire courant pour '/data/minio' dans le conteneur
+     # "cd /data/ && tar xvf /backup/minio_backup.tar --strip 1":
+     #   cd /data/: Change le répertoire courant pour '/data/' dans le conteneur
      #   tar xvf /backup/minio_backup.tar --strip 1: Extrait les fichiers de l'archive 'minio_backup.tar' située dans '/backup' tout en supprimant le premier niveau de répertoires dans l'archive     
      ```
+
+<br>
+
+Redémarrez maintenant Docker pour prendre en compte les modifications:
+```BASH
+docker-compose down && docker-compose up -d
+```
 
 <br>
 

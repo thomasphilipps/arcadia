@@ -1,18 +1,20 @@
 const { authenticate } = require('../middlewares/auth');
 const { sequelize } = require('../config/database');
-const { upload, deleteImage, processImage, generateImageUrl } = require('../utils/upload');
+const { deleteImage, processImage } = require('../utils/upload');
+const multer = require('multer');
+const upload = multer(); // Utiliser multer pour analyser le formulaire multipart
 
 module.exports = (app) => {
-  app.post('/api/image/upload', upload.single('image'), async (req, res) => {
+  app.post('/api/image/upload', upload.single('image'), processImage, async (req, res) => {
     if (!req.file) {
       return res.status(400).json({
-        message: 'Invalid file type, only JPEG, PNG and GIF are allowed!',
+        message: 'No file uploaded or invalid file type, only JPEG, PNG and GIF are allowed!',
       });
     }
 
     const { referenceId, referenceType, description } = req.body;
-    const imageId = req.file.key.slice(0, -4); // UUID généré
-    const imagePath = generateImageUrl(req.file.key); // URL de l'image
+    const imageId = req.file.imageId;
+    const imagePath = req.file.imageUrl;
 
     try {
       const sql = `
@@ -22,9 +24,20 @@ module.exports = (app) => {
         replacements: [imageId, imagePath, description, referenceId, referenceType],
       });
 
+      // Construire la réponse sans le champ 'buffer' (extèmement volumineux)
+      const responseFile = {
+        fieldname: req.file.fieldname,
+        originalname: req.file.originalname,
+        encoding: req.file.encoding,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        imageUrl: req.file.imageUrl,
+        imageId: req.file.imageId,
+      };
+
       res.status(200).json({
         message: 'Image uploadée avec succès',
-        file: req.file,
+        file: responseFile,
       });
     } catch (error) {
       res.status(500).json({
@@ -53,7 +66,7 @@ module.exports = (app) => {
       const imagePath = images[0].imagePath;
       const key = imagePath.split('/').pop(); // Récupérer le nom du fichier
 
-      // Suppression de l'image du bucket S3
+      // Suppression de l'image et du thumbnail du bucket S3
       await deleteImage(key);
 
       const sqlDelete = `
@@ -90,7 +103,6 @@ module.exports = (app) => {
 
       res.status(200).json(images);
     } catch (error) {
-      // Log the error for debugging purposes, but don't expose details to the client
       console.error('Erreur lors de la récupération des images:', error.message);
       res.status(500).json({ error: 'Erreur interne du serveur. Veuillez réessayer plus tard.' });
     }
