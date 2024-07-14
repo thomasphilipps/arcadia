@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AnimalClientComponent } from '@app/components/frontend/partials/animal-client/animal-client.component';
 import { BiomeClientComponent } from '@app/components/frontend/partials/biome-client/biome-client.component';
 import { CguComponent } from '@app/components/frontend/partials/cgu/cgu.component';
 import { ContactClientComponent } from '@app/components/frontend/partials/contact-client/contact-client.component';
@@ -38,6 +39,11 @@ export default [
         path: 'cgu',
         title: 'CGU | Zoo Arcadia',
         component: CguComponent,
+      },
+      {
+        path: 'animal/:animalId', // Définir la route avec le paramètre animalId
+        title: 'Animal | Zoo Arcadia',
+        component: AnimalClientComponent,
       },
     ],
   },

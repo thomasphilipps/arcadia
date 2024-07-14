@@ -1,4 +1,4 @@
-<div class="page-header is-flex is-align-items-center mb6">
+<div class="page-header is-flex is-align-items-center mb-6">
   <h1 class="mat-display-3 container has-text-centered">Les Territoires d'Arcadia</h1>
 </div>
 <div class="container mb-6">
@@ -37,12 +37,8 @@
         </div>
         }
       </div>
-      @if(biome.images && biome.images.length > 1){
-      <div class="image-list">
-        @for(image of biome.images.slice(1); track $index){
-        <img class="biome-image" src="{{ image.imagePath }}" alt="{{ image.imageDescription }}" />
-        }
-      </div>
+      @if(biome.images && biome.images.length > 0){
+      <arz-image-gallery [images]="biome.images"></arz-image-gallery>
       }
       <h4 class="has-text-centered py-6">Les pensionnaires</h4>
       <div class="container specie-list">

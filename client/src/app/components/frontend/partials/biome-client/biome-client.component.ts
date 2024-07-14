@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
+import { ImageGalleryComponent } from '@app/components/templates/image-gallery/image-gallery.component';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Specie } from '@app/interfaces/specie.interface';
+import { AnimalService } from '@app/services/animal.service';
 import { BiomeService } from '@app/services/biome.service';
 import { DataService } from '@app/services/data.service';
 import { SpecieService } from '@app/services/specie.service';
@@ -9,7 +12,7 @@ import { SpecieService } from '@app/services/specie.service';
 @Component({
   selector: 'arz-biome-client',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, ImageGalleryComponent],
   templateUrl: './biome-client.component.html',
   styleUrl: './biome-client.component.scss',
 })
@@ -19,7 +22,9 @@ export class BiomeClientComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private biomeService: BiomeService,
-    private specieService: SpecieService
+    private specieService: SpecieService,
+    private animalService: AnimalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +80,13 @@ export class BiomeClientComponent implements OnInit {
   }
 
   goToAnimalPage(animalId: string): void {
-    console.log('Navigating to animal page with id:', animalId);
+    this.animalService.recordClick(animalId).subscribe({
+      next: () => {
+        this.router.navigate(['/animal', animalId]);
+      },
+      error: (error) => {
+        console.error("Erreur lors de l'enregistrement du clic:", error);
+      },
+    });
   }
 }

@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const mongoose = require('mongoose');
 
 const AnimalModel = require('../models/animal');
 const BiomeModel = require('../models/biome');
@@ -25,6 +26,17 @@ const sequelize = new Sequelize(
     },
   }
 );
+
+// MongoDB Database connection
+mongoose.connect(
+  `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB_NAME}`
+);
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  if (process.env.NODE_ENV !== 'production') console.log('Connected to MongoDB');
+});
 
 // Models definition
 const Animal = AnimalModel(sequelize, DataTypes);

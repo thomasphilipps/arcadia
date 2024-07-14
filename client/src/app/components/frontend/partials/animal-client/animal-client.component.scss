@@ -1,0 +1,54 @@
+@use '@angular/material' as mat;
+@use 'src/styles.scss' as *;
+
+@import '@mainAdminStyle';
+
+$arcadia-primary-500: mat.get-color-from-palette($arcadia-primary-palette, 500);
+$arcadia-secondary-500: mat.get-color-from-palette($arcadia-secondary-palette, 500);
+$arcadia-accent-500: mat.get-color-from-palette($arcadia-accent-palette, 500);
+
+.page-header {
+  background-image: url('../../../../../assets/images/biome-hero.png');
+
+  .mat-display-3 {
+    color: white;
+  }
+}
+
+.page-intro {
+  font-family: 'Bricolage Grotesque';
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.content-title {
+  color: $arcadia-secondary-500;
+  font-weight: 500;
+  border-top: 2px solid $arcadia-secondary-500;
+  border-bottom: 2px solid $arcadia-secondary-500;
+  padding: 0.3em 0 0.3em 1em;
+}
+
+.identity-picture {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 0.3em solid $arcadia-secondary-500;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Cela garantit que l'image s'adapte bien dans le cercle
+  }
+}
+
+.vet-report {
+  color: white;
+  background-color: $arcadia-secondary-500;
+  border-radius: 1em;
+}
