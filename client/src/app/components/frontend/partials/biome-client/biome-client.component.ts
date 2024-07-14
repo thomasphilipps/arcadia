@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ImageGalleryComponent } from '@app/components/templates/image-gallery/image-gallery.component';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Specie } from '@app/interfaces/specie.interface';
+import { AnimalService } from '@app/services/animal.service';
 import { BiomeService } from '@app/services/biome.service';
 import { DataService } from '@app/services/data.service';
 import { SpecieService } from '@app/services/specie.service';
@@ -22,6 +23,7 @@ export class BiomeClientComponent implements OnInit {
     private dataService: DataService,
     private biomeService: BiomeService,
     private specieService: SpecieService,
+    private animalService: AnimalService,
     private router: Router
   ) {}
 
@@ -78,6 +80,13 @@ export class BiomeClientComponent implements OnInit {
   }
 
   goToAnimalPage(animalId: string): void {
-    this.router.navigate(['/animal', animalId]);
+    this.animalService.recordClick(animalId).subscribe({
+      next: () => {
+        this.router.navigate(['/animal', animalId]);
+      },
+      error: (error) => {
+        console.error("Erreur lors de l'enregistrement du clic:", error);
+      },
+    });
   }
 }
