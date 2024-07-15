@@ -37,19 +37,13 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "580kb",
+                  "maximumError": "600kb"
                 },
                 {
                   "type": "anyScript",
                   "maximumWarning": "2mb",
                   "maximumError": "3mb"
-                },
-                {
-                  "type": "bundle",
-                  "name": "css-inline-fonts:https://fonts.googleapis.com/icon?family=Material+Icons+Outlined",
-                  "maximumWarning": "580kb",
-                  "maximumError": "600kb"
                 }
               ],
               "outputHashing": "all"

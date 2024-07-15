@@ -1,10 +1,4 @@
 import { Routes } from '@angular/router';
-import { AnimalClientComponent } from '@app/components/frontend/partials/animal-client/animal-client.component';
-import { BiomeClientComponent } from '@app/components/frontend/partials/biome-client/biome-client.component';
-import { CguComponent } from '@app/components/frontend/partials/cgu/cgu.component';
-import { ContactClientComponent } from '@app/components/frontend/partials/contact-client/contact-client.component';
-import { HomeClientComponent } from '@app/components/frontend/partials/home-client/home-client.component';
-import { ServiceClientComponent } from '@app/components/frontend/partials/service-client/service-client.component';
 
 export default [
   {
@@ -18,32 +12,48 @@ export default [
       {
         path: 'home',
         title: 'Accueil | Zoo Arcadia',
-        component: HomeClientComponent,
+        loadComponent: () =>
+          import('@app/components/frontend/partials/home-client/home-client.component').then(
+            (m) => m.HomeClientComponent
+          ),
       },
       {
         path: 'services',
         title: 'Services | Zoo Arcadia',
-        component: ServiceClientComponent,
+        loadComponent: () =>
+          import('@app/components/frontend/partials/service-client/service-client.component').then(
+            (m) => m.ServiceClientComponent
+          ),
       },
       {
         path: 'biomes',
         title: 'HABITATS | Zoo Arcadia',
-        component: BiomeClientComponent,
+        loadComponent: () =>
+          import('@app/components/frontend/partials/biome-client/biome-client.component').then(
+            (m) => m.BiomeClientComponent
+          ),
       },
       {
         path: 'contact',
         title: 'Contact | Zoo Arcadia',
-        component: ContactClientComponent,
+        loadComponent: () =>
+          import('@app/components/frontend/partials/contact-client/contact-client.component').then(
+            (m) => m.ContactClientComponent
+          ),
       },
       {
         path: 'cgu',
         title: 'CGU | Zoo Arcadia',
-        component: CguComponent,
+        loadComponent: () =>
+          import('@app/components/frontend/partials/cgu/cgu.component').then((m) => m.CguComponent),
       },
       {
-        path: 'animal/:animalId', // Définir la route avec le paramètre animalId
+        path: 'animal/:animalId',
         title: 'Animal | Zoo Arcadia',
-        component: AnimalClientComponent,
+        loadComponent: () =>
+          import('@app/components/frontend/partials/animal-client/animal-client.component').then(
+            (m) => m.AnimalClientComponent
+          ),
       },
     ],
   },
