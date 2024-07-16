@@ -10,7 +10,16 @@ const apiLimiter = rateLimit({
   validate: { xForwardedForHeader: false },
 });
 
+const allowedOrigins = process.env.FRONTEND_URL.split(',').map((url) => url.trim());
+
 const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
