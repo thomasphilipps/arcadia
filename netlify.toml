@@ -1,7 +1,0 @@
-[build]
-  publish = "client/dist/arcadia-client/browser"
-  command = "node set-env.js && ng build --configuration production --prefix client"
-
-[context.production.environment]
-  API_URL = "https://calm-tundra-65601-e224d731a6e3.herokuapp.com/api"
-  CONTACT_EMAIL = "web.arcadiazoo@gmail.com"
