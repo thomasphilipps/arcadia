@@ -4,7 +4,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './routes/app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { AuthInterceptor } from './middlewares/interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 

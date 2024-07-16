@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { API_URL } from '@app/app.config';
 import { Image } from '@app/interfaces/image.interface';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { Observable, catchError, of, tap } from 'rxjs';
 
 @Injectable({

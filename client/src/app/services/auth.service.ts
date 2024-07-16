@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 
 import { User } from '@app/interfaces/user.interface';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root',

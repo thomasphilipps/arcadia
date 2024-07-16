@@ -5,7 +5,7 @@ import { Observable, catchError, map } from 'rxjs';
 
 import { SqlGlobalService } from './sql-global.service';
 import { Animal } from '@app/interfaces/animal.interface';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { OptionArray } from '@app/interfaces/sqlViewDataConfig.interface';
 import { Biome } from '@app/interfaces/biome.interface';
 import { Specie } from '@app/interfaces/specie.interface';

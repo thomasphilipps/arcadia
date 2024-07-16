@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Biome } from '@app/interfaces/biome.interface';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { SqlGlobalService } from './sql-global.service';
 import { Observable, catchError, tap } from 'rxjs';
 import { Specie } from '@app/interfaces/specie.interface';

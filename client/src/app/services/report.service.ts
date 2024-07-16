@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SqlGlobalService } from './sql-global.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { Observable, catchError } from 'rxjs';
 import { VetReport } from '@app/interfaces/report.interface';
 
