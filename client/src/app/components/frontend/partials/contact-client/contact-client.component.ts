@@ -20,7 +20,7 @@ import { Message } from '@app/interfaces/message.interface';
 import { FormField } from '@app/interfaces/sqlViewDataConfig.interface';
 import { MailingService } from '@app/services/mailing.service';
 import { CustomValidators } from '@app/validators/custom.validators';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'arz-contact-client',

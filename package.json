@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/thomasphilipps/arcadia#readme",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "netlify-cli": "^17.33.4"
   }
 }

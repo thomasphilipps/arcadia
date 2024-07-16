@@ -13,7 +13,7 @@ import { ROLE_LABELS } from '@app/utils/role-constants';
 import { Validators } from '@angular/forms';
 import { CustomValidators } from '@app/validators/custom.validators';
 import { catchError, of } from 'rxjs';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'arz-user-admin',

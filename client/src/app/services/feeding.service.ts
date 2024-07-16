@@ -5,7 +5,7 @@ import { Observable, catchError } from 'rxjs';
 import { SqlGlobalService } from './sql-global.service';
 import { Feeding } from '@app/interfaces/feeding.interface';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { VetReport } from '@app/interfaces/report.interface';
 
 @Injectable({

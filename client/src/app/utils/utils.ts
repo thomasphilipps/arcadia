@@ -1,5 +1,5 @@
 import { of, Observable } from 'rxjs';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { DateTime } from 'luxon';
 
 function log(response: any): void {
