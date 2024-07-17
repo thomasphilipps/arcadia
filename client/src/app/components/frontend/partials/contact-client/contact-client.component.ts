@@ -81,7 +81,6 @@ export class ContactClientComponent {
 
   constructor(private fb: FormBuilder, private mailingService: MailingService) {
     this.contactForm = this.toFormGroup(this.contactFormFields);
-    console.log(this.contactForm);
   }
 
   toFormGroup(formFields: FormField[], validatorsOption?: ValidatorFn[]): FormGroup {
