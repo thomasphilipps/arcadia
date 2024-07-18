@@ -1,1 +1,30 @@
-<p>image-manager works!</p>
+<mat-card>
+  <h3>Upload Image</h3>
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadImage()">
+    <input type="file" (change)="onFileSelected($event)" />
+    <mat-form-field>
+      <input matInput placeholder="Description" formControlName="description" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Upload</button>
+  </form>
+</mat-card>
+
+<mat-card>
+  <h3>Existing Images</h3>
+  @if (images.length > 0) { @for (image of images; track $index) {
+  <div>
+    <img [src]="image.imagePath" [alt]="image.imageDescription" />
+    <p>{{ image.imageDescription }}</p>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="deleteImage(image.imageId!)"
+      [disabled]="loading"
+    >
+      Delete
+    </button>
+  </div>
+  } } @else {
+  <mat-spinner></mat-spinner>
+  }
+</mat-card>
