@@ -24,7 +24,7 @@ export class ImageService {
     formData.append('referenceType', image.referenceType);
     formData.append('description', image.imageDescription ?? '');
 
-    return this.http.post<Image>(`${this.apiURL}/image`, formData).pipe(
+    return this.http.post<Image>(`${this.apiURL}/image/upload`, formData).pipe(
       tap((response) => this.log(response)),
       catchError((error) => this.handleError(error, null))
     );
