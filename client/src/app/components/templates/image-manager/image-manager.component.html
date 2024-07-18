@@ -1,30 +1,20 @@
-<mat-card>
-  <h3>Upload Image</h3>
-  <form [formGroup]="uploadForm" (ngSubmit)="uploadImage()">
-    <input type="file" (change)="onFileSelected($event)" />
-    <mat-form-field>
-      <input matInput placeholder="Description" formControlName="description" />
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading">Upload</button>
-  </form>
-</mat-card>
+@for(image of images; track image.imageId) {
+<div>
+  <img
+    src="{{ getThumbnailName(image.imagePath) }}"
+    style="max-width: 250px"
+    alt="{{ image.imageDescription }}"
+  />
+  <button mat-raised-button (click)="onDeleteImage(image.imageId!)">Delete</button>
+</div>
+}
 
-<mat-card>
-  <h3>Existing Images</h3>
-  @if (images.length > 0) { @for (image of images; track $index) {
-  <div>
-    <img [src]="image.imagePath" [alt]="image.imageDescription" />
-    <p>{{ image.imageDescription }}</p>
-    <button
-      mat-raised-button
-      color="warn"
-      (click)="deleteImage(image.imageId!)"
-      [disabled]="loading"
-    >
-      Delete
-    </button>
-  </div>
-  } } @else {
-  <mat-spinner></mat-spinner>
-  }
-</mat-card>
+<button mat-fab (click)="fileinput.click()">
+  <mat-icon>add_a_photo</mat-icon>
+
+  <input type="file" (change)="onFileSelected($event)" #fileinput hidden />
+</button>
+@if(selectedFile) {
+<div>{{ selectedFile.name }}</div>
+<button mat-raised-button (click)="onUploadImage()">Upload</button>
+}

@@ -1,110 +1,107 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { Image } from '@app/interfaces/image.interface';
+import { ImageManager } from '@app/interfaces/sqlViewDataConfig.interface';
 import { ImageService } from '@app/services/image.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'arz-image-manager',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatProgressSpinnerModule,
-    MatButtonModule,
-  ],
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './image-manager.component.html',
-  styleUrl: './image-manager.component.scss',
+  styleUrls: ['./image-manager.component.scss'],
 })
-export class ImageManagerComponent implements OnChanges {
-  private _imageConfig: Image | undefined;
-
-  @Input() set imageConfig(value: Image) {
-    this._imageConfig = value;
-    this.referenceType = value.referenceType;
-    this.referenceId = value.referenceId;
-    this.loadImages();
-  }
-
-  get imageConfig(): Image {
-    return this._imageConfig!;
-  }
-
-  referenceType!: string;
-  referenceId!: string;
-
-  images: Image[] = [];
-  uploadForm: FormGroup;
+export class ImageManagerComponent<T> implements OnInit {
   selectedFile: File | null = null;
-  loading = false;
+  //uploadProgress: number = 0;
+  images: Image[] = [];
 
-  constructor(private imageService: ImageService, private fb: FormBuilder) {
-    this.uploadForm = this.fb.group({
-      description: [''],
-    });
-  }
+  @Output() imageUploaded = new EventEmitter<string>();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['referenceType'] || changes['referenceId']) {
-      this.loadImages();
-    }
-  }
+  @Input() imageConf?: ImageManager;
 
-  loadImages(): void {
-    if (this.referenceType && this.referenceId) {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  constructor(private imageService: ImageService) {}
+
+  ngOnInit() {
+    if (this.imageConf) {
       this.imageService
-        .getImageByReferenceTypeAndId(this.referenceType, this.referenceId)
-        .subscribe((images) => {
-          this.images = images;
+        .getImageByReferenceTypeAndId(this.imageConf.referenceType, this.imageConf.referenceId)
+        .subscribe({
+          next: (images) => {
+            this.images = images;
+          },
+          error: (err) => {
+            console.error('Error loading images', err);
+          },
         });
     }
   }
 
-  onFileSelected(event: any): void {
+  onFileSelected(event: any) {
     const file = (event.target as HTMLInputElement).files?.[0] || null;
     this.selectedFile = file;
   }
 
-  uploadImage(): void {
-    if (this.selectedFile) {
-      const description = this.uploadForm.get('description')?.value || '';
-      this.loading = true;
-      console.log('Uploading file:', this.selectedFile);
-      const image = {
-        referenceId: this.referenceId,
-        referenceType: this.referenceType,
-        imageDescription: description,
-      } as Image;
-
-      this.imageService.uploadImage(image, this.selectedFile).subscribe({
-        next: (response) => {
-          this.loadImages();
-          this.selectedFile = null;
-          this.uploadForm.reset();
-          this.loading = false;
-        },
-        error: (err) => {
-          console.log('Upload failed', err);
-          this.loading = false;
-        },
-      });
+  onUploadImage() {
+    if (!this.selectedFile || !this.imageConf) {
+      console.error('No file selected or image configuration missing.');
+      return;
     }
-  }
 
-  deleteImage(imageId: string): void {
-    this.loading = true;
-    this.imageService.deleteImage(imageId).subscribe({
-      next: () => {
-        this.loadImages();
-        this.loading = false;
+    const image = {
+      imageDescription: this.imageConf.imageDescription,
+      referenceId: this.imageConf.referenceId,
+      referenceType: this.imageConf.referenceType,
+    };
+
+    this.imageService.uploadImage(image, this.selectedFile).subscribe({
+      next: (response) => {
+        console.log('Upload successful', response);
+        this.imageUploaded.emit(response.imagePath);
+        this.images.push(response);
+        this.selectedFile = null;
+        if (this.fileInput) {
+          this.fileInput.nativeElement.value = '';
+        }
       },
-      error: () => {
-        this.loading = false;
+      error: (err) => {
+        console.error('Upload failed', err);
       },
     });
+  }
+
+  onDeleteImage(imageId: string) {
+    this.imageService.deleteImage(imageId).subscribe({
+      next: (response) => {
+        console.log('Image deleted', response);
+        this.images = this.images.filter((image) => image.imageId !== imageId);
+      },
+      error: (err) => {
+        console.error('Error deleting image', err);
+      },
+    });
+  }
+
+  getThumbnailName(path: string | undefined): string {
+    if (!path) {
+      return 'assets/images/blank-image.png';
+    }
+    const parts = path.split('/');
+    const filename = parts.pop();
+    const thumbnailFilename = `thumbnail-${filename}`;
+    parts.push(thumbnailFilename);
+    return parts.join('/');
   }
 }

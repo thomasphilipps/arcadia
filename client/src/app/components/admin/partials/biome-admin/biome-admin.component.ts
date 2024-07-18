@@ -98,6 +98,11 @@ export class BiomeAdminComponent implements OnInit {
           validators: [Validators.maxLength(1000)],
         },
       ],
+      imageManager: {
+        imageDescription: "Image de l'habitat",
+        referenceType: 'Biome',
+        referenceId: '',
+      },
     };
   }
 
@@ -141,6 +146,7 @@ export class BiomeAdminComponent implements OnInit {
   editBiome(biomeId: number): void {
     const editingBiomes = this.biomes.find((b) => b.biomeId === biomeId) || null;
     if (editingBiomes) {
+      this.biomeConfig.imageManager!.referenceId = biomeId.toString();
       this.editingBiomeId = biomeId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingBiomes);

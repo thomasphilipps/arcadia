@@ -20,6 +20,7 @@ import {
   SqlViewDataConfig,
 } from '@app/interfaces/sqlViewDataConfig.interface';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { ImageManagerComponent } from '../image-manager/image-manager.component';
 
 interface FormModel {
   [key: string]: any;
@@ -43,6 +44,7 @@ interface FormModel {
     CdkTextareaAutosize,
     MatCheckboxModule,
     StarRatingComponent,
+    ImageManagerComponent,
   ],
   templateUrl: './sql-form.component.html',
   styleUrls: ['./sql-form.component.scss'],
@@ -93,6 +95,7 @@ export class SqlFormComponent<T> implements OnInit {
 
   initializeForm<T extends FormModel>(data: T | null): void {
     if (data) {
+      console.log('data', data);
       this.form.patchValue(data, { emitEvent: false });
       this.formTitle =
         this.formTitle || `Modifier ${this.extractValueByNameKey(data) || 'enregistrement'}`;
