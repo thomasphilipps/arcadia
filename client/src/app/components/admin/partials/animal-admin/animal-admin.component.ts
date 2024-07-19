@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 
@@ -18,7 +17,7 @@ import { CustomValidators } from '@app/validators/custom.validators';
 @Component({
   selector: 'arz-animal-admin',
   standalone: true,
-  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
+  imports: [SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './animal-admin.component.html',
   styleUrls: ['./animal-admin.component.scss'],
 })

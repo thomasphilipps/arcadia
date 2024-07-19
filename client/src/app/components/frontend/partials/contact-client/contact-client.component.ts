@@ -1,5 +1,4 @@
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -26,7 +25,6 @@ import { environment } from '@environments/environment';
   selector: 'arz-contact-client',
   standalone: true,
   imports: [
-    CommonModule,
     MatCardModule,
     MatIconModule,
     MatInputModule,

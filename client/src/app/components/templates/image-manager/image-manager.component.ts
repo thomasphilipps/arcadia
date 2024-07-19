@@ -12,12 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { Image } from '@app/interfaces/image.interface';
 import { ImageManager } from '@app/interfaces/sqlViewDataConfig.interface';
 import { ImageService } from '@app/services/image.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'arz-image-manager',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './image-manager.component.html',
   styleUrls: ['./image-manager.component.scss'],
 })

@@ -1,5 +1,4 @@
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 
@@ -31,7 +30,6 @@ interface FormModel {
   standalone: true,
   providers: [provideLuxonDateAdapter(), { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatFormFieldModule,

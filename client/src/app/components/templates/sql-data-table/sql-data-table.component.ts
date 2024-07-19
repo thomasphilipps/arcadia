@@ -92,6 +92,7 @@ export class SqlDataTableComponent<T> implements OnChanges, OnDestroy, AfterView
   }
 
   emitEditEvent(data: T) {
+    console.log('data', data);
     this.emitEvent(this.editData, data);
   }
 

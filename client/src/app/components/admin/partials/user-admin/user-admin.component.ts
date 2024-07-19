@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { SqlDataTableComponent } from '@templates/sql-data-table/sql-data-table.component';
 import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
@@ -18,7 +17,7 @@ import { environment } from '@environments/environment';
 @Component({
   selector: 'arz-user-admin',
   standalone: true,
-  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
+  imports: [SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './user-admin.component.html',
   styleUrl: './user-admin.component.scss',
 })

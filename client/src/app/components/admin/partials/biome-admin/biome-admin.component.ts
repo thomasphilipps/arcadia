@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
@@ -18,7 +17,7 @@ import { AuthService } from '@app/services/auth.service';
 @Component({
   selector: 'arz-biome-admin',
   standalone: true,
-  imports: [CommonModule, MatIconModule, SqlDataTableComponent, SqlFormComponent, MatButtonModule],
+  imports: [MatIconModule, SqlDataTableComponent, SqlFormComponent, MatButtonModule],
   templateUrl: './biome-admin.component.html',
   styleUrl: './biome-admin.component.scss',
 })

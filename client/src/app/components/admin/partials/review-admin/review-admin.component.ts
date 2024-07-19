@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
@@ -20,7 +19,6 @@ import { toDate } from '@app/utils/utils';
   selector: 'arz-review-admin',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
     SqlDataTableComponent,
     SqlFormComponent,

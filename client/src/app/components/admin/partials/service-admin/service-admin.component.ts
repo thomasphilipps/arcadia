@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
@@ -17,7 +16,7 @@ import { CustomValidators } from '@app/validators/custom.validators';
 @Component({
   selector: 'arz-service-admin',
   standalone: true,
-  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
+  imports: [SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './service-admin.component.html',
   styleUrl: './service-admin.component.scss',
 })
