@@ -9,7 +9,7 @@ export function AuthInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
   if (userToken) {
     let headers = req.headers.set('Authorization', `Bearer ${userToken}`);
 
-    // Vérifiez si la requête est multipart/form-data pour éviter une erreur de payload
+    // Vérifie si la requête est multipart/form-data pour éviter une erreur de payload
     if (!(req.body instanceof FormData)) {
       headers = headers.set('Content-Type', 'application/json');
     }

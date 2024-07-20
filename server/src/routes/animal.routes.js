@@ -14,8 +14,7 @@ module.exports = (app) => {
   app.put('/api/animals/:id', authenticate(['ROLE_ADMIN']), crud.update);
   app.delete('/api/animals/:id', authenticate(['ROLE_ADMIN']), crud.delete);
 
-  // Ajouter les nouvelles routes
   app.post('/api/animals/:animalId/click', recordClick);
-  app.delete('/api/animals/:animalId/records', deleteAnimalRecords);
-  app.get('/api/animals/clicks/statistics', getClickStatistics);
+  app.delete('/api/animals/:animalId/records', authenticate(['ROLE_ADMIN']), deleteAnimalRecords);
+  app.get('/api/animals/clicks/statistics', authenticate(['ROLE_ADMIN']), getClickStatistics);
 };
