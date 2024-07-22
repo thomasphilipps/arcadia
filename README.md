@@ -387,11 +387,8 @@ Quittez mongosh en effectuant 2 fois ``Ctrl+C`` ou en tapant ``.exit``
    Vous pouvez ensuite copier/coller les informations qui vous intéressent situées dans le fichier ``server/scripts/database_populate.sql``  
 
    <br>
-2. Base de données MongoDB  
-   (WIP)
-   
-   <br>
-3. Images du site
+
+2. Images du site
    - Vérifiez la présence de ``/docs/minio_backup.tar``
    - Executez la commande suivante pour restaurer les images dans Minio:
      ```BASH
