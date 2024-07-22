@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
@@ -17,7 +16,7 @@ import { CustomValidators } from '@app/validators/custom.validators';
 @Component({
   selector: 'arz-service-admin',
   standalone: true,
-  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
+  imports: [SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './service-admin.component.html',
   styleUrl: './service-admin.component.scss',
 })
@@ -84,6 +83,11 @@ export class ServiceAdminComponent implements OnInit {
           placeholder: 'Description complète du service',
         },
       ],
+      imageManager: {
+        imageDescription: "Image d'illustration du service",
+        referenceType: 'Service',
+        referenceId: '',
+      },
     };
   }
 
@@ -148,6 +152,7 @@ export class ServiceAdminComponent implements OnInit {
     const editingService = this.services.find((s) => s.serviceId === serviceId);
 
     if (editingService) {
+      this.serviceConfig.imageManager!.referenceId = serviceId.toString();
       this.editingServiceId = serviceId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingService);

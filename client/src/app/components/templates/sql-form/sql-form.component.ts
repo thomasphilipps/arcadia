@@ -1,5 +1,4 @@
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 
@@ -20,6 +19,7 @@ import {
   SqlViewDataConfig,
 } from '@app/interfaces/sqlViewDataConfig.interface';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { ImageManagerComponent } from '../image-manager/image-manager.component';
 
 interface FormModel {
   [key: string]: any;
@@ -30,7 +30,6 @@ interface FormModel {
   standalone: true,
   providers: [provideLuxonDateAdapter(), { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     MatFormFieldModule,
@@ -43,6 +42,7 @@ interface FormModel {
     CdkTextareaAutosize,
     MatCheckboxModule,
     StarRatingComponent,
+    ImageManagerComponent,
   ],
   templateUrl: './sql-form.component.html',
   styleUrls: ['./sql-form.component.scss'],
@@ -93,6 +93,7 @@ export class SqlFormComponent<T> implements OnInit {
 
   initializeForm<T extends FormModel>(data: T | null): void {
     if (data) {
+      console.log('data', data);
       this.form.patchValue(data, { emitEvent: false });
       this.formTitle =
         this.formTitle || `Modifier ${this.extractValueByNameKey(data) || 'enregistrement'}`;

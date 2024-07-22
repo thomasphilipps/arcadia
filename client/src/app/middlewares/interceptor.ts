@@ -5,13 +5,18 @@ import { AuthService } from '../services/auth.service';
 export function AuthInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const authService = inject(AuthService);
   const userToken = authService.currentUserValue?.userToken;
+
   if (userToken) {
-    const modifiedReq = req.clone({
-      headers: req.headers
-        .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${userToken}`),
-    });
+    let headers = req.headers.set('Authorization', `Bearer ${userToken}`);
+
+    // Vérifie si la requête est multipart/form-data pour éviter une erreur de payload
+    if (!(req.body instanceof FormData)) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+
+    const modifiedReq = req.clone({ headers });
     return next(modifiedReq);
   }
+
   return next(req);
 }

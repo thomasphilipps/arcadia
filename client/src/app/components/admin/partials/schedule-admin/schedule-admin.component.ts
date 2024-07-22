@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { catchError, of } from 'rxjs';
@@ -13,7 +12,7 @@ import { SqlFormComponent } from '@templates/sql-form/sql-form.component';
 @Component({
   selector: 'arz-schedule-admin',
   standalone: true,
-  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent],
+  imports: [SqlDataTableComponent, SqlFormComponent],
   templateUrl: './schedule-admin.component.html',
   styleUrl: './schedule-admin.component.scss',
 })
