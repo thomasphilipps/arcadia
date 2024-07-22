@@ -105,6 +105,49 @@ INSERT INTO `Animals` (`animalId`, `animalName`, `animalDescr`, `animalBirth`, `
 ('c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', 'Henry', 'Héron cendré mâle, admiré pour sa stature élancée et sa capacité à harponner des poissons.', '2013-11-08 00:00:00', 'Mâle', 3, 11),
 ('d1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', 'Harriet', 'Héron cendré femelle, élégante et souvent vue près de l\'eau.', '2014-02-19 00:00:00', 'Femelle', 3, 11);
 
+-- Insertion des images
+INSERT INTO `Images` (`imageId`, `imagePath`, `imageDescription`, `referenceId`, `referenceType`) VALUES
+('049412086b9a4fc7928e43e93cb013e9', 'http://localhost:9000/arcadia-zoo/049412086b9a4fc7928e43e93cb013e9.png', 'Image de l\'animal', '97fa8cbb-25a1-4f0c-85c4-d7ef31b0d2c8', 'Animal'),
+('078ba54d01094082954ceb69aef176fb', 'http://localhost:9000/arcadia-zoo/078ba54d01094082954ceb69aef176fb.png', 'Image de l\'animal', 'e8f9d6b2-4c5a-4d8e-8b7c-6a9e7c8d3f2d', 'Animal'),
+('09afcec6d2064f69a6948f9612e5799e', 'http://localhost:9000/arcadia-zoo/09afcec6d2064f69a6948f9612e5799e.png', 'Image de l\'animal', 'd6f74cc5-5c6c-4f0f-bf6c-8384f6e8a47f', 'Animal'),
+('0c76a5d513334398ba47d0bb06ea32b0', 'http://localhost:9000/arcadia-zoo/0c76a5d513334398ba47d0bb06ea32b0.png', 'Image de l\'animal', 'b7e6d9f2-8c5a-4d9b-8e6d-7a5c8b2f1e4d', 'Animal'),
+('18a7e1cd60084e58a526e2bef1b0d8e9', 'http://localhost:9000/arcadia-zoo/18a7e1cd60084e58a526e2bef1b0d8e9.png', 'Image d\'illustration du service', '3', 'Service'),
+('1d4d0922510141e9afbb1a357688d0c9', 'http://localhost:9000/arcadia-zoo/1d4d0922510141e9afbb1a357688d0c9.png', 'Image de l\'animal', 'a3e1b3e4-4449-47a1-8434-0b97d8a8b755', 'Animal'),
+('1f1a9d3b49144a7caa9847d186dab0c9', 'http://localhost:9000/arcadia-zoo/1f1a9d3b49144a7caa9847d186dab0c9.png', 'Image d\'illustration du service', '2', 'Service'),
+('281be55312ea46f0a45c9c8bed1e1579', 'http://localhost:9000/arcadia-zoo/281be55312ea46f0a45c9c8bed1e1579.png', 'Image de l\'animal', 'b2e8f7d9-5a4e-4d8b-8c7e-2f1d8a9c5e7f', 'Animal'),
+('38203440333549bfa3eeee7e41464999', 'http://localhost:9000/arcadia-zoo/38203440333549bfa3eeee7e41464999.png', 'Image de l\'animal', 'd7d6f8c3-29e6-4c1e-a6a5-9f1e5b5b7f85', 'Animal'),
+('3b0c581301e142cfa9f32dde960b5dac', 'http://localhost:9000/arcadia-zoo/3b0c581301e142cfa9f32dde960b5dac.png', 'Image de l\'animal', 'f8e6c9b2-7c5a-4e9d-8c2f-5d1f9a8d7b3a', 'Animal'),
+('45c06c897aa64e2c94483229164d1c16', 'http://localhost:9000/arcadia-zoo/45c06c897aa64e2c94483229164d1c16.png', 'Image de l\'animal', 'bc8f4e0a-48ed-4ed9-8f9a-0e6b8e6e6efb', 'Animal'),
+('4aa53b99d5b6475ebff5b255031e7acc', 'http://localhost:9000/arcadia-zoo/4aa53b99d5b6475ebff5b255031e7acc.png', 'Image de l\'animal', 'e2d7f9b6-5a4c-4d8e-8b7f-6c5d8a9f7e4c', 'Animal'),
+('5b8b0d55b9214ca886025b05c6c5568d', 'http://localhost:9000/arcadia-zoo/5b8b0d55b9214ca886025b05c6c5568d.png', 'Image de l\'animal', 'c2d3baf0-06a1-4e15-9181-9c55c9f5f1e4', 'Animal'),
+('5d1dd4f48ed343ca8898eb0d4d8f362c', 'http://localhost:9000/arcadia-zoo/5d1dd4f48ed343ca8898eb0d4d8f362c.png', 'Image de l\'animal', '4b837d26-19e8-45a8-b144-9072dd7b9f33', 'Animal'),
+('640ed38e670143b2a45376af04e81185', 'http://localhost:9000/arcadia-zoo/640ed38e670143b2a45376af04e81185.png', 'Image de l\'animal', 'b0d3f29a-431e-4b8a-99ab-8a2e6c1c8e4f', 'Animal'),
+('652ebf17a57f4b8da3d47c3afda4f4c6', 'http://localhost:9000/arcadia-zoo/652ebf17a57f4b8da3d47c3afda4f4c6.png', 'Image de l\'animal', '64bc243b-2b13-4a56-96f1-37780b564d48', 'Animal'),
+('6547d99cc89e4f088a5a3e6036a88868', 'http://localhost:9000/arcadia-zoo/6547d99cc89e4f088a5a3e6036a88868.png', 'Image de l\'animal', 'f7e9e8c2-d8ef-472d-b408-9e3b1f35a8d6', 'Animal'),
+('661a289d1620420fb4c22a787df2e0b1', 'http://localhost:9000/arcadia-zoo/661a289d1620420fb4c22a787df2e0b1.png', 'Image de l\'habitat', '3', 'Biome'),
+('6a52d02d526e4f8b9bc4c70a63449c0c', 'http://localhost:9000/arcadia-zoo/6a52d02d526e4f8b9bc4c70a63449c0c.png', 'Image de l\'habitat', '1', 'Biome'),
+('6f4a359a04cc46df97b63bb1367252e4', 'http://localhost:9000/arcadia-zoo/6f4a359a04cc46df97b63bb1367252e4.png', 'Image de l\'animal', 'd8e7f9b6-4c5e-4d8b-8c7e-9a6f7b5d3a2e', 'Animal'),
+('75d8f316ff6046adb77dfb92db19be9f', 'http://localhost:9000/arcadia-zoo/75d8f316ff6046adb77dfb92db19be9f.png', 'Image de l\'animal', 'e9d1f8c2-6a4f-4d8c-8e7d-2b5f9a8e7d6f', 'Animal'),
+('7db00ff15dfe4fd8ac67b8011a1b8348', 'http://localhost:9000/arcadia-zoo/7db00ff15dfe4fd8ac67b8011a1b8348.png', 'Image de l\'animal', 'e60b1a8f-d06b-4d53-9813-0b4b2d6f26b9', 'Animal'),
+('983be54ea4854b47a605a60e5f8a9b1b', 'http://localhost:9000/arcadia-zoo/983be54ea4854b47a605a60e5f8a9b1b.png', 'Image de l\'animal', 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'Animal'),
+('9d33d3318b1d4e31b29840332eedcb8c', 'http://localhost:9000/arcadia-zoo/9d33d3318b1d4e31b29840332eedcb8c.png', 'Image d\'illustration du service', '1', 'Service'),
+('9d4263fa1a0240cfbf13924648ad7cd5', 'http://localhost:9000/arcadia-zoo/9d4263fa1a0240cfbf13924648ad7cd5.png', 'Image de l\'animal', 'f1c2a5d4-68e4-4d8b-9fd8-f5cbb07b5bc3', 'Animal'),
+('9dcf8d80ab904f3f9a5595f11879c959', 'http://localhost:9000/arcadia-zoo/9dcf8d80ab904f3f9a5595f11879c959.png', 'Image de l\'animal', 'c3d1b9e6-7a5c-4d9e-8b6d-8f2d7a5e1c3d', 'Animal'),
+('9e273448f4184692a6fa0f186331b591', 'http://localhost:9000/arcadia-zoo/9e273448f4184692a6fa0f186331b591.png', 'Image de l\'animal', 'b9f8e7c2-5c4b-4d9e-8d3f-2b8f9e5d5a8b', 'Animal'),
+('bb4288b225164c38bcc3afc0d903b430', 'http://localhost:9000/arcadia-zoo/bb4288b225164c38bcc3afc0d903b430.png', 'Image de l\'animal', 'd1f9e8c2-6a4d-4e8b-8f7c-2b5c9a7e6d3f', 'Animal'),
+('bed522b316504ffa9d8661a06131d2ac', 'http://localhost:9000/arcadia-zoo/bed522b316504ffa9d8661a06131d2ac.png', 'Image de l\'animal', '9b9c8e5e-5b78-44cf-84d7-1b5c0bdb0a85', 'Animal'),
+('bf8dc310219a4497acf9046155a29a1a', 'http://localhost:9000/arcadia-zoo/bf8dc310219a4497acf9046155a29a1a.png', 'Image de l\'animal', 'e2e24dc4-6578-40b3-bde8-1ad376b3a8f8', 'Animal'),
+('c6e82a5c1b3442a48dfd611f4ab6fb10', 'http://localhost:9000/arcadia-zoo/c6e82a5c1b3442a48dfd611f4ab6fb10.png', 'Image de l\'animal', 'd3b2f1e7-8e6c-4a7e-8f2d-9b7c6a8b3d2f', 'Animal'),
+('cbe237e47b494ed69b424dff2a3f9963', 'http://localhost:9000/arcadia-zoo/cbe237e47b494ed69b424dff2a3f9963.png', 'Image de l\'animal', 'c7e9f6d2-5a4c-4d8b-8e7d-9a6f7b5d2c1e', 'Animal'),
+('ce09b585c2ee4a51b040153470a880f5', 'http://localhost:9000/arcadia-zoo/ce09b585c2ee4a51b040153470a880f5.png', 'Image de l\'animal', 'f1a2d9b4-7e9d-48e8-8f6e-8d1b2f3f5b6d', 'Animal'),
+('d200c4b2ae604398a9ea0b0987bb9a20', 'http://localhost:9000/arcadia-zoo/d200c4b2ae604398a9ea0b0987bb9a20.png', 'Image de l\'habitat', '2', 'Biome'),
+('d4cb5dc0b8354e548b90e200ac0cd175', 'http://localhost:9000/arcadia-zoo/d4cb5dc0b8354e548b90e200ac0cd175.png', 'Image de l\'animal', 'e94f41e9-4e4b-4211-9ab6-70543fef99e4', 'Animal'),
+('d6d145b05e5646c5a97af224229b1544', 'http://localhost:9000/arcadia-zoo/d6d145b05e5646c5a97af224229b1544.png', 'Image de l\'animal', '85d0f75b-c55a-4d4c-809e-13a2b8f55de2', 'Animal'),
+('e631ddaf24934647ae0846ef1b85f54f', 'http://localhost:9000/arcadia-zoo/e631ddaf24934647ae0846ef1b85f54f.png', 'Image de l\'animal', 'c4d2b3e4-7f6a-4d8c-8d7f-8b2e9d1a6c3b', 'Animal'),
+('ebbeae709f764ccebbad7a6bb407c55d', 'http://localhost:9000/arcadia-zoo/ebbeae709f764ccebbad7a6bb407c55d.png', 'Image de l\'animal', '8edc7e2d-9ff1-42ae-8b71-92e2f4eb92a1', 'Animal');
+
+
+-- Insertion des commentaires
 INSERT INTO `Reviews` (`reviewAlias`, `reviewContent`, `reviewRating`, `reviewPostedOn`, `reviewApproved`, `reviewApprovedBy`) VALUES
 ('JeanDupont', 'Le Zoo Arcadia est incroyable ! La savane est tellement réaliste, on se croirait en Afrique.', 5, '2024-05-20 14:32:00', 0, NULL),
 ('MarieL', 'J\'ai adoré la visite guidée. Les guides sont très informés et passionnés.', 5, '2024-05-18 09:45:00', 0, NULL),
