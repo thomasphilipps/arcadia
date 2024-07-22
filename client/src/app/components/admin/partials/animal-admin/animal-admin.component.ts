@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 
@@ -18,7 +17,7 @@ import { CustomValidators } from '@app/validators/custom.validators';
 @Component({
   selector: 'arz-animal-admin',
   standalone: true,
-  imports: [CommonModule, SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
+  imports: [SqlDataTableComponent, SqlFormComponent, MatIconModule, MatButtonModule],
   templateUrl: './animal-admin.component.html',
   styleUrls: ['./animal-admin.component.scss'],
 })
@@ -106,6 +105,11 @@ export class AnimalAdminComponent implements OnInit {
         },
       ],
       sortable: true,
+      imageManager: {
+        imageDescription: "Image de l'animal",
+        referenceType: 'Animal',
+        referenceId: '',
+      },
     };
   }
 
@@ -151,6 +155,7 @@ export class AnimalAdminComponent implements OnInit {
   editAnimal(animalId: string): void {
     const animal = this.animals.find((a) => a.animalId === animalId) || null;
     if (animal) {
+      this.animalsConfig.imageManager!.referenceId = animalId.toString();
       this.editingAnimalId = animalId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(animal);

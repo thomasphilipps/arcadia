@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 
 import { catchError, of } from 'rxjs';
@@ -18,7 +17,7 @@ import { AuthService } from '@app/services/auth.service';
 @Component({
   selector: 'arz-biome-admin',
   standalone: true,
-  imports: [CommonModule, MatIconModule, SqlDataTableComponent, SqlFormComponent, MatButtonModule],
+  imports: [MatIconModule, SqlDataTableComponent, SqlFormComponent, MatButtonModule],
   templateUrl: './biome-admin.component.html',
   styleUrl: './biome-admin.component.scss',
 })
@@ -98,6 +97,11 @@ export class BiomeAdminComponent implements OnInit {
           validators: [Validators.maxLength(1000)],
         },
       ],
+      imageManager: {
+        imageDescription: "Image de l'habitat",
+        referenceType: 'Biome',
+        referenceId: '',
+      },
     };
   }
 
@@ -141,6 +145,7 @@ export class BiomeAdminComponent implements OnInit {
   editBiome(biomeId: number): void {
     const editingBiomes = this.biomes.find((b) => b.biomeId === biomeId) || null;
     if (editingBiomes) {
+      this.biomeConfig.imageManager!.referenceId = biomeId.toString();
       this.editingBiomeId = biomeId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingBiomes);

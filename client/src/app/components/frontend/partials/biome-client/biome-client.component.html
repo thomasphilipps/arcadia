@@ -16,12 +16,6 @@
           <p class="content-description">
             {{ biome.biomeLongDescr }}
           </p>
-          <p class="biome-status">
-            <strong>État du Territoire:</strong> <br />
-            @if(biome.biomeStatus !== null){
-            {{ biome.biomeStatus }}
-            } @else { Tout va bien dans ce territoire. }
-          </p>
         </div>
         @if(biome.images && biome.images.length > 0){
         <div class="column">
