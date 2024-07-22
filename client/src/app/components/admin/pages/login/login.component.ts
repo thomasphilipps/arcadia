@@ -34,7 +34,6 @@ export class LoginComponent {
   login() {
     if (this.loginForm.valid) {
       const { userEmail, userPassword } = this.loginForm.value;
-      console.log('Logging in with:', userEmail, userPassword);
       this.authService.login(userEmail, userPassword).subscribe({
         next: () => {
           this.router.navigate(['/dashboard/home']);
