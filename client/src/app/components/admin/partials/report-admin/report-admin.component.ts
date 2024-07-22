@@ -242,6 +242,7 @@ export class ReportAdminComponent implements OnInit {
 
   editReport(reportId: number): void {
     const report = this.reports.find((r) => r.reportId === reportId);
+    console.log('Editing report', report);
     if (report) {
       const reportDate = toDate(report.reportDate).toLocaleDateString();
       this.sqlFormComponent.formTitle = `Modifier le rapport du ${reportDate} pour ${report.animalName}`;
@@ -296,6 +297,7 @@ export class ReportAdminComponent implements OnInit {
       `Cliquez sur "OK" pour confirmer ou "Annuler" pour annuler l'opération\n\n`;
 
     if (confirm(message)) {
+      console.log(`Suppression du rapport ${reportId}`);
       this.reportService
         .deleteData(reportId)
         .pipe(

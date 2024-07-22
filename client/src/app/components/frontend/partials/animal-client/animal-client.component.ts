@@ -5,6 +5,7 @@ import { AnimalService } from '@app/services/animal.service';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
 import { ReportService } from '@app/services/report.service';
+import { VetReport } from '@app/interfaces/report.interface';
 import { DatePipe } from '@angular/common';
 import { ImageGalleryComponent } from '@app/components/templates/image-gallery/image-gallery.component';
 
@@ -32,6 +33,7 @@ export class AnimalClientComponent implements OnInit {
         this.animal = animal;
         this.getReports();
         this.dataService.loadImages('Animal', [this.animal], 'animalId');
+        console.log(this.animal);
         this.updateTitle(); // Mettre à jour le titre de la page
       });
     });
@@ -53,6 +55,7 @@ export class AnimalClientComponent implements OnInit {
             return new Date(report.reportDate) > new Date(latest.reportDate) ? report : latest;
           }, reports[0]);
 
+          console.log('Le dernier rapport en date:', lastReport);
           // Mettre à jour this.animal.reports avec le rapport le plus récent
           this.animal.reports = [lastReport];
         } else {

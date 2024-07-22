@@ -94,6 +94,8 @@ export class ReviewClientComponent implements OnInit {
   }
 
   saveReview(review: Review): void {
+    console.log('ReviewClientComponent.saveReview', review);
+
     review.reviewRating = +review.reviewRating; // Convertir la note en nombre
 
     this.reviewService
