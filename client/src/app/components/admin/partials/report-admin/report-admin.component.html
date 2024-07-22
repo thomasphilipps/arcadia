@@ -5,7 +5,7 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h2 class="m-6 has-text-centered">Liste des animaux</h2>
+          <h3 class="m-6 has-text-centered">Liste des animaux</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <arz-sql-data-table
@@ -20,9 +20,9 @@
     <mat-expansion-panel [expanded]="showReportList" [disabled]="!showReportList">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h2 class="m-6 has-text-centered">
+          <h3 class="m-6 has-text-centered">
             Liste des rapports @if(showReportList) { pour {{ selectedAnimal?.animalName }} }
-          </h2>
+          </h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
       @if(showReportList){

@@ -5,7 +5,7 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h2 class="m-6 has-text-centered">Liste des animaux</h2>
+          <h3 class="m-6 has-text-centered">Liste des animaux</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <arz-sql-data-table
@@ -20,9 +20,9 @@
     <mat-expansion-panel [expanded]="showFeedingList" [disabled]="!showFeedingList">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h2 class="m-6 has-text-centered">
+          <h3 class="m-6 has-text-centered">
             Liste des repas @if(showFeedingList) { pour {{ selectedAnimal?.animalName }} }
-          </h2>
+          </h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
       @if(showFeedingList){
@@ -39,11 +39,11 @@
 
   @if(lastReport){
   <div class="has-text-centered m-5">
-    <p>
+    <h5>
       Repas actuellement conseillé pour {{ lastReport.animalName }} :
       {{ lastReport.reportFoodAmount }}
       {{ lastReport.reportFoodType }}
-    </p>
+    </h5>
   </div>
   }
 
