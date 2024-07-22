@@ -83,6 +83,11 @@ export class ServiceAdminComponent implements OnInit {
           placeholder: 'Description complète du service',
         },
       ],
+      imageManager: {
+        imageDescription: "Image d'illustration du service",
+        referenceType: 'Service',
+        referenceId: '',
+      },
     };
   }
 
@@ -147,6 +152,7 @@ export class ServiceAdminComponent implements OnInit {
     const editingService = this.services.find((s) => s.serviceId === serviceId);
 
     if (editingService) {
+      this.serviceConfig.imageManager!.referenceId = serviceId.toString();
       this.editingServiceId = serviceId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(editingService);

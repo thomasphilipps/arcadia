@@ -105,6 +105,11 @@ export class AnimalAdminComponent implements OnInit {
         },
       ],
       sortable: true,
+      imageManager: {
+        imageDescription: "Image de l'animal",
+        referenceType: 'Animal',
+        referenceId: '',
+      },
     };
   }
 
@@ -150,6 +155,7 @@ export class AnimalAdminComponent implements OnInit {
   editAnimal(animalId: string): void {
     const animal = this.animals.find((a) => a.animalId === animalId) || null;
     if (animal) {
+      this.animalsConfig.imageManager!.referenceId = animalId.toString();
       this.editingAnimalId = animalId;
       this.sqlFormComponent.editForm = true;
       this.sqlFormComponent.initializeForm(animal);
