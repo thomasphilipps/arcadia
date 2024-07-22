@@ -6,7 +6,7 @@ const OAuth2 = google.auth.OAuth2;
 module.exports = (app) => {
   let transporter = null;
 
-  if (process.env.NODE_ENV === 'production') {
+  /* if (process.env.NODE_ENV === 'production') {
     const myOAuth2Client = new OAuth2(
       process.env.OAUTH_ID,
       process.env.OAUTH_SECRET,
@@ -38,7 +38,17 @@ module.exports = (app) => {
         pass: process.env.SMTP_PASSWORD,
       },
     });
-  }
+  } */
+
+  transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
+  });
 
   app.post('/api/send-email', (req, res) => {
     const { from, to, subject, text, html } = req.body;
