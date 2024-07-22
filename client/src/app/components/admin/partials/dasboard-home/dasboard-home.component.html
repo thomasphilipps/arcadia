@@ -1,1 +1,10 @@
-<p>dasboard-home works!</p>
+<div class="header">
+  <h1>Zoo Arcadia</h1>
+  <h2>Tableau de bord</h2>
+  <div class="user-info">
+    <h3>Bienvenue, {{ userInfo?.userName }}</h3>
+  </div>
+</div>
+@if(hasRole(['ROLE_ADMIN'])) {
+<arz-statistics></arz-statistics>
+}
