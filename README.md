@@ -119,6 +119,7 @@ MONGO_DB_NAME="arcadia_zoo"
 MONGO_USER=<mon_login_utilisateur_mongo>
 MONGO_PASSWORD=<mon_mdp_utilisateur_mongo>
 MONGO_COLLECTION="animal_visits"
+MONGO_HOST="localhost"
 
 # MAILING VARS
 SMTP_HOST="localhost"
