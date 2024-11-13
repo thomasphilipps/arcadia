@@ -3,7 +3,7 @@ require('dotenv').config({ path: './.env' });
 const fs = require('fs');
 const mysql = require('mysql2');
 
-// Créez une connexion à la base de données MySQL
+// Paramètres de connexion à la base de données
 const connection = mysql.createConnection({
   host: process.env.BDD_HOST,
   user: process.env.BDD_USER,
@@ -12,18 +12,18 @@ const connection = mysql.createConnection({
   multipleStatements: true,
 });
 
-// Lisez le contenu du fichier SQL
+// Lecture du script SQL depuis le fichier
 const sqlScriptPath = './server/scripts/database_init.sql';
 const sqlScript = fs.readFileSync(sqlScriptPath, 'utf8');
 
-// Établissez la connexion à la base de données
+// Connexion à la base de données
 connection.connect((err) => {
   if (err) {
     console.error('Erreur de connexion à la base de données :', err);
     return;
   }
 
-  // Exécutez le script SQL depuis le fichier
+  // Execution du script SQL depuis le fichier
   connection.query(sqlScript, (error, results, fields) => {
     if (error) {
       console.error("Erreur lors de l'exécution du script SQL :", error);
@@ -31,7 +31,7 @@ connection.connect((err) => {
       console.log('Script SQL exécuté avec succès.');
     }
 
-    // Fermez la connexion à la base de données
+    // Fermeture de la connexion
     connection.end();
   });
 });
