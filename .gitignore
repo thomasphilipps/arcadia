@@ -144,3 +144,6 @@ init-mongo.js
 
 # Local Netlify folder
 .netlify
+
+# Local Docker folder
+.docker
